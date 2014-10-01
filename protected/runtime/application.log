@@ -1,0 +1,11 @@
+2014/10/01 23:52:36 [error] [php] Undefined variable: layout (C:\xampp\htdocs\inventario\protected\controllers\SiteController.php:30)
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CController.php(286): SiteController->runAction()
+#1 C:\xampp\htdocs\yii\framework\web\CController.php(265): SiteController->runActionWithFilters()
+#2 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(282): SiteController->run()
+#3 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#5 C:\xampp\htdocs\inventario\index.php(13): CWebApplication->run()
+REQUEST_URI=/inventario/
+in C:\xampp\htdocs\inventario\protected\controllers\SiteController.php (30)
+in C:\xampp\htdocs\inventario\index.php (13)
