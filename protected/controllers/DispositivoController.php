@@ -122,18 +122,14 @@ class DispositivoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->layout = '//layouts/layoutLogin';
+		
 		$dataProvider=new CActiveDataProvider('Dispositivo');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}
 
-	public function actionDispositivos()
-	{
-		$this->render('dispositivos');
-	}
-
+	
 	/**
 	 * Manages all models.
 	 */

@@ -1,20 +1,15 @@
-<?php
-/* @var $this DispositivoController */
-/* @var $dataProvider CActiveDataProvider */
+<h1>Esta es la pagina de dispositivos</h1>
 
-$this->breadcrumbs=array(
-	'Dispositivos',
-);
+<div class="content">
+	<?php $this->beginContent('//layouts/column1'); ?>
 
-$this->menu=array(
-	array('label'=>'Create Dispositivo', 'url'=>array('create')),
-	array('label'=>'Manage Dispositivo', 'url'=>array('admin')),
-);
-?>
+		<li><a href="#">Registrar dispositivo</a></li>
+		<li><a href="#">Registrar tipo</a></li>
+	
+	<?php $this->endContent(); ?>
 
-<h1>Dispositivos</h1>
+<div class="content-side">
+	<h1>Tabla de disp</h1>
+</div>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+</div>

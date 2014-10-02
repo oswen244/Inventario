@@ -38,13 +38,14 @@
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
 
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<ul class="nav navbar-nav">
 			<li><a href="#">Dispositivos</a></li>
 			<li><a href="#">Simcard</a></li>
 			<li><a href="#">Proveedores</a></li>
 			<li><a href="#">Clientes</a></li>
 			<li><a href="#">Usuarios</a></li>
+			<li><a href="#">Desconectar</a></li>
 		</ul>
 	</nav><!-- mainmenu -->
 	<?php if(isset($this->breadcrumbs)):?>
