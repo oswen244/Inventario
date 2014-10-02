@@ -21,14 +21,52 @@ body
 	padding: 0;
 }
 
-#content
+.content
 {
+	display: flex;
     padding: 20px;
 }
 
-#sidebar
+.content-side
 {
-	padding: 20px 20px 20px 0;
+	float: right;
+    padding: 20px;
+
+}
+
+
+.sidebar
+{
+	float: left;
+	padding: 0;
+	margin:0;
+	border: 1px solid #000;
+	border-radius: 5px;
+}
+
+div.sidebar ul{
+
+	margin: 0;
+	padding:0;
+	width: auto;
+}
+
+div.sidebar ul li{
+	margin-bottom:1px; 
+	padding: 0;
+	background-color: #1fff00;
+}
+
+div.sidebar ul li a{
+	color:#099950;	
+	display: block;
+	padding: 0 10px;
+	text-decoration: none;
+}
+
+#header-actions{
+	display: block;
+	border-bottom: 1px solid #000;
 }
 
 #footer
@@ -57,9 +95,10 @@ body
 	margin:0px;
 }
 
-#mainmenu ul li
+ul li
 {
-	display: inline;
+	display: block;
+	text-decoration: none;
 }
 
 #mainmenu ul li a

@@ -1,6 +1,10 @@
 <?php /* @var $this Controller */ ?>
-<?php $this->beginContent('//layouts/main'); ?>
-<div id="content">
-	<?php echo $content; ?>
+
+<div class="sidebar">
+	
+		<ul>
+			<li id="header-actions">Acciones</li>
+			<?php echo $content; ?>
+		</ul>
+	
 </div><!-- content -->
-<?php $this->endContent(); ?>

@@ -33,6 +33,12 @@ class SiteController extends Controller
 		$this->render('index');
 	}
 
+	public function actionDispositivos()
+	{
+		$this->render('dispositivos');
+	}
+
+
 	/**
 	 * This is the action to handle external exceptions.
 	 */

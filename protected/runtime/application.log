@@ -71,3 +71,61 @@ Stack trace:
 #26 {main}
 REQUEST_URI=/inventario/gii/default/login
 ---
+2014/10/02 17:41:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "dispositivos".' in C:\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('dispositivos')
+#1 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('dispositivos')
+#2 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/dispositiv...')
+#3 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/inventario/site/dispositivos
+---
+2014/10/02 17:58:00 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dispositivos".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('dispositivos')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/dispositivos
+---
+2014/10/02 17:59:06 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dispositivos".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('dispositivos')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/dispositivos
+---
+2014/10/02 17:59:23 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "inventario".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('inventario')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/inventario
+---
+2014/10/02 18:01:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "layout/inventario".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('layout/inventar...')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/layout/inventario
+---
+2014/10/02 18:01:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dispositivos".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('dispositivos')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/dispositivos
+---
+2014/10/02 18:01:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dispositivos/dispositivos".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('dispositivos/di...')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/dispositivos/dispositivos
+---

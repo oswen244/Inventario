@@ -6,7 +6,7 @@ class DispositivoController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='//layouts/main';
 
 	/**
 	 * @return array action filters
@@ -122,10 +122,16 @@ class DispositivoController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$this->layout = '//layouts/layoutLogin';
 		$dataProvider=new CActiveDataProvider('Dispositivo');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+	}
+
+	public function actionDispositivos()
+	{
+		$this->render('dispositivos');
 	}
 
 	/**
