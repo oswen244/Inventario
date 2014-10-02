@@ -24,7 +24,7 @@ class UserIdentity extends CUserIdentity
 		elseif(sha1($this->password) != $user->contrasena)
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else{
-			$this->_id=$user->id;
+			$this->_id=$user->id_usuario;
 			$this->setState("rol",$user->rol);
 			$this->setState("nombre",$user->nombre);
 			$this->errorCode=self::ERROR_NONE;

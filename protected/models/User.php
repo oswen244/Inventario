@@ -8,7 +8,7 @@
  * @property string $usuario
  * @property string $contrasena
  * @property string $rol
- * @property string $Nobre
+ * @property string $nombre
  */
 class User extends CActiveRecord
 {
@@ -31,10 +31,10 @@ class User extends CActiveRecord
 			array('usuario, contrasena, rol', 'required'),
 			array('usuario, rol', 'length', 'max'=>15),
 			array('contrasena', 'length', 'max'=>75),
-			array('Nobre', 'length', 'max'=>45),
+			array('nombre', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_usuario, usuario, contrasena, rol, Nobre', 'safe', 'on'=>'search'),
+			array('id_usuario, usuario, contrasena, rol, nombre', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,7 +59,7 @@ class User extends CActiveRecord
 			'usuario' => 'Usuario',
 			'contrasena' => 'Contrasena',
 			'rol' => 'Rol',
-			'Nobre' => 'Nobre',
+			'nombre' => 'Nombre',
 		);
 	}
 
@@ -85,7 +85,7 @@ class User extends CActiveRecord
 		$criteria->compare('usuario',$this->usuario,true);
 		$criteria->compare('contrasena',$this->contrasena,true);
 		$criteria->compare('rol',$this->rol,true);
-		$criteria->compare('Nobre',$this->Nobre,true);
+		$criteria->compare('nombre',$this->nombre,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -41,7 +41,7 @@
 			<li><a href="#">Proveedores</a></li>
 			<li><a href="#">Clientes</a></li>
 			<li><a href="#">Usuarios</a></li>
-			<li><a href="#">Desconectar</a></li>
+			<li><a href="/inventario/site/logout">Desconectar</a></li>
 		</ul>
 	</nav><!-- mainmenu -->
 	</div><!-- header -->

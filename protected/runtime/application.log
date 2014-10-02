@@ -139,3 +139,12 @@ Stack trace:
 #5 {main}
 REQUEST_URI=/inventario/dispositivo/registrar_disp
 ---
+2014/10/02 23:53:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "login".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('login')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/login
+HTTP_REFERER=http://localhost/inventario/
+---

@@ -94,14 +94,15 @@ class SiteController extends Controller
 		}
 
 		// collect user input data
-		if(isset($_POST['LoginForm']))
+		if(isset($_POST['username']))
 		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+			// $model->attributes=$_POST['LoginForm'];
+			$model->username=$_POST['username'];
+			$model->password=$_POST['password'];
+			if($model->login()){
+				$this->redirect(Yii::app()->homeUrl.'dispositivo');
+			}
 		}
-		// display the login form
 		$this->render('index',array('model'=>$model));
 	}
 
@@ -111,6 +112,7 @@ class SiteController extends Controller
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+		// $this->redirect(Yii::app()->homeUrl);
+		$this->redirect('login');
 	}
 }
