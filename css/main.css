@@ -14,16 +14,53 @@ body
 	background: white;
 }
 
-#header
-{
+nav.nav-bar ul{
+	display: inline-flex;
 	margin: 0;
 	padding: 0;
+}
+
+nav.nav-bar ul li{
+	padding: 0;
+}
+
+nav.nav-bar ul li a{
+	display: block;
+	padding: 20px;
+	text-decoration: none;
+	color: #02285D;
+}
+nav.nav-bar ul li a:hover{
+	background-color: #4897C4;
+	color: #fff;
+}
+
+.nav-bar{
+	background:#fff;
+	border-radius: 0;
+	margin-bottom: 20px;
+}
+
+#header
+{
+	height: auto;
+	margin: 0;
+	padding: 0;
+	width: 100%
 }
 
 .content
 {
 	display: flex;
     padding: 20px;
+}
+
+.header-tittle
+{
+	border-bottom: 1px solid #4897C4;
+	margin-top: 0;
+	padding-bottom: 10px;
+	position: relative;
 }
 
 .content-side
@@ -77,10 +114,10 @@ div.sidebar ul li a{
 #footer
 {
 	padding: 10px;
-	margin: 10px 20px;
+	margin: 10px 0px;
 	font-size: 0.8em;
 	text-align: center;
-	border-top: 1px solid #C9E0ED;
+	border-top: 1px solid #4897C4;
 }
 
 #logo

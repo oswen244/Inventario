@@ -32,14 +32,10 @@
 
 <body>
 
-<div class="container" id="page">
-
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<ul class="nav navbar-nav">
+	<nav class="nav-bar">
+		<ul>
+			<li><a href="#">LOGO</a></li>
 			<li><a href="#">Dispositivos</a></li>
 			<li><a href="#">Simcard</a></li>
 			<li><a href="#">Proveedores</a></li>
@@ -48,6 +44,9 @@
 			<li><a href="#">Desconectar</a></li>
 		</ul>
 	</nav><!-- mainmenu -->
+	</div><!-- header -->
+<div class="container" id="page">
+
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,

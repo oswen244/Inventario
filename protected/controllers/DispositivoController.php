@@ -128,7 +128,6 @@ class DispositivoController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
-
 	
 	/**
 	 * Manages all models.

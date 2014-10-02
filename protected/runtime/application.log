@@ -129,3 +129,13 @@ Stack trace:
 #3 {main}
 REQUEST_URI=/inventario/dispositivos/dispositivos
 ---
+2014/10/02 22:57:25 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "registrar_disp".' in C:\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('registrar_disp')
+#1 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('registrar_disp')
+#2 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('dispositivo/reg...')
+#3 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/inventario/dispositivo/registrar_disp
+---

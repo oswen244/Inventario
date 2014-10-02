@@ -1,4 +1,4 @@
-<h1>Esta es la pagina de dispositivos</h1>
+<h1 class="header-tittle">Dispositivos</h1>
 
 <div class="content">
 	<?php $this->beginContent('//layouts/column1'); ?>
