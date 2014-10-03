@@ -4,8 +4,8 @@
 	});
 </script>
 <h1 class="header-tittle">Dispositivos</h1><br>
-<div class="row">
-	<div class="col-md-12">
+<div class="content">
+	<div class="col-sm-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title">Registrar dispositivo</h3>
