@@ -63,16 +63,21 @@ class DispositivoController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Dispositivo']))
-		{
-			$model->attributes=$_POST['Dispositivo'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_disp));
+		// if(isset($_POST['Dispositivo']))
+		// {
+		// 	$model->attributes=$_POST['Dispositivo'];
+		// 	if($model->save())
+		// 		$this->redirect(array('view','id'=>$model->id_disp));
+		// }
+		if(Yii::app()->request->isPostRequest){
+			$datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['referencia']." ".$_POST['estado'];
+			$this->render('view',array('datos'=>$datos));
+		}else{
+			$this->render('create',array(
+				'model'=>$model,
+			));
 		}
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
