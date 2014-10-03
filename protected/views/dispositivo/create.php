@@ -3,84 +3,102 @@
 		$('.selectpicker').selectpicker();
 	});
 </script>
-<h1 class="header-tittle">Dispositivos</h1>
-<div class="col-md-10 col-md-offset-1">
-	<form class="form form-horizontal" action="create" method="post" role="form"><br>
-		<div class="form-group col-md-6">
-			<label for="dateAdq" class="col-md-5 control-label">Fecha de adquisición:</label>
-			<div class="col-md-7">
-				<input type="date" class="form-control" name="dateAdq" placeholder="dd/mm/aaaa">
+<h1 class="header-tittle">Dispositivos</h1><br>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Registrar dispositivo</h3>
+			</div>
+			<div class="panel-body">
+				<form id="crearDispositivo" class="form form-horizontal" method="post" role="form"><br>
+					<div class="form-group col-md-6">
+						<label for="dateAdq" class="col-md-5 control-label">Fecha de adquisición:</label>
+						<div class="col-md-7">
+							<input type="date" class="form-control" name="dateAdq" placeholder="dd/mm/aaaa">
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Referencia:</label>
+						<div class="col-md-7">
+							<input type="text" name="referencia" class="form-control" placeholder="Referencia">
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">IMEI o referencia:</label>
+						<div class="col-md-7">
+							<input type="text" name="imei" class="form-control" placeholder="IMEI o referencia">
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Estado:</label>
+						<div class="col-md-7">
+							<select id="select_estado" name="estado" class="selectpicker">
+								<option value="0">Seleccionar estado</option>
+								<?php
+										$arrayEstados = array();
+										$connection = Yii::app()->db;
+										$sql = "SELECT * FROM estados";
+										$command=$connection->createCommand($sql);
+										$dataReader=$command->query();
+										foreach($dataReader as $row){?>
+											<option value="<?php echo $row['id_estados'];?>"><?php echo $row['estado'];?></option>
+										<?php $arrayEstados[] = $row['id_estados'];}?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Proveedor:</label>
+						<div class="col-md-7">
+							<select name="proveedor" class="selectpicker">
+								<option value="0">Seleccionar proveedor</option>
+								<?php
+										$connection = Yii::app()->db;
+										$sql = "SELECT * FROM proveedores";
+										$command=$connection->createCommand($sql);
+										$dataReader=$command->query();
+										foreach($dataReader as $row){?>
+											<option value="<?php echo $row['id_proveedor'];?>"><?php echo $row['nombre'];?></option>
+										<?php }?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
+						<div class="col-md-7">
+							<select name="tipoDispositivo" class="selectpicker">
+								<option value="0">Seleccionar Tipo de dispositivo</option>
+								<?php
+										$connection = Yii::app()->db;
+										$sql = "SELECT * FROM tipo_disp";
+										$command=$connection->createCommand($sql);
+										$dataReader=$command->query();
+										foreach($dataReader as $row){?>
+											<option value="<?php echo $row['id_tipo'];?>"><?php echo $row['tipo_ref'];?></option>
+										<?php }?>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-12 text-center">
+						<a href="" class="">Ingresar dipositivos por archivo</a>
+					</div>
+					<div class="col-md-4 col-md-offset-3">
+						<button class="btn btn-primary" action="submit()">Guardar dispositivo</button>
+					</div><br>
+					<div class="col-md-3">
+						<a href="#" class="btn btn-success">Cancelar</a>
+					</div>
+				</form>
 			</div>
 		</div>
-		<div class="form-group col-md-6">
-			<label class="col-md-5 control-label">Referencia:</label>
-			<div class="col-md-7">
-				<input type="text" name="referencia" class="form-control" placeholder="Referencia">
-			</div>
-		</div>
-		<div class="form-group col-md-6">
-			<label class="col-md-5 control-label">IMEI o referencia:</label>
-			<div class="col-md-7">
-				<input type="text" name="imei" class="form-control" placeholder="IMEI o referencia">
-			</div>
-		</div>
-		<div class="form-group col-md-6">
-			<label class="col-md-5 control-label">Estado:</label>
-			<div class="col-md-7">
-				<select name="estado" class="selectpicker">
-					<option value="0">Seleccionar estado</option>
-					<?php
-							$connection = Yii::app()->db;
-							$sql = "SELECT * FROM estados";
-							$command=$connection->createCommand($sql);
-							$dataReader=$command->query();
-							foreach($dataReader as $row){?>
-								<option value="<?php echo $row['id_estados'];?>"><?php echo $row['estado'];?></option>
-							<?php }?>
-				</select>
-			</div>
-		</div>
-		<div class="form-group col-md-6">
-			<label class="col-md-5 control-label">Proveedor:</label>
-			<div class="col-md-7">
-				<select name="proveedor" class="selectpicker">
-					<option value="0">Seleccionar proveedor</option>
-					<?php
-							$connection = Yii::app()->db;
-							$sql = "SELECT * FROM proveedores";
-							$command=$connection->createCommand($sql);
-							$dataReader=$command->query();
-							foreach($dataReader as $row){?>
-								<option value="<?php echo $row['id_proveedor'];?>"><?php echo $row['nombre'];?></option>
-							<?php }?>
-				</select>
-			</div>
-		</div>
-		<div class="form-group col-md-6">
-			<label class="col-md-5 control-label">Tipo de dispositivo:</label>
-			<div class="col-md-7">
-				<select name="tipoDispositivo" class="selectpicker">
-					<option value="0">Seleccionar Tipo de dispositivo</option>
-					<?php
-							$connection = Yii::app()->db;
-							$sql = "SELECT * FROM tipo_disp";
-							$command=$connection->createCommand($sql);
-							$dataReader=$command->query();
-							foreach($dataReader as $row){?>
-								<option value="<?php echo $row['id_tipo'];?>"><?php echo $row['tipo_ref'];?></option>
-							<?php }?>
-				</select>
-			</div>
-		</div>
-		<div class="form-group col-md-6">
-			<div class="col-md-6 col-md-offset-3">
-				<a href="" type="submit" class="btn btn-primary">Guardar dispositivo</a>
-			</div>
-		</div>
-		<div class="form-group col-md-6">
-			<div class="col-md-6 col-md-offset-3">
-				<a href="" type="submit" class="btn btn-danger">Cancelar</a>
-			</div>
-		</div>
-	</form>
+	</div>
 </div>
+	<script>
+		function submit() {
+			// var id_estado = $("#select_estado").val();
+			var formulario = $("#crearDispositivo").serialize();
+			$.post('create', {data: formulario}, function(data) {
+	            alert(data);
+	        });
+		}
+	</script>
