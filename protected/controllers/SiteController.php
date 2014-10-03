@@ -30,8 +30,8 @@ class SiteController extends Controller
 		$this->layout = '//layouts/layoutLogin';
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
-		// $this->redirect(Yii::app()->homeUrl.'site');
+		// $this->render('login');
+		$this->redirect(Yii::app()->homeUrl.'site/login');
 	}
 
 	public function actionDispositivos()
@@ -104,7 +104,8 @@ class SiteController extends Controller
 				$this->redirect(Yii::app()->homeUrl.'dispositivo');
 			}
 		}
-		$this->redirect('index');
+		// $this->redirect('index');
+		$this->render('login');
 	}
 
 	/**

@@ -596,3 +596,12 @@ REQUEST_URI=/inventario/login
 HTTP_REFERER=http://localhost/inventario/
 >>>>>>> 446258f99d771c173990262671f2ea4d0334e8cf
 ---
+2014/10/04 00:15:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "login".' in C:\xampp\htdocs\yii\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('login')
+#1 C:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\inventario\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/inventario/login
+HTTP_REFERER=http://localhost/inventario/
+---
