@@ -38,11 +38,11 @@
 	<nav class="nav-bar">
 		<ul>
 			<li><a href="#">LOGO</a></li>
-			<li><a href="#">Dispositivos</a></li>
+			<li><a href="/inventario/dispositivo">Dispositivos</a></li>
 			<li><a href="#">Simcard</a></li>
-			<li><a href="#">Proveedores</a></li>
-			<li><a href="#">Clientes</a></li>
-			<li><a href="#">Usuarios</a></li>
+			<li><a href="/inventario/proveedor">Proveedores</a></li>
+			<li><a href="/inventario/cliente">Clientes</a></li>
+			<li><a href="/inventario/usuario">Usuarios</a></li>
 			<li><a href="/inventario/site/logout">Desconectar</a></li>
 		</ul>
 	</nav><!-- mainmenu -->

@@ -2,9 +2,8 @@ body
 {
 	margin: 0;
 	padding: 0;
-	color: #555;
+	color: #5E6061;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background: #EFEFEF;
 }
 
 #page
@@ -28,10 +27,11 @@ nav.nav-bar ul li a{
 	display: block;
 	padding: 20px;
 	text-decoration: none;
-	color: #02285D;
+	color: #5E6061;
+	transition:all .5s;
 }
 nav.nav-bar ul li a:hover{
-	background-color: #B0B0B0;
+	background-color: #86898A;
 	color: #fff;
 }
 
@@ -57,7 +57,7 @@ nav.nav-bar ul li a:hover{
 
 .header-tittle
 {
-	border-bottom: 1px solid #4897C4;
+	border-bottom: 1px solid #0F75BC;
 	margin-top: 0;
 	padding-bottom: 10px;
 	position: relative;
@@ -73,6 +73,8 @@ nav.nav-bar ul li a:hover{
 
 .sidebar
 {
+	box-shadow: 0px 0px 1px #888888;
+	display: inline-table;
 	float: left;
 	padding: 0;
 	margin:0;
@@ -89,26 +91,37 @@ div.sidebar ul{
 div.sidebar ul li{
 	font-family: sans-serif;
 	padding: 0;	
+	transition:all .5s;
 }
 div.sidebar ul li:hover, div.sidebar ul li a:hover{
-	background-color: #1fff00;
+	background-color: #13A89E;
 	color: #fff;
 }
 
 div.sidebar ul li a{
-	color:#099950;	
+	color:#004641;	
 	display: block;
 	padding: 10px 15px;
 	text-decoration: none;
+	transition:all .5s;
 }
 
 #header-actions{
-	background-color: #10cc38;
-	border-bottom: 1px solid #000;
-	color: #fff;
+	background-color: #0F75BC;
+	color: #083D36;
 	display: block;
 	font-size: 17px;
+	padding: 5px;
 	text-align: center;
+
+}
+
+.buttons-submit{
+	margin-top: 20px;
+}
+
+div.buttons-submit div button{
+	margin-top: 10px;
 }
 
 #footer
@@ -117,7 +130,7 @@ div.sidebar ul li a{
 	margin: 10px 0px;
 	font-size: 0.8em;
 	text-align: center;
-	border-top: 1px solid #4897C4;
+	border-top: 1px solid #0F75BC;
 }
 
 #logo

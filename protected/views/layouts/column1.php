@@ -3,7 +3,7 @@
 <div class="sidebar">
 	
 		<ul>
-			<li id="header-actions">Acciones</li>
+			<li id="header-actions"><strong>Acciones</strong></li>
 			<?php echo $content; ?>
 		</ul>
 	
