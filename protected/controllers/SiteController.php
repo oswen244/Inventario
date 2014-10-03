@@ -31,7 +31,7 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		// $this->render('login');
-		$this->redirect(Yii::app()->homeUrl.'site/login');
+		$this->redirect(Yii::app()->homeUrl.'dispositivo');
 	}
 
 	public function actionDispositivos()
