@@ -28,6 +28,7 @@
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/dataTableEdit.js"></script>
 	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-filestyle.min.js"></script>
 	
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>

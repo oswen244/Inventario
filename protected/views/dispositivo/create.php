@@ -1,7 +1,18 @@
 <script>
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
+		$(":file").filestyle();
 	});
+	function submit() {
+		// var id_estado = $("#select_estado").val();
+		var formulario = $("#crearDispositivo").serialize();
+		$.post('create', {data: formulario}, function(data) {
+            alert(data);
+        });
+	}
+	function lanzar(){
+		alert("funciona!!");
+	}
 </script>
 <h1 class="header-tittle">Dispositivos</h1><br>
 <div class="content">
@@ -80,7 +91,7 @@
 						</div>
 					</div>
 					<div class="form-group col-md-12 text-center">
-						<a href="" class="">Ingresar dipositivos por archivo</a>
+						<a href="#" data-toggle="modal" data-target="#myModal">Ingresar dipositivos por archivo</a>
 					</div>
 					<div class="col-md-4 col-md-offset-3">
 						<button class="btn btn-primary" action="submit()">Guardar dispositivo</button>
@@ -89,16 +100,34 @@
 						<a href="#" class="btn btn-success">Cancelar</a>
 					</div>
 				</form>
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<h4 class="modal-title" id="myModalLabel">INGRESAR DISPOSITIVOS AL INVENTARIO</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<form enctype="multipart/form-data" class="form form-horizontal" method="post" role="form">
+										<div class="form-group col-md-12">
+											<label for="archivo" class="col-md-2 control-label">Archivo:</label>
+											<div class="col-md-7">
+												<input class="filestyle" data-buttonText="Examinar" data-buttonName="btn-primary" type="file" class="form-control" name="archivo">
+											</div>
+										</div>
+										<div class="col-xs-6 col-xs-offset-2">
+											<button type="button" class="btn btn-success">Cargar archivo</button>
+											<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-	<script>
-		function submit() {
-			// var id_estado = $("#select_estado").val();
-			var formulario = $("#crearDispositivo").serialize();
-			$.post('create', {data: formulario}, function(data) {
-	            alert(data);
-	        });
-		}
-	</script>

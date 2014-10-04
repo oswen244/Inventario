@@ -35,7 +35,7 @@ class DispositivoController extends Controller
 				'actions'=>array('admin','delete','create','update'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny all users
+			array('deny', // deny all users
 				'users'=>array('*'),
 			),
 		);
