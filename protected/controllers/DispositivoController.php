@@ -32,7 +32,7 @@ class DispositivoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update'),
+				'actions'=>array('admin','delete','create','update','getTypes'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -58,27 +58,36 @@ class DispositivoController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Dispositivo;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		// if(isset($_POST['Dispositivo']))
-		// {
-		// 	$model->attributes=$_POST['Dispositivo'];
-		// 	if($model->save())
-		// 		$this->redirect(array('view','id'=>$model->id_disp));
-		// }
+		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
+			$dispositivo->f_adquirido = $_POST['dateAdq'];
+			$dispositivo->tipo_ref = $_POST['referencia'];
+			$dispositivo->imei_ref = $_POST['imei'];
+			$dispositivo->id_estado = $_POST['estado'];
+			$dispositivo->tipo_disp = $_POST['tipoDispositivo'];
+			$dispositivo->save();
+			$this->redirect(array('view','id'=>$dispositivo->id));
 			$datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['referencia']." ".$_POST['estado'];
 			$this->render('view',array('datos'=>$datos));
 		}else{
 			$this->render('create',array(
-				'model'=>$model,
+				'model'=>$dispositivo,
 			));
 		}
-
 	}
+	public function actionGetTypes(){
+		if(Yii::app()->request->isPostRequest && isset($_POST['proveedor'])){
+			$connection = Yii::app()->db;
+			$sql = "SELECT * FROM tipo_disp WHERE id_proveedor=".$_POST['proveedor'];
+			$command=$connection->createCommand($sql);
+			$result=$command->query();
+			echo CJSON::encode($result);
+		}else{
+			echo "No sirve esa mondá";
+		}
+	}
+
+
 
 	/**
 	 * Updates a particular model.

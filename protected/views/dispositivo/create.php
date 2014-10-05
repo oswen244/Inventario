@@ -2,6 +2,16 @@
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
 		$(":file").filestyle();
+		$("#tipoDispositivo").attr('disabled', '');
+		$("#tipoDispositivo").selectpicker('refresh');
+		$("#proveedor").on('change', function() {
+			var id_proveedor = $("#proveedor").val();
+			$.post('getTypes', {proveedor: id_proveedor}, function(data) {
+	            alert(data);
+	        });
+			$("#tipoDispositivo").removeAttr('disabled');
+			$("#tipoDispositivo").selectpicker('refresh');
+		});
 	});
 	function submit() {
 		// var id_estado = $("#select_estado").val();
@@ -9,9 +19,6 @@
 		$.post('create', {data: formulario}, function(data) {
             alert(data);
         });
-	}
-	function lanzar(){
-		alert("funciona!!");
 	}
 </script>
 <h1 class="header-tittle">Dispositivos</h1><br>
@@ -47,7 +54,6 @@
 							<select id="select_estado" name="estado" class="selectpicker">
 								<option value="0">Seleccionar estado</option>
 								<?php
-										$arrayEstados = array();
 										$connection = Yii::app()->db;
 										$sql = "SELECT * FROM estados";
 										$command=$connection->createCommand($sql);
@@ -61,8 +67,9 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Proveedor:</label>
 						<div class="col-md-7">
-							<select name="proveedor" class="selectpicker">
+							<select id="proveedor" name="proveedor" class="selectpicker">
 								<option value="0">Seleccionar proveedor</option>
+								<option value="1">Seleccionar proveedor</option>
 								<?php
 										$connection = Yii::app()->db;
 										$sql = "SELECT * FROM proveedores";
@@ -77,7 +84,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select name="tipoDispositivo" class="selectpicker">
+							<select id="tipoDispositivo" name="tipoDispositivo" class="selectpicker">
 								<option value="0">Seleccionar Tipo de dispositivo</option>
 								<?php
 										$connection = Yii::app()->db;
