@@ -12,8 +12,10 @@
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"> -->
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-theme.min.css"/>
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
@@ -23,10 +25,13 @@
 	<!-- Latest compiled and minified CSS -->
 	<!-- Optional theme -->
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<!--<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/dataTableEdit.js"></script>
-	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.dataTables.min.js"></script>
+	<!--<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>-->
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-select.min.js"></script>
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-filestyle.min.js"></script>
 
@@ -43,22 +48,32 @@
 
 	<div id="header">
 	<nav class="nav-bar">
-		<ul>
-			<li><a href="#">LOGO</a></li>
-			<li><a href="/inventario/dispositivo">Dispositivos</a></li>
-			<li><a href="#">Simcard</a></li>
-			<li><a href="/inventario/proveedor">Proveedores</a></li>
-			<li><a href="/inventario/cliente">Clientes</a></li>
-			<li><a href="/inventario/usuario">Usuarios</a></li>
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Otras opciones <span class="caret"></span></a>
-				<ul class="dropdown-menu" role="menu">
-			        <li><a href="#">Action</a></li>
-			        <li><a href="#">Another action</a></li>
-			    </ul>
-		    </li>
-			<li><a href="/inventario/site/logout">Desconectar</a></li>
-		</ul>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div id="navegacion" class="navbar-collapse collapse">
+			<ul class="navbar navbar-nav">
+				<li><a href="#">LOGO</a></li>
+				<li><a href="/inventario/dispositivo">Dispositivos</a></li>
+				<li><a href="#">Simcard</a></li>
+				<li><a href="/inventario/proveedor">Proveedores</a></li>
+				<li><a href="/inventario/cliente">Clientes</a></li>
+				<li><a href="/inventario/usuario">Usuarios</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Otras opciones <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+				        <li><a href="#">Action</a></li>
+				        <li><a href="#">Another action</a></li>
+				    </ul>
+			    </li>
+				<li><a href="/inventario/site/logout">Desconectar</a></li>
+			</ul>
+		</div>
 	</nav><!-- mainmenu -->
 	</div><!-- header -->
 <div class="container" id="page">
