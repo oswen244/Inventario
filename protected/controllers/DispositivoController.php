@@ -80,10 +80,11 @@ class DispositivoController extends Controller
 			$connection = Yii::app()->db;
 			$sql = "SELECT * FROM tipo_disp WHERE id_proveedor=".$_POST['proveedor'];
 			$command=$connection->createCommand($sql);
-			$result=$command->query();
+			$result=$command->queryAll();
 			echo CJSON::encode($result);
+			// echo json_encode($result);
 		}else{
-			echo "No sirve esa mondá";
+			echo "nada!";
 		}
 	}
 
