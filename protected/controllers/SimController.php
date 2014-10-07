@@ -122,18 +122,16 @@ class SimController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Sim');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = Sim::model();
+		$s = $model->findAll();
+		$sim = CJSON::encode($s); 
+
+		$this->render('index', array('sims' => $sim));
 	}
 
 	public function actionAsignar()
 	{
-		$dataProvider=new CActiveDataProvider('Sim');
-		$this->render('asignar',array(
-			'dataProvider'=>$dataProvider,
-		));
+		
 	}
 
 	/**

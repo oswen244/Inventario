@@ -13,15 +13,6 @@ body
 	background: white;
 }
 
-/*nav.nav-bar ul{
-	margin: 0;
-	padding: 0;
-}
-
-nav.nav-bar ul li{
-	display: inline-flex;
-	padding: 0;
-}*/
 
 nav.nav-bar ul li a{
 	color: #5E6061;
@@ -29,6 +20,11 @@ nav.nav-bar ul li a{
 	padding: 23px;
 	transition:all .3s;
 }
+
+ul.navbar-nav li .dropdown-menu a{
+	padding: 12px;
+}
+
 nav.nav-bar ul li a:hover{
 	background-color: #86898A;
 	color: #fff;	
@@ -41,8 +37,8 @@ nav.nav-bar ul li a:hover{
 	/*margin-bottom: 20px;*/
 }
 
-ul.nav li:first-child{
-	margin-left: 5px;
+ul{
+	text-align: center;
 }
 
 button.boton.collapsed:before
@@ -90,6 +86,7 @@ button.boton:before
 {
 	float: right;
     padding: 20px;
+    width: 100%;
 
 }
 
@@ -100,7 +97,7 @@ button.boton:before
 	display: inline-table;
 	float: left;
 	padding: 0;
-	margin:0;
+	margin: 20px 10px 0 0;
 }
 
 div.sidebar ul{
@@ -131,7 +128,7 @@ div.sidebar ul li a{
 
 #header-actions{
 	background-color: #0F75BC;
-	color: #083D36;
+	color: #fff;
 	display: block;
 	font-size: 17px;
 	padding: 5px;
@@ -159,7 +156,7 @@ div.buttons-submit div button{
 #logo
 {
 
-	width: 200px;
+	width: 158px;
 	height: 65px;
 	background: url(/inventario/images/logo.png) no-repeat;
 	text-indent: -9999px;	
@@ -254,7 +251,7 @@ div.view
 	border: 1px solid #C9E0ED;
 }
 
-div.breadcrumbs
+/*div.breadcrumbs
 {
 	font-size: 0.9em;
 	padding: 5px 20px;
@@ -263,16 +260,16 @@ div.breadcrumbs
 div.breadcrumbs span
 {
 	font-weight: bold;
-}
+}*/
 
-div.search-form
+/*div.search-form
 {
 	padding: 10px;
 	margin: 10px 0;
 	background: #eee;
-}
+}*/
 
-.portlet
+/*.portlet
 {
 
 }
@@ -313,9 +310,9 @@ div.search-form
 .portlet-content li
 {
 	padding: 2px 0 4px 0px;
-}
+}*/
 
-.operations
+/*.operations
 {
 	list-style-type: none;
 	margin: 0;
@@ -345,4 +342,4 @@ div.search-form
 .operations li a:hover
 {
 	background: #80CFFF;
-}
+}*/

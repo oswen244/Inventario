@@ -122,10 +122,11 @@ class ContactoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Contacto');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = Contacto::model();
+		$con = $model->findAll();
+		$contacto = CJSON::encode($con); 
+
+		$this->render('index', array('contactos' => $contacto));
 	}
 
 	/**

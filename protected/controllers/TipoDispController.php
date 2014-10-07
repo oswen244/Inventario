@@ -1,6 +1,6 @@
 <?php
 
-class PlanController extends Controller
+class TipoDispController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,16 +62,16 @@ class PlanController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Plan;
+		$model=new TipoDisp;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Plan']))
+		if(isset($_POST['TipoDisp']))
 		{
-			$model->attributes=$_POST['Plan'];
+			$model->attributes=$_POST['TipoDisp'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_plan));
+				$this->redirect(array('view','id'=>$model->id_tipo));
 		}
 
 		$this->render('create',array(
@@ -91,11 +91,11 @@ class PlanController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Plan']))
+		if(isset($_POST['TipoDisp']))
 		{
-			$model->attributes=$_POST['Plan'];
+			$model->attributes=$_POST['TipoDisp'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_plan));
+				$this->redirect(array('view','id'=>$model->id_tipo));
 		}
 
 		$this->render('update',array(
@@ -122,11 +122,10 @@ class PlanController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Plan::model();
-		$pl = $model->findAll();
-		$plan = CJSON::encode($pl); 
-
-		$this->render('index', array('planes' => $plan));
+		$dataProvider=new CActiveDataProvider('TipoDisp');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
 	}
 
 	/**
@@ -134,10 +133,10 @@ class PlanController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Plan('search');
+		$model=new TipoDisp('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Plan']))
-			$model->attributes=$_GET['Plan'];
+		if(isset($_GET['TipoDisp']))
+			$model->attributes=$_GET['TipoDisp'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -148,12 +147,12 @@ class PlanController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Plan the loaded model
+	 * @return TipoDisp the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Plan::model()->findByPk($id);
+		$model=TipoDisp::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -161,11 +160,11 @@ class PlanController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Plan $model the model to be validated
+	 * @param TipoDisp $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='plan-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='tipo-disp-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

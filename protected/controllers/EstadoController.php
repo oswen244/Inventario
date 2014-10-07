@@ -122,10 +122,18 @@ class EstadoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Estado');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+
+		$model = Estado::model();
+		$est = $model->findAll();
+		$estado = CJSON::encode($est); 
+
+		$this->render('index', array('estados' => $estado));
+
+
+		// $dataProvider=new CActiveDataProvider('Estado');
+		// $this->render('index',array(
+		// 	'dataProvider'=>$dataProvider,
+		// ));
 	}
 
 	/**

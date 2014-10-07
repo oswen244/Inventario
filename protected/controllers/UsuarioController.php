@@ -122,10 +122,11 @@ class UsuarioController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('User');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = User::model();
+		$us = $model->findAll();
+		$user = CJSON::encode($us); 
+
+		$this->render('index', array('users' => $user));
 	}
 
 	/**

@@ -122,10 +122,11 @@ class ProveedorController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Proveedor');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = Proveedor::model();
+		$pr = $model->findAll();
+		$proveedor = CJSON::encode($pr); 
+
+		$this->render('index', array('proveedores' => $proveedor));
 	}
 
 	/**

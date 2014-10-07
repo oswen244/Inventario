@@ -38,7 +38,7 @@
 					<div class="form-group col-md-9">
 						<label for="c_contrasena" class="col-md-5 control-label">Confirmar contraseña:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="c_contrasena">
+							<input type="text" class="form-control" name="c_contrasena" placeholder="Confirmar contraseña">
 						</div>
 					</div>
 

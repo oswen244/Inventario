@@ -1,3 +1,14 @@
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	    var datos = <?php echo $contactos; ?>;
+	    var id = '#contactoTable';
+	    var atributos = ["nombre","telefono","tipo_entidad","cargo","email", "id_entidad"];	    
+	    customDataTable(id, datos, atributos); 
+	});
+
+</script>
+
 <h1 class="header-tittle">Contactos</h1>
 
 <div class="content">
@@ -8,7 +19,31 @@
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
-		<h1>Tabla de contactos</h1>
+		<table id="contactoTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Telefono</th>
+					<th>Tipo entidad</th>
+					<th>Cargo</th>
+					<th>E-mail</th>
+					<th>Entidad</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Nombre</th>
+					<th>Telefono</th>
+					<th>Tipo entidad</th>
+					<th>Cargo</th>
+					<th>E-mail</th>
+					<th>Entidad</th>	
+				</tr>
+			</tfoot>
+			<tbody>
+
+			</tbody>
+		</table>
 	</div>
 
 </div>

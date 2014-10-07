@@ -1,3 +1,15 @@
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	    var datos = <?php echo $users; ?>;
+	    var id = '#usuariosTable';
+	    var atributos = ["usuario","rol","nombre"];	    
+	    customDataTable(id, datos, atributos); 
+	});
+
+</script>
+
+
 <h1 class="header-tittle">Usuarios</h1>
 
 <div class="content">
@@ -8,7 +20,26 @@
 	<?php $this->endContent(); ?>
 
 <div class="content-side">
-	<h1>Tabla de usuarios</h1>
+	<table id="usuariosTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>Usuario</th>
+					<th>Rol</th>
+					<th>Nombre</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Usuario</th>
+					<th>Rol</th>
+					<th>Nombre</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+
+			</tbody>
+	</table>
 </div>
 
 </div>

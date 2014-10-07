@@ -1,3 +1,15 @@
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+	    var datos = <?php echo $estados; ?>;
+	    var atributos = ["estado","descripcion"];
+	    customDataTable('#datatable', datos, atributos); 
+	});
+
+</script>
+
+
 <h1 class="header-tittle">Estados</h1>
 
 <div class="content">
@@ -8,7 +20,23 @@
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
-		<h1>Tabla de estados</h1>
+		<table id="datatable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th>Estado</th>
+					<th>Descripción</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Estado</th>
+					<th>Descripción</th>					
+				</tr>
+			</tfoot>
+			<tbody>
+
+			</tbody>
+		</table>
 	</div>
 
 </div>

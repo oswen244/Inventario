@@ -49,14 +49,14 @@ function columnList(atributos){
     return structure.substring(0,structure.length-1);
 }
 
-function customDataTable(data, atributos) {
+function customDataTable(nombre, data, atributos) {
         
         var columnas = columnList(atributos);
         // columnas = '[{"data": "id", "class": "center" },{ "data": "invdate", "class": "center" },{ "data": "client_id", "class": "center" },{ "data": "amount", "class": "center edit" },{ "data": "tax", "class": "center edit" },{ "data": "total", "class": "center edit" },{ "data": "note", "class": "center edit" }]';
         columnas = '['+columnList(atributos)+']';
 
         columnas = JSON.parse(columnas);
-        var table = $('#datatable').DataTable( {
+        var table = $(nombre).DataTable( {
 
             data: data,
             dataType: "json",
@@ -65,13 +65,13 @@ function customDataTable(data, atributos) {
               
         });
 
-        $('#datatable tbody').on( 'click', 'tr', function () {
+        $(nombre+' tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
         });
 
 
     //Quita la caja de texto guardando el valor que tenia en la celda
-    $('#datatable tbody').on( 'blur', 'td', function () {
+    $(nombre+' tbody').on( 'blur', 'td', function () {
 
         $(this).html($(this).find('input').val());
         valAfter = $(this).html();
@@ -88,13 +88,11 @@ function customDataTable(data, atributos) {
     });
 
     table.on( 'draw', function () {
-
-        page = $('#datatable_paginate').find('.paginate_button.active a').html();
-        
-        actualizarEdit('#datatable');
+              
+        actualizarEdit(nombre);
     });
 
-   actualizarEdit('#datatable');
+   actualizarEdit(nombre);
 
 
     /*Descomentar para colocar funcionalidad a un boton */

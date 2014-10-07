@@ -122,10 +122,11 @@ class ClienteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Cliente');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = Cliente::model();
+		$cl = $model->findAll();
+		$cliente = CJSON::encode($cl); 
+
+		$this->render('index', array('clientes' => $cliente));
 	}
 
 	/**
