@@ -24,7 +24,7 @@
 					<div class="form-group col-md-6">
 						<label for="tipo_id" class="col-md-5 control-label">Tipo de ID:</label>
 						<div class="col-md-7">
-							<select name="tipo_id" class="selectpicker">
+							<select name="tipo_id" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar tipo id</option>
 							</select>
 						</div>
@@ -38,7 +38,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Ciudad:</label>
 						<div class="col-md-7">
-							<select name="ciudad" class="selectpicker">
+							<select name="ciudad" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar ciudad</option>
 							</select>
 						</div>
