@@ -1,35 +1,45 @@
 function validar(formName){
 	$(formName).bootstrapValidator({
-	    feedbackIcons: {
-	        valid: 'glyphicon glyphicon-ok',
-	        invalid: 'glyphicon glyphicon-remove',
-	        validating: 'glyphicon glyphicon-refresh'
+		language: 'es',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			invalid: 'glyphicon glyphicon-remove',
+			validating: 'glyphicon glyphicon-refresh'
 	    },
 	    fields: {
-	    	name: {
+	    	dateAdq: {
 	            validators: {
 	            	notEmpty: {
-	                    message: 'The name is required'
+	                    message: 'The date is required'
 	                },
-	                stringLength: {
-	                	min: 4,
-	                    max: 10,
-	                    message: 'The Name must be more than 4 and less than 10 characters'
-	                }
+	                date: {
+                        format: 'YYYY-MM-DD',
+                        message: 'The value is not a valid date'
+                    }
 	            }
 	        },
-	        lastname: {
-	            validators: {
-	                notEmpty: {
-	                    message: 'The LastName is required'
+	        imei: {
+                validators: {
+                    notEmpty: {
+	                    message: 'The imei is required'
 	                },
-	                stringLength: {
-	                    min: 6,
-	                    max: 15,
-	                    message: 'The Name must be more than 6 and less than 15 characters'
-	                }
-	            }
-	        },
+                    imei: {
+                        message: 'The value is not valid IMEI'
+                    }
+                }
+            },
+	        // lastname: {
+	        //     validators: {
+	        //         notEmpty: {
+	        //             message: 'The LastName is required'
+	        //         },
+	        //         stringLength: {
+	        //             min: 6,
+	        //             max: 15,
+	        //             message: 'The Name must be more than 6 and less than 15 characters'
+	        //         }
+	        //     }
+	        // },
 	        email: {
 	            validators: {
 	            	notEmpty: {
