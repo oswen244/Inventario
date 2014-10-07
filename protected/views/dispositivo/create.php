@@ -1,25 +1,53 @@
 <script>
 	$(document).ready(function() {
+		function typesBlock(){
+			$("#tipoDispositivo").attr('disabled', '');
+			$("#tipoDispositivo").selectpicker('refresh');
+		}
 		$('.selectpicker').selectpicker();
 		$(":file").filestyle();
-		$("#tipoDispositivo").attr('disabled', '');
-		$("#tipoDispositivo").selectpicker('refresh');
+		typesBlock();
 		$("#proveedor").on('change', function() {
 			var id_proveedor = $("#proveedor").val();
-			$.post('getTypes', {proveedor: id_proveedor}, function(data) {
-	            alert(data);
-	        });
-			$("#tipoDispositivo").removeAttr('disabled');
-			$("#tipoDispositivo").selectpicker('refresh');
+			if(id_proveedor!=0){
+				$.post('getTypes', {proveedor: id_proveedor}, function(data) {
+				// JSON.stringify(data);
+					reloadTypes(data);
+				});
+			}else{
+				typesBlock();
+			}
 		});
 	});
+	function reloadTypes(data){
+		var x = [];
+		var parent = $("#tipoDispositivo").parent();
+		$('#tipoDispositivo').selectpicker('destroy');
+		parent.append('<select id="tipoDispositivo" data-width="100%" name="tipoDispositivo" class="selectpicker"><option value="0">Seleccionar Tipo de dispositivo</option></select>');
+		x = JSON.parse(data);
+		$.each(x, function(index, element) {
+			var p = new Array();
+			var cont=1;
+			$.each(element, function(i, e) {
+				p[cont]= i;
+				cont++;
+			});
+			// alert(element[p[1]]);
+			// <span class="filter-option pull-left">Seleccionar Tipo de dispositivo</span>
+				$("#tipoDispositivo").append('<option value='+element[p[1]]+'>'+element[p[3]]+'</option>');
+			});
+			$('#tipoDispositivo').selectpicker();
+	}
 	function submit() {
 		// var id_estado = $("#select_estado").val();
 		var formulario = $("#crearDispositivo").serialize();
-		$.post('create', {data: formulario}, function(data) {
-            alert(data);
-        });
+		alert(formulario);
+		// $.post('create', {data: formulario}, function(data) {
+		// 	alert(data);
+  //       });
 	}
+
+
 </script>
 <h1 class="header-tittle">Dispositivos</h1><br>
 <div class="content">
@@ -37,12 +65,6 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6">
-						<label class="col-md-5 control-label">Referencia:</label>
-						<div class="col-md-7">
-							<input type="text" name="referencia" class="form-control" placeholder="Referencia">
-						</div>
-					</div>
-					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">IMEI o referencia:</label>
 						<div class="col-md-7">
 							<input type="text" name="imei" class="form-control" placeholder="IMEI o referencia">
@@ -51,7 +73,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Estado:</label>
 						<div class="col-md-7">
-							<select id="select_estado" name="estado" class="selectpicker">
+							<select id="select_estado" data-width="100%" name="estado" class="selectpicker">
 								<option value="0">Seleccionar estado</option>
 								<?php
 										$connection = Yii::app()->db;
@@ -67,9 +89,8 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Proveedor:</label>
 						<div class="col-md-7">
-							<select id="proveedor" name="proveedor" class="selectpicker">
+							<select id="proveedor" data-width="100%" name="proveedor" class="selectpicker">
 								<option value="0">Seleccionar proveedor</option>
-								<option value="1">Seleccionar proveedor</option>
 								<?php
 										$connection = Yii::app()->db;
 										$sql = "SELECT * FROM proveedores";
@@ -84,16 +105,8 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select id="tipoDispositivo" name="tipoDispositivo" class="selectpicker">
+							<select id="tipoDispositivo" data-width="100%" name="tipoDispositivo" class="selectpicker">
 								<option value="0">Seleccionar Tipo de dispositivo</option>
-								<?php
-										$connection = Yii::app()->db;
-										$sql = "SELECT * FROM tipo_disp";
-										$command=$connection->createCommand($sql);
-										$dataReader=$command->query();
-										foreach($dataReader as $row){?>
-											<option value="<?php echo $row['id_tipo'];?>"><?php echo $row['tipo_ref'];?></option>
-										<?php }?>
 							</select>
 						</div>
 					</div>
