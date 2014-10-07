@@ -61,13 +61,12 @@ class DispositivoController extends Controller
 		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
 			$dispositivo->f_adquirido = $_POST['dateAdq'];
-			$dispositivo->tipo_ref = $_POST['referencia'];
 			$dispositivo->imei_ref = $_POST['imei'];
 			$dispositivo->id_estado = $_POST['estado'];
-			$dispositivo->tipo_disp = $_POST['tipoDispositivo'];
+			$dispositivo->tipo_disp = (isset($_POST['tipoDispositivo']) && isset($_POST['tipoDispositivo'])!=0) ? $_POST['tipoDispositivo'] : 0;
 			$dispositivo->save();
-			$this->redirect(array('view','id'=>$dispositivo->id));
-			$datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['referencia']." ".$_POST['estado'];
+			// $this->redirect(array('view','id'=>$dispositivo->id_disp));
+			$datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['imei']." ".$_POST['estado']." ".$_POST['proveedor']." ".$dispositivo->tipo_disp;
 			$this->render('view',array('datos'=>$datos));
 		}else{
 			$this->render('create',array(

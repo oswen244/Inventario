@@ -6,16 +6,15 @@
  * The followings are the available columns in table 'dispositivos':
  * @property integer $id_disp
  * @property string $f_adquirido
- * @property string $tipo_ref
- * @property integer $tipo_disp
  * @property integer $imei_ref
  * @property string $comentario
  * @property string $ubicacion
+ * @property integer $tipo_disp
  * @property integer $id_estado
  *
  * The followings are the available model relations:
+ * @property DetalleFact[] $detalleFacts
  * @property Estados $idEstado
- * @property DetalleFact $idDisp
  * @property TipoDisp $tipoDisp
  * @property Sims[] $sims
  */
@@ -37,14 +36,13 @@ class Dispositivo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('f_adquirido, tipo_ref, tipo_disp, imei_ref, id_estado', 'required'),
-			array('tipo_disp, imei_ref, id_estado', 'numerical', 'integerOnly'=>true),
-			array('tipo_ref', 'length', 'max'=>45),
+			array('f_adquirido, imei_ref, tipo_disp, id_estado', 'required'),
+			array('imei_ref, tipo_disp, id_estado', 'numerical', 'integerOnly'=>true),
 			array('comentario', 'length', 'max'=>1000),
 			array('ubicacion', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_disp, f_adquirido, tipo_ref, tipo_disp, imei_ref, comentario, ubicacion, id_estado', 'safe', 'on'=>'search'),
+			array('id_disp, f_adquirido, imei_ref, comentario, ubicacion, tipo_disp, id_estado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,8 +54,8 @@ class Dispositivo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'detalleFacts' => array(self::MANY_MANY, 'DetalleFact', 'dispositivos_has_detalle_fact(Dispositivos_id_disp, Detalle_fact_id_detalle)'),
 			'idEstado' => array(self::BELONGS_TO, 'Estados', 'id_estado'),
-			'idDisp' => array(self::BELONGS_TO, 'DetalleFact', 'id_disp'),
 			'tipoDisp' => array(self::BELONGS_TO, 'TipoDisp', 'tipo_disp'),
 			'sims' => array(self::HAS_MANY, 'Sims', 'imei_disp'),
 		);
@@ -71,11 +69,10 @@ class Dispositivo extends CActiveRecord
 		return array(
 			'id_disp' => 'Id Disp',
 			'f_adquirido' => 'F Adquirido',
-			'tipo_ref' => 'Tipo Ref',
-			'tipo_disp' => 'Tipo Disp',
 			'imei_ref' => 'Imei Ref',
 			'comentario' => 'Comentario',
 			'ubicacion' => 'Ubicacion',
+			'tipo_disp' => 'Tipo Disp',
 			'id_estado' => 'Id Estado',
 		);
 	}
@@ -100,11 +97,10 @@ class Dispositivo extends CActiveRecord
 
 		$criteria->compare('id_disp',$this->id_disp);
 		$criteria->compare('f_adquirido',$this->f_adquirido,true);
-		$criteria->compare('tipo_ref',$this->tipo_ref,true);
-		$criteria->compare('tipo_disp',$this->tipo_disp);
 		$criteria->compare('imei_ref',$this->imei_ref);
 		$criteria->compare('comentario',$this->comentario,true);
 		$criteria->compare('ubicacion',$this->ubicacion,true);
+		$criteria->compare('tipo_disp',$this->tipo_disp);
 		$criteria->compare('id_estado',$this->id_estado);
 
 		return new CActiveDataProvider($this, array(
