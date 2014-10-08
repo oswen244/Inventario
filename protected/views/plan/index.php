@@ -20,7 +20,7 @@
 
 <div class="content-side">
 
-	<table id="planTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+	<table id="planTable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Nombre Plan</th>
@@ -30,15 +30,6 @@
 					<th>Desc datos</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<th>Nombre Plan</th>
-					<th>Cargo por voz</th>
-					<th>Cargo por datos</th>
-					<th>Desc voz</th>
-					<th>Desc datos</th>			
-				</tr>
-			</tfoot>
 			<tbody>
 
 			</tbody>

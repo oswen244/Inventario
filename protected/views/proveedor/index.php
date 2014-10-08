@@ -19,7 +19,7 @@
 	<?php $this->endContent(); ?>
 
 <div class="content-side">
-	<table id="proveedorTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+	<table id="proveedorTable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Nombre</th>
@@ -31,17 +31,6 @@
 					<th>E-mail</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<th>Nombre</th>
-					<th>Tipo id</th>
-					<th>Número id</th>
-					<th>Ciudad</th>
-					<th>Dirección</th>
-					<th>Teléfono</th>
-					<th>E-mail</th>
-				</tr>
-			</tfoot>
 
 			<tbody>
 

@@ -6,6 +6,11 @@ body
 	font: normal 10pt Arial,Helvetica,sans-serif;
 }
 
+a{
+	cursor: pointer;
+}
+
+
 #page
 {
 	margin-top: 5px;

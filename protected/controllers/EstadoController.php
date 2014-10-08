@@ -123,8 +123,11 @@ class EstadoController extends Controller
 	public function actionIndex()
 	{
 
-		$model = Estado::model();
-		$est = $model->findAll();
+		// $model = Estado::model();
+		// $est = $model->findAll();
+
+		$sql = "SELECT estado, descripcion FROM Estados";
+		$est = Yii::app()->db->createCommand($sql)->queryAll();
 		$estado = CJSON::encode($est); 
 
 		$this->render('index', array('estados' => $estado));

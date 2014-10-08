@@ -20,7 +20,7 @@
 	<?php $this->endContent(); ?>
 
 <div class="content-side">
-	<table id="usuariosTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+	<table id="usuariosTable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Usuario</th>
@@ -28,13 +28,6 @@
 					<th>Nombre</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<th>Usuario</th>
-					<th>Rol</th>
-					<th>Nombre</th>
-				</tr>
-			</tfoot>
 
 			<tbody>
 

@@ -60,14 +60,15 @@ function customDataTable(nombre, data, atributos) {
 
             data: data,
             dataType: "json",
+            lengthMenu: [10, 20, 50, 75, 100 ],
             bLengthChange: true,
             columns: columnas
               
         });
 
-        $(nombre+' tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-        });
+         $(nombre+' tbody').on( 'click', 'tr', function () {
+             $(this).toggleClass('selected');
+         } );
 
 
     //Quita la caja de texto guardando el valor que tenia en la celda

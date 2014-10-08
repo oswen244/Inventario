@@ -19,7 +19,7 @@
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
-		<table id="contactoTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+		<table id="contactoTable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Nombre</th>
@@ -30,16 +30,6 @@
 					<th>Entidad</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<th>Nombre</th>
-					<th>Telefono</th>
-					<th>Tipo entidad</th>
-					<th>Cargo</th>
-					<th>E-mail</th>
-					<th>Entidad</th>	
-				</tr>
-			</tfoot>
 			<tbody>
 
 			</tbody>

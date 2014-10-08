@@ -122,9 +122,13 @@ class ClienteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Cliente::model();
-		$cl = $model->findAll();
+		// $model = Cliente::model();
+		// $cl = $model->findAll();
+
+		$sql = "SELECT nombre,tipo_identi,num_id,ciudad,direccion,telefono,email FROM Clientes";
+		$cl = Yii::app()->db->createCommand($sql)->queryAll();
 		$cliente = CJSON::encode($cl); 
+
 
 		$this->render('index', array('clientes' => $cliente));
 	}

@@ -20,19 +20,13 @@
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
-		<table id="datatable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+		<table id="datatable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Estado</th>
 					<th>Descripción</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<th>Estado</th>
-					<th>Descripción</th>					
-				</tr>
-			</tfoot>
 			<tbody>
 
 			</tbody>

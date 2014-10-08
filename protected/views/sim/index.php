@@ -20,7 +20,7 @@
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
-		<table id="simTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+		<table id="simTable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Fecha act</th>
@@ -34,20 +34,7 @@
 					<th>Imei disp</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<th>Fecha act</th>
-					<th>Número linea</th>
-					<th>Imei</th>
-					<th>Tipo plan</th>
-					<th>Comentario</th>
-					<th>Estado</th>
-					<th>Proveedor</th>
-					<th>Plan</th>
-					<th>Imei disp</th>
-				</tr>
-			</tfoot>
-
+		
 			<tbody>
 
 			</tbody>
