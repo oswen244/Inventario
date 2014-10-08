@@ -63,8 +63,10 @@ class DispositivoController extends Controller
 			$dispositivo->f_adquirido = $_POST['dateAdq'];
 			$dispositivo->imei_ref = $_POST['imei'];
 			$dispositivo->id_estado = $_POST['estado'];
-			$dispositivo->tipo_disp = isset($_POST['tipoDispositivo']) ? $_POST['tipoDispositivo'] : 0;
-			$dispositivo->save();
+			// $dispositivo->tipo_disp = isset($_POST['tipoDispositivo']) ? $_POST['tipoDispositivo'] : 0;
+			if(isset($_POST['tipoDispositivo']))
+				$dispositivo->tipo_disp = $_POST['tipoDispositivo'];
+			// $dispositivo->save();
 			// $this->redirect(array('view','id'=>$dispositivo->id_disp));
 			$datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['imei']." ".$_POST['estado']." ".$_POST['proveedor']." ".$dispositivo->tipo_disp;
 			$this->render('view',array('datos'=>$datos));
