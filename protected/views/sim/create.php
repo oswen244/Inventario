@@ -1,5 +1,5 @@
 <h1 class="header-tittle">Simcards</h1><br>
-<div class="content col-sm-12">
+<div class="col-sm-12">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title">Registrar Simcard</h3>

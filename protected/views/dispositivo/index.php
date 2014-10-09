@@ -1,15 +1,30 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		var datos = <?php echo $dispositivos; ?>;
+		var id = '#dispTable';
+		var atributos = ["imei_ref","f_adquirido","id_estado","comentario","ubicacion","tipo_disp"];
+		customDataTable(id, datos, atributos);
+	});
+
+</script>
 <h1 class="header-tittle">Dispositivos</h1>
 
 <div class="content">
-	<?php $this->beginContent('//layouts/column1'); ?>
+	<div class="content-side">
+		<table id="dispTable" class="display responsive nowrap" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>Referencia</th>
+						<th>Fecha adq</th>
+						<th>Estado</th>
+						<th>Comentario</th>
+						<th>Ubicación</th>
+						<th>Tipo</th>
+					</tr>
+				</thead>
+				<tbody>
 
-		<li><a href="dispositivo/create">Registrar dispositivo</a></li>
-		<li><a href="tipoDisp/index">Registrar tipo</a></li>
-	
-	<?php $this->endContent(); ?>
-
-<div class="content-side">
-	<h1>Tabla de disp</h1>
-</div>
-
+				</tbody>
+		</table>
+	</div>
 </div>

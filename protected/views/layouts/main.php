@@ -1,9 +1,9 @@
 <?php /* @var $this Controller */ ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+	<meta name="language" content="es" />
 	
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<!-- blueprint CSS framework -->
@@ -56,7 +56,13 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="/inventario/dispositivo">Dispositivos <span class="caret"></span></a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dispositivos <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/dispositivo">Listado de dispositivos</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/dispositivo/create">Registrar dispositivo</a></li>
+							</ul>
+						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Simcard <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
@@ -88,12 +94,12 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Otras opciones <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="/inventario/plan">Planes</a></li>
-								<li><a href="/inventario/contacto">Contactos</a></li>
-								<li><a href="/inventario/estado">Estados</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/plan">Planes</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/contacto">Contactos</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/estado">Estados</a></li>
 							</ul>
 						</li>
-						<li><a href="/inventario/site/logout">Desconectar</a></li>
+						<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/site/logout">Desconectar</a></li>
 					</ul>
 					
 				</div><!-- /.navbar-collapse -->
@@ -101,7 +107,7 @@
 		</nav>
 	</div><!-- header -->
 <div class="container" id="page">
-
+	<div class="row">
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
@@ -109,6 +115,7 @@
 	<?php endif?>
 
 	<?php echo $content; ?>
+	</div>
 
 	<div class="clear"></div>
 

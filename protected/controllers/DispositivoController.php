@@ -141,10 +141,10 @@ class DispositivoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Dispositivo');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$model = Dispositivo::model();
+		$d = $model->findAll();
+		$dispositivo = CJSON::encode($d);
+		$this->render('index', array('dispositivos' => $dispositivo));
 	}
 
 	public function actionDispositivos()

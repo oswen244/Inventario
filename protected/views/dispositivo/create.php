@@ -43,7 +43,6 @@
 	}
 </script>
 <h1 class="header-tittle">Dispositivos</h1><br>
-<div class="content">
 	<div class="col-sm-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
@@ -107,17 +106,41 @@
 					<div class="form-group col-md-12 text-center">
 						<a id="link">Ingresar dipositivos por archivo</a>
 					</div>
+					<div class="table-responsive col-sm-10 col-sm-offset-1">
+						<div class="col-md-12">
+							<table class="table table-striped table-bordered table-hover  table-condensed">
+								<thead>
+									<tr>
+										<th>Prec_compra_sin_IVA</th>
+										<th>Prec_compra_con_IVA</th>
+										<th>Prec_venta_sin_IVA</th>
+										<th>Prec_venta_con_IVA</th>
+										<th>Comentario de tipo</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Prec_compra_sin_IVA</td>
+										<td>Prec_compra_con_IVA</td>
+										<td>Prec_venta_sin_IVA</td>
+										<td>Prec_venta_con_IVA</td>
+										<td>Prec_venta_con_IVA</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 					<div class="form-group col-md-12">
 						<label class="col-md-2 control-label">Comentario:</label>
 						<div class="col-md-10 col-md-offset-2">
 							<textarea type="textArea" name="comentario" class="form-control" placeholder="Comentario..."></textarea>
 						</div>
 					</div>
-					<div class="buttons-submit col-md-9">
-						<div class="col-md-2 col-md-offset-5">
+					<div class="buttons-submit col-sm-9">
+						<div class="col-sm-2 col-sm-offset-5">
 							<button id="btnGuardar" type="submit" class="btn btn-primary">Guardar dispositivo</button>
 						</div>
-						<div class="col-md-2 col-md-offset-1">
+						<div class="col-sm-2 col-sm-offset-1">
 							<a href="#" class="btn btn-success">Cancelar</a>
 						</div>
 					</div>
@@ -151,4 +174,3 @@
 			</div>
 		</div>
 	</div>
-</div>
