@@ -34,7 +34,7 @@
 			</tbody>
 		</table>
 
-		<input type="button" id="delete" class="btn btn-default btn-danger" value="Eliminar">
+		<input type="button" id="delete" class="btn btn-danger" value="Eliminar">
 	</div>
 
 </div>
