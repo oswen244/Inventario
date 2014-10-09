@@ -56,11 +56,35 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="/inventario/dispositivo">Dispositivos</a></li>
-						<li><a href="/inventario/sim">Simcard</a></li>
-						<li><a href="/inventario/proveedor">Proveedores</a></li>
-						<li><a href="/inventario/cliente">Clientes</a></li>
-						<li><a href="/inventario/usuario">Usuarios</a></li>
+						<li><a href="/inventario/dispositivo">Dispositivos <span class="caret"></span></a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Simcard <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim">Listado de simcards</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim/create">Registrar simcard</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Proveedores <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/proveedor">Listado de proveedores</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/proveedor/create">Registrar proveedores</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Clientes <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/cliente">Listado de clientes</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/cliente/create">Registrar clientes</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario">Listado de usuarios</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/create">Registrar usuario</a></li>
+							</ul>
+						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Otras opciones <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">

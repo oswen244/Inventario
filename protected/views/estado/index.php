@@ -4,7 +4,9 @@
 
 	    var datos = <?php echo $estados; ?>;
 	    var atributos = ["estado","descripcion"];
-	    customDataTable('#datatable', datos, atributos); 
+	    customDataTable('#datatable', datos, atributos);
+
+	    
 	});
 
 </script>
@@ -31,6 +33,8 @@
 
 			</tbody>
 		</table>
+
+		<input type="button" id="delete" class="btn btn-default btn-danger" value="Eliminar">
 	</div>
 
 </div>
