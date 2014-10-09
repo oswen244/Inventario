@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'dispositivos':
  * @property integer $id_disp
  * @property string $f_adquirido
- * @property integer $imei_ref
+ * @property string $imei_ref
  * @property string $comentario
  * @property string $ubicacion
  * @property integer $tipo_disp
@@ -37,7 +37,8 @@ class Dispositivo extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('f_adquirido, imei_ref, tipo_disp, id_estado', 'required'),
-			array('imei_ref, tipo_disp, id_estado', 'numerical', 'integerOnly'=>true),
+			array('tipo_disp, id_estado', 'numerical', 'integerOnly'=>true),
+			array('imei_ref', 'length', 'max'=>25),
 			array('comentario', 'length', 'max'=>1000),
 			array('ubicacion', 'length', 'max'=>200),
 			// The following rule is used by search().
@@ -54,7 +55,7 @@ class Dispositivo extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'detalleFacts' => array(self::MANY_MANY, 'DetalleFact', 'dispositivos_has_detalle_fact(Dispositivos_id_disp, Detalle_fact_id_detalle)'),
+			'detalleFacts' => array(self::HAS_MANY, 'DetalleFact', 'id_disp'),
 			'idEstado' => array(self::BELONGS_TO, 'Estados', 'id_estado'),
 			'tipoDisp' => array(self::BELONGS_TO, 'TipoDisp', 'tipo_disp'),
 			'sims' => array(self::HAS_MANY, 'Sims', 'imei_disp'),
@@ -97,7 +98,7 @@ class Dispositivo extends CActiveRecord
 
 		$criteria->compare('id_disp',$this->id_disp);
 		$criteria->compare('f_adquirido',$this->f_adquirido,true);
-		$criteria->compare('imei_ref',$this->imei_ref);
+		$criteria->compare('imei_ref',$this->imei_ref,true);
 		$criteria->compare('comentario',$this->comentario,true);
 		$criteria->compare('ubicacion',$this->ubicacion,true);
 		$criteria->compare('tipo_disp',$this->tipo_disp);

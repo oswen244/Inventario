@@ -18,13 +18,12 @@
 	});
 	function verifySelects(){
 		var selects = $("select");
-		var decision = true;
 		$.each(selects, function(index, val) {
 			if($("#"+val.id).val()==0){
-				decision = false;
+				return false;
 			}
 		});
-		return decision;
+		return true;
 	}
 	function reloadTypes(data){
 		var x = [];
@@ -55,7 +54,7 @@
 					<div class="form-group col-md-6">
 						<label for="dateAdq" class="col-md-5 control-label">Fecha de adquisición:</label>
 						<div class="col-md-7">
-							<input type="date" class="form-control" name="dateAdq" placeholder="dd/mm/aaaa">
+							<input type="date" class="form-control" name="dateAdq" placeholder="aaaa-mm-dd">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
@@ -109,16 +108,18 @@
 						<a id="link">Ingresar dipositivos por archivo</a>
 					</div>
 					<div class="form-group col-md-12">
-						<label class="col-md-2 control-label">Coomentario:</label>
+						<label class="col-md-2 control-label">Comentario:</label>
 						<div class="col-md-10 col-md-offset-2">
 							<textarea type="textArea" name="comentario" class="form-control" placeholder="Comentario..."></textarea>
 						</div>
 					</div>
-					<div class="col-md-4 col-md-offset-3">
-						<button id="btnGuardar" type="submit" class="btn btn-primary">Guardar dispositivo</button>
-					</div><br>
-					<div class="col-md-3">
-						<a href="#" class="btn btn-success">Cancelar</a>
+					<div class="buttons-submit col-md-9">
+						<div class="col-md-2 col-md-offset-5">
+							<button id="btnGuardar" type="submit" class="btn btn-primary">Guardar dispositivo</button>
+						</div>
+						<div class="col-md-2 col-md-offset-1">
+							<a href="#" class="btn btn-success">Cancelar</a>
+						</div>
 					</div>
 				</form>
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
