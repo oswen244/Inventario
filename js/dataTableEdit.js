@@ -66,9 +66,24 @@ function customDataTable(nombre, data, atributos) {
               
         });
 
-         $(nombre+' tbody').on( 'click', 'tr', function () {
-             $(this).toggleClass('selected');
+         // $(nombre+' tbody').on( 'click', 'tr', function () {
+         //     $(this).toggleClass('selected');
+         // } );
+
+
+          $(nombre+' tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
          } );
+ 
+        $('#delete').click( function () {
+            table.row('.selected').remove().draw( false );
+        } );
 
 
     //Quita la caja de texto guardando el valor que tenia en la celda

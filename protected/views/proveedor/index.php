@@ -12,12 +12,7 @@
 <h1 class="header-tittle">Proveedores</h1>
 
 <div class="content">
-	<?php $this->beginContent('//layouts/column1'); ?>
-
-		<li><a href="proveedor/create">Registrar proveedor</a></li>
 	
-	<?php $this->endContent(); ?>
-
 <div class="content-side">
 	<table id="proveedorTable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
