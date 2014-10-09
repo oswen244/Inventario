@@ -63,13 +63,17 @@ class DispositivoController extends Controller
 			$dispositivo->f_adquirido = $_POST['dateAdq'];
 			$dispositivo->imei_ref = $_POST['imei'];
 			$dispositivo->id_estado = $_POST['estado'];
-			// $dispositivo->tipo_disp = isset($_POST['tipoDispositivo']) ? $_POST['tipoDispositivo'] : 0;
-			if(isset($_POST['tipoDispositivo']))
-				$dispositivo->tipo_disp = $_POST['tipoDispositivo'];
-			// $dispositivo->save();
-			// $this->redirect(array('view','id'=>$dispositivo->id_disp));
-			$datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['imei']." ".$_POST['estado']." ".$_POST['proveedor']." ".$dispositivo->tipo_disp;
-			$this->render('view',array('datos'=>$datos));
+			$dispositivo->tipo_disp = $_POST['tipoDispositivo'];
+			$dispositivo->comentario = $_POST['comentario'];
+			if($dispositivo->save()){
+				echo "Dispositivo agregado correctamente";
+				$this->redirect('/inventario');
+			}else{
+				echo "No se pudo agregar el dispositivo, intente nuevamente";
+			}
+			
+			// $datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['imei']." ".$_POST['estado']." ".$_POST['proveedor']." ".$dispositivo->tipo_disp." ".$_POST['comentario'];
+			// $this->render('view',array('datos'=>$datos));
 		}else{
 			$this->render('create',array(
 				'model'=>$dispositivo,

@@ -33,7 +33,7 @@ function validar(formName){
 						message: 'The date is required'
 					},
 					date: {
-                        format: 'YYYY-MM-DD',
+                        format: 'DD/MM/YYYY',
                         message: 'The value is not a valid date'
                     }
 				}
