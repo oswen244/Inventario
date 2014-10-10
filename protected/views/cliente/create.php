@@ -1,6 +1,19 @@
 <script>
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
+
+		$('#form_clientes').submit(function(event) {
+			event.preventDefault();
+
+			var formulario = $(this).serialize();
+
+			 $.post('create', {data: formulario}, function(data) {
+            	success(data);
+        	});
+			 
+			 $('#form_clientes')[0].reset();
+			 
+		});
 	});
 </script>
 <h1 class="header-tittle">Clientes</h1>
@@ -14,7 +27,7 @@
 		  	</div>
 			<div class="panel-body">
 
-				<form class="form form-horizontal" action="create" method="post" role="form"><br>
+				<form id="form_clientes" class="form form-horizontal" action="create" method="post" role="form"><br>
 					<div class="form-group col-md-12">
 						<label for="nombre" class="col-md-2 control-label">Nombre:</label>
 						<div class="col-md-10">
@@ -22,10 +35,18 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="tipo_id" class="col-md-5 control-label">Tipo de ID:</label>
+						<label for="tipo_identi" class="col-md-5 control-label">Tipo de ID:</label>
 						<div class="col-md-7">
-							<select name="tipo_id" data-width="100%" class="selectpicker">
+							<select name="tipo_identi" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar tipo id</option>
+								<?php
+										$connection = Yii::app()->db;
+										$sql = "SELECT * FROM clientes";
+										$command=$connection->createCommand($sql);
+										$dataReader=$command->query();
+										foreach($dataReader as $row){?>
+											<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['tipo_identi'];?></option>
+								<?php }?>
 							</select>
 						</div>
 					</div>
@@ -39,7 +60,15 @@
 						<label class="col-md-5 control-label">Ciudad:</label>
 						<div class="col-md-7">
 							<select name="ciudad" data-width="100%" class="selectpicker">
-								<option value="0">Seleccionar ciudad</option>
+								<option value="">Seleccionar ciudad</option>
+								<?php
+										$connection = Yii::app()->db;
+										$sql = "SELECT * FROM clientes";
+										$command=$connection->createCommand($sql);
+										$dataReader=$command->query();
+										foreach($dataReader as $row){?>
+											<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['ciudad'];?></option>
+								<?php }?>
 							</select>
 						</div>
 					</div>
@@ -69,7 +98,7 @@
 							<button href="" type="submit" class="btn btn-primary">Registrar cliente</button>
 						</div>
 						<div class="col-md-2">
-							<button href="" type="submit" class="btn btn-success">Cancelar</button>
+							<a href="#" class="btn btn-success">Cancelar</a>
 						</div>
 					</div>					
 				</form>

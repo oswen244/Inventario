@@ -10,6 +10,9 @@
 			 $.post('create', {data: formulario}, function(data) {
             	success(data);
         	});
+			 
+			 $('#form_estado')[0].reset();
+			 
 		});
 
 	});
@@ -43,7 +46,7 @@
 							<button id="reg" type="submit" class="btn btn-primary">Registrar estado</button>
 						</div>
 						<div class="col-md-3 col-md-offset-1">
-							<button type="submit" class="btn btn-success">Cancelar</button>
+							<a href="#" class="btn btn-success">Cancelar</a>
 						</div>
 					</div>
 					

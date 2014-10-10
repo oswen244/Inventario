@@ -5,11 +5,15 @@
 		$('#form_plan').submit(function(event) {
 			event.preventDefault();
 
-			var formulario = $(this).serialize();
+			
+				var formulario = $(this).serialize();
 
-			 $.post('create', {data: formulario}, function(data) {
-            	success(data);
-        	});
+				 $.post('create', {data: formulario}, function(data) {
+	            	success(data);
+	        	});
+
+				 $('#form_estado')[0].reset();
+			
 		});
 
 	});
@@ -25,7 +29,7 @@
 		   		<h3 class="panel-title">Registrar Plan</h3>
 		  	</div>
 			<div class="panel-body">
-				<form id="form_plan" class="form form-horizontal" action="create" method="post" role="form"><br>
+				<form id="form_plan" class="form form-horizontal" role="form"><br>
 					
 					<div class="form-group col-md-9">
 						<label for="nombre_plan" class="col-md-5 control-label">Nombre del plan:</label>
@@ -71,10 +75,10 @@
 
 					<div class="buttons-submit col-md-12">
 						<div class="col-md-2 col-md-offset-4">
-							<button href="" type="submit" class="btn btn-primary">Registrar plan</button>
+							<button id="reg" href="" type="submit" class="btn btn-primary">Registrar plan</button>
 						</div>
 						<div class="col-md-2">
-							<button href="" type="submit" class="btn btn-success">Cancelar</button>
+							<a href="#" class="btn btn-success">Cancelar</a>
 						</div>
 					</div>					
 				</form>
