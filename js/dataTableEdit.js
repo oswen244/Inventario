@@ -78,6 +78,7 @@ function customDataTable(nombre, data, atributos) {
          } );
 
         $('#delete').click( function () {
+            success("ok");
             table.row('.selected').remove().draw( false );
         } );
 

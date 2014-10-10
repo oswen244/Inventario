@@ -131,7 +131,7 @@ class SimController extends Controller
 
 	public function actionAsignar()
 	{
-		
+		$this->render('asignar');
 	}
 
 	/**

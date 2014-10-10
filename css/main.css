@@ -32,6 +32,31 @@ a{
 	}
 }
 
+@media (max-width: 350px) {
+
+	.dataTables_wrapper .dataTables_filter input{
+		width: 8em;
+	}
+}
+
+@media (min-width: 400px) {
+
+	.actions{
+		display: none;
+	}
+}
+
+@media (max-width: 400px) {
+
+	.sidebar ul{
+		display: none;
+	}
+}
+
+.actions{
+	margin:10px;
+}
+
 #page
 {
 	margin-top: 5px;

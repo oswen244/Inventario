@@ -3,7 +3,7 @@
 	<div class="col-sm-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title">Asignar Simcard <?php echo "aqui va el numero imei"; ?></h3>
+				<h3 class="panel-title">Asignar Simcard</h3>
 			</div>
 			<div class="panel-body">
 				<form id="crearSimcar" class="form form-horizontal" method="post" role="form"><br>
@@ -12,8 +12,8 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Cliente:</label>
 						<div class="col-md-7">
-							<select id="cliente" name="cliente" class="selectpicker">
-								<option value="0">Seleccionar cliente</option>
+							<select id="cliente" name="cliente" data-width="100%" class="selectpicker">
+								<option value="">Seleccionar cliente</option>
 							</select>
 						</div>
 					</div>	
@@ -21,8 +21,8 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Estado:</label>
 						<div class="col-md-7">
-							<select id="select_estado" name="estado" class="selectpicker">
-								<option value="0">Seleccionar estado</option>
+							<select id="select_estado" name="estado" data-width="100%" class="selectpicker">
+								<option value="">Seleccionar estado</option>
 								<?php
 										$connection = Yii::app()->db;
 										$sql = "SELECT * FROM estados";
@@ -46,12 +46,38 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select id="tipoDisp" name="tipoDisp" class="selectpicker">
+							<select id="tipoDisp" name="tipoDisp" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar dispositivo</option>
 							</select>
 						</div>
 					</div>
+					
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Dispositivo:</label>
+						<div class="col-md-7">
+							<select id="dispositivo" name="dispositivo" data-width="100%" class="selectpicker">
+								<option value="">Seleccionar dispositivo</option>
+							</select>
+						</div>
+					</div>
 
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Tipo de Plan:</label>
+						<div class="col-md-7">
+							<select id="tipoPlan" name="tipoPlan" data-width="100%" class="selectpicker">
+								<option value="">Seleccionar tipo de plan</option>
+							</select>
+						</div>
+					</div>	
+
+					<div class="form-group col-md-6">
+						<label class="col-md-5 control-label">Plan:</label>
+						<div class="col-md-7">
+							<select id="plan" name="plan" data-width="100%" class="selectpicker">
+								<option value="">Seleccionar plan</option>
+							</select>
+						</div>
+					</div>		
 
 					<div class="form-group col-md-12 text-center">
 						<label class="col-md-3 control-label">Coomentarios:</label>

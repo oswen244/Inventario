@@ -21,6 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-select.min.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/dataTables.bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.dataTables.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 	<!-- Bootstrap -->
 
 	<!-- Latest compiled and minified CSS -->
@@ -37,6 +38,7 @@
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-select.min.js"></script>
 	<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-filestyle.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/validator.js"></script>
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -68,6 +70,7 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim">Listado de simcards</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim/create">Registrar simcard</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim/asignar">Asignar simcard</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">

@@ -6,7 +6,6 @@
 	    var atributos = ["estado","descripcion"];
 	    customDataTable('#datatable', datos, atributos);
 
-	    
 	});
 
 </script>
@@ -22,6 +21,14 @@
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
+		<div class="actions btn-group">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				Acciones <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="estado/create">Registrar estado</a></li>
+			</ul>
+		</div>
 		<table id="datatable" class="display responsive nowrap" width="100%" cellspacing="0">
 			<thead>
 				<tr>

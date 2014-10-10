@@ -62,21 +62,25 @@ class EstadoController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Estado;
+		$estado=new Estado;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		// $this->performAjaxValidation($estado);
 
-		if(isset($_POST['Estado']))
+		if(Yii::app()->request->isPostRequest)
 		{
-			$model->attributes=$_POST['Estado'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_estados));
+			parse_str($_POST['data'], $searcharray);
+			$estado->attributes=$searcharray;
+
+			if($estado->save()){
+				echo "El estado fue registrado correctamente";
+			}else{
+				echo "Error";
+			}
+		}else{
+			$this->render('create');
 		}
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
