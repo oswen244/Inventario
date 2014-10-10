@@ -1,9 +1,10 @@
 <script>
 	$(document).ready(function() {
-		validar("#crearDispositivo");
-		$('.selectpicker').selectpicker();
-		$(":file").filestyle();
-		$("#proveedor").on('change', function() {
+		validar("#crearDispositivo"); //Activa el bootstrapValidator
+		$('.selectpicker').selectpicker(); //Convierte los selects
+		$(":file").filestyle(); //Convierte los input tipo files
+		$('#infoDisp').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} ); //Crea el datatable
+		$("#proveedor").on('change', function() { //Cuando se cambia el proveedor se crean los tipos de dispositivos en el select respectivo
 			var id_proveedor = $("#proveedor").val();
 			if(id_proveedor!=0){
 				$.post('getTypes', {proveedor: id_proveedor}, function(data) {
@@ -12,18 +13,40 @@
 				});
 			}
 		});
-		$("#link").on('click', function() {
+		$("#tipoDispositivo").on('change', function() { //Acualiza la tabla de precios cuando se cambia un tipo de dispositivo
+			var id_dispositivo = $("#tipoDispositivo").val();
+			if(id_dispositivo!=0){
+				$.post('getPrices', {tipo: id_dispositivo}, function(data) {
+					reloadTable(data);
+				});
+			}
+			$('#infoDisp').ajax.reload();
+		});
+		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
 				$('#myModal').modal({backdrop: 'static'});
 		});
-	});
-	function verifySelects(){
-		var selects = $("select");
-		$.each(selects, function(index, val) {
-			if($("#"+val.id).val()==0){
-				return false;
-			}
+		$('#crearDispositivo').submit(function(event) {
+			event.preventDefault();
+			var formulario = $(this).serialize();
+			$.post('create', {data: formulario}, function(data) {
+            	success(data);
+        	});
 		});
-		return true;
+	});
+	function reloadTable(data){
+		var x = [];
+		x = JSON.parse(data);
+		$('#prices').empty();
+		$.each(x, function(index, element) {
+			var p = new Array();
+			var cont=1;
+			$.each(element, function(i, e) {
+				if(e==null){
+					e="-";
+				}
+				$('#prices').append('<td>'+e+'</td>');
+			});
+		});
 	}
 	function reloadTypes(data){
 		var x = [];
@@ -38,7 +61,7 @@
 				cont++;
 			});
 				$("#tipoDispositivo").append('<option value='+element[p[1]]+'>'+element[p[3]]+'</option>');
-			});
+		});
 			$("#tipoDispositivo").selectpicker('refresh');
 	}
 </script>
@@ -49,11 +72,11 @@
 				<h3 class="panel-title">Registrar dispositivo</h3>
 			</div>
 			<div class="panel-body">
-				<form id="crearDispositivo" action="create" class="form form-horizontal" method="post" role="form"><br>
+				<form id="crearDispositivo" class="form form-horizontal" role="form"><br>
 					<div class="form-group col-md-6">
-						<label for="dateAdq" class="col-md-5 control-label">Fecha de adquisición:</label>
+						<label for="date" class="col-md-5 control-label">Fecha de adquisición:</label>
 						<div class="col-md-7">
-							<input type="date" class="form-control" name="dateAdq" placeholder="aaaa-mm-dd">
+							<input type="date" class="form-control" name="date" placeholder="aaaa-mm-dd">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
@@ -106,33 +129,31 @@
 					<div class="form-group col-md-12 text-center">
 						<a id="link">Ingresar dipositivos por archivo</a>
 					</div>
-					<div class="table-responsive col-sm-10 col-sm-offset-1">
-						<div class="col-md-12">
-							<table class="table table-striped table-bordered table-hover  table-condensed">
-								<thead>
-									<tr>
-										<th>Prec_compra_sin_IVA</th>
-										<th>Prec_compra_con_IVA</th>
-										<th>Prec_venta_sin_IVA</th>
-										<th>Prec_venta_con_IVA</th>
-										<th>Comentario de tipo</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Prec_compra_sin_IVA</td>
-										<td>Prec_compra_con_IVA</td>
-										<td>Prec_venta_sin_IVA</td>
-										<td>Prec_venta_con_IVA</td>
-										<td>Prec_venta_con_IVA</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+					<div class="col-md-10 col-lg-offset-1">
+						<table id="infoDisp" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
+							<thead>
+								<tr>
+									<th>Prec_compra_sin_IVA</th>
+									<th>Prec_compra_con_IVA</th>
+									<th>Prec_venta_sin_IVA</th>
+									<th>Prec_venta_con_IVA</th>
+									<th>Descripción del tipo</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr id="prices" class="text-center">
+									<td>-</td>
+									<td>-</td>
+									<td>-</td>
+									<td>-</td>
+									<td>-</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 					<div class="form-group col-md-12">
 						<label class="col-md-2 control-label">Comentario:</label>
-						<div class="col-md-10 col-md-offset-2">
+						<div class="col-md-11 col-md-offset-1">
 							<textarea type="textArea" name="comentario" class="form-control" placeholder="Comentario..."></textarea>
 						</div>
 					</div>

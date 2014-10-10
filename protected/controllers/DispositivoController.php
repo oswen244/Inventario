@@ -32,7 +32,7 @@ class DispositivoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update','getTypes'),
+				'actions'=>array('admin','delete','create','update','getTypes','getPrices'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -60,20 +60,14 @@ class DispositivoController extends Controller
 	{
 		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
-			$dispositivo->f_adquirido = $_POST['dateAdq'];
-			$dispositivo->imei_ref = $_POST['imei'];
-			$dispositivo->id_estado = $_POST['estado'];
-			$dispositivo->tipo_disp = $_POST['tipoDispositivo'];
-			$dispositivo->comentario = $_POST['comentario'];
+			parse_str($_POST['data'], $searcharray);
+			$dispositivo->attributes=$searcharray;
 			if($dispositivo->save()){
 				echo "Dispositivo agregado correctamente";
-				$this->redirect('/inventario');
+				// $this->redirect('/inventario');
 			}else{
 				echo "No se pudo agregar el dispositivo, intente nuevamente";
 			}
-			
-			// $datos = "Me mandaste: ".$_POST['dateAdq']." ".$_POST['imei']." ".$_POST['estado']." ".$_POST['proveedor']." ".$dispositivo->tipo_disp." ".$_POST['comentario'];
-			// $this->render('view',array('datos'=>$datos));
 		}else{
 			$this->render('create',array(
 				'model'=>$dispositivo,
@@ -90,7 +84,18 @@ class DispositivoController extends Controller
 			$command=$connection->createCommand($sql);
 			$result=$command->queryAll();
 			echo CJSON::encode($result);
-			// echo json_encode($result);
+		}else{
+			echo "nada!";
+		}
+	}
+	// La función GetPrices() devuelve en un JSON los precios del tipo de dispositivo enviado por POST
+	public function actionGetPrices(){
+		if(Yii::app()->request->isPostRequest && isset($_POST['tipo'])){
+			$connection = Yii::app()->db;
+			$sql = "SELECT pc_siva, pc_iva, pv_siva, pv_iva, descripcion FROM tipo_disp WHERE id_tipo=".$_POST['tipo'];
+			$command=$connection->createCommand($sql);
+			$result=$command->queryAll();
+			echo CJSON::encode($result);
 		}else{
 			echo "nada!";
 		}
@@ -141,8 +146,12 @@ class DispositivoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Dispositivo::model();
-		$d = $model->findAll();
+		// $model = Dispositivo::model();
+		// $d = $model->findAll();
+		$connection = Yii::app()->db;
+		$sql = "SELECT * FROM detalles_disps";
+		$command=$connection->createCommand($sql);
+		$d=$command->queryAll();
 		$dispositivo = CJSON::encode($d);
 		$this->render('index', array('dispositivos' => $dispositivo));
 	}

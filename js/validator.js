@@ -27,7 +27,7 @@ function validar(formName){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			dateAdq: {
+			date: {
 				validators: {
 					notEmpty: {
 						message: 'The date is required'

@@ -15,7 +15,7 @@
 				<div class="form-group col-md-6">
 					<label for="dateAct" class="col-md-5 control-label">Fecha de activación:</label>
 					<div class="col-md-7">
-						<input type="date" class="form-control" name="dateAct" placeholder="dd/mm/aaaa">
+						<input type="date" class="form-control" name="dateAct" placeholder="aaaa-mm-dd">
 					</div>
 				</div>
 				<div class="form-group col-md-6">

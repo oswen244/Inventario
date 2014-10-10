@@ -2,10 +2,9 @@
 	$(document).ready(function() {
 		var datos = <?php echo $dispositivos; ?>;
 		var id = '#dispTable';
-		var atributos = ["imei_ref","f_adquirido","id_estado","comentario","ubicacion","tipo_disp"];
+		var atributos = ["Referencia","Fecha_Adq","Estado","Proveedor","Imei_ref"];
 		customDataTable(id, datos, atributos);
 	});
-
 </script>
 <h1 class="header-tittle">Dispositivos</h1>
 
@@ -17,9 +16,8 @@
 						<th>Referencia</th>
 						<th>Fecha adq</th>
 						<th>Estado</th>
-						<th>Comentario</th>
-						<th>Ubicación</th>
-						<th>Tipo</th>
+						<th>Proveedor</th>
+						<th>IMEI</th>
 					</tr>
 				</thead>
 				<tbody>
