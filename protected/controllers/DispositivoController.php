@@ -61,7 +61,16 @@ class DispositivoController extends Controller
 		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
 			parse_str($_POST['data'], $searcharray);
-			$dispositivo->attributes=$searcharray;
+			$values = array();
+			$dbNames = array_keys($dispositivo->attributes); //Obtiene los atributos de la tabla
+			unset($dbNames[0]); //excluye el(los) atributo(s) que no se usara(n)-->se debe conocer la posición en la tabla en el que se encuentra ese o esos campos
+			$dbNames = array_values($dbNames); //Reinicia las posiciones del array para que quede en 0 --> [0]=> [1]=>...
+			foreach ($searcharray as $key => $value) {
+				array_push($values, $value); //se arma el array values con las keys de searcharray
+			}
+
+			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
 			if($dispositivo->save()){
 				echo "Dispositivo agregado correctamente";
 				// $this->redirect('/inventario');

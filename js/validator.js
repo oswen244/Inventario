@@ -1,4 +1,4 @@
-function validar(formName){
+function validar(formName, ignorar){
 	$(formName)
 		.find('[name="estado"]')
         .selectpicker()
@@ -20,6 +20,7 @@ function validar(formName){
         .end()
         .bootstrapValidator({
 		container: 'tooltip',
+		// container: 'popover',
 		excluded: ':disabled',
 		feedbackIcons: {
 			valid: 'glyphicon glyphicon-ok',
@@ -121,18 +122,58 @@ function validar(formName){
 	            }
 	        }
 	    }
-	}).on('error.field.bv', function(e, data) {
+	})
+	.on('error.field.bv', function(e, data) {
             // Get the tooltip
-            var $parent = data.element.parents('.form-group'),
-                $icon   = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
-                title   = $icon.data('bs.tooltip').getTitle();
+        var $parent = data.element.parents('.form-group'),
+            $icon   = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+            title   = $icon.data('bs.tooltip').getTitle();
 
-            // Destroy the old tooltip and create a new one positioned to the right
-            $icon.tooltip('destroy').tooltip({
-                html: true,
-                placement: 'right',
-                title: title,
-                container: 'body'
+        // Destroy the old tooltip and create a new one positioned to the right
+        $icon.tooltip('destroy').tooltip({
+            html: true,
+            placement: 'right',
+            title: title,
+            container: 'body'
+        });
+    })
+	// .on('error.field.bv', function(e, data) {
+	//             // Get the popover
+	//             var $parent = data.element.parents('.form-group'),
+	//                 $icon   = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+	//                 content = $icon.data('bs.popover').getContent();
+
+	//             // Destroy the old tooltip and create a new one positioned to the right
+	//             $icon.popover('destroy').popover({
+	//                 html: true,
+	//                 placement: 'right',
+	//                 content: content,
+	//                 trigger: 'hover click',
+	//                 container: 'body'
+	//             });
+	//         })
+	.on('success.form.bv', function(e) {
+            // Prevent form submission
+            e.preventDefault();
+            // Get the form instance
+            var $form = $(e.target);
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+            var inputs = $form.find('[name]');
+            var ignorados = ":not([name='q1w2e3']";
+            $.each(ignorar, function(index, val) {
+            	ignorados+=",[name='"+val+"']";
             });
+            ignorados+=")";
+			var atributos = $(ignorados,$form).serialize();
+			alert(atributos);
+			// alert($(ignorados,$form).serialize());
+			// $.each(inputs, function(index, val) {
+			// 	$form.find('[name="'+val.name+'"]').attr('name',dbNames[index]); //Cambia el valor de los names a los pasados por parámetro
+			// });
+            $.post($form.attr('action'), {data: atributos}, function(result) {
+                alert(result);
+            });
+			
         });
 }

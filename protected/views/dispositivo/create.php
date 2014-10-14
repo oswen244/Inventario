@@ -1,9 +1,11 @@
 <script>
 	$(document).ready(function() {
-		validar("#crearDispositivo"); //Activa el bootstrapValidator
+		// var dbNames = ["f_adquirido", "imei_ref", "id_estado", "id_proveedor", "tipo_disp", "comentario"];
+		var ignorar = ["proveedor"];
+		validar("#crearDispositivo",ignorar); //Activa el bootstrapValidator
 		$('.selectpicker').selectpicker(); //Convierte los selects
 		$(":file").filestyle(); //Convierte los input tipo files
-		$('#infoDisp').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} ); //Crea el datatable
+		$('#infoDisp').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} ); //Crea el datatable sin paginación, sin filtros
 		$("#proveedor").on('change', function() { //Cuando se cambia el proveedor se crean los tipos de dispositivos en el select respectivo
 			var id_proveedor = $("#proveedor").val();
 			if(id_proveedor!=0){
@@ -20,18 +22,28 @@
 					reloadTable(data);
 				});
 			}
-			$('#infoDisp').ajax.reload();
+			// $('#infoDisp').ajax.reload();
 		});
 		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
 				$('#myModal').modal({backdrop: 'static'});
 		});
-		$('#crearDispositivo').submit(function(event) {
-			event.preventDefault();
-			var formulario = $(this).serialize();
-			$.post('create', {data: formulario}, function(data) {
-            	success(data);
-        	});
-		});
+		// $('#crearDispositivo').submit(function(event) {
+		// 	event.preventDefault();
+		//     var fields = $('#crearDispositivo').data('bootstrapValidator').getOptions().fields,
+		//         $parent;
+
+		//     for (var field in fields) {
+		//         $parent = $('[name="' + field + '"]').parent();
+		//         alert(field+"  "+$parent.html());
+		//     }
+		        
+		// 	// var formulario = $(this).serialize();
+		// 	// $.post('create', {data: formulario}, function(data) {
+  //  //          	success(data);
+  //  //      	});
+		// // alert(formulario);
+		// });
+		
 	});
 	function reloadTable(data){
 		var x = [];
@@ -72,7 +84,7 @@
 				<h3 class="panel-title">Registrar dispositivo</h3>
 			</div>
 			<div class="panel-body">
-				<form id="crearDispositivo" class="form form-horizontal" role="form"><br>
+				<form id="crearDispositivo" action="create" class="form form-horizontal" role="form"><br>
 					<div class="form-group col-md-6">
 						<label for="date" class="col-md-5 control-label">Fecha de adquisición:</label>
 						<div class="col-md-7">
