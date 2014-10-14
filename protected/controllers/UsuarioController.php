@@ -70,11 +70,8 @@ class UsuarioController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			parse_str($_POST['data'], $searcharray);
+			$searcharray['contrasena'] = sha1($searcharray['contrasena']);
 			$model->attributes=$searcharray;
-			$model->nombre=$searcharray['nombre'];
-			$model->usuario=$searcharray['usuario'];
-			$model->rol=$searcharray['rol'];
-			$model->contrasena=sha1($searcharray['contrasena']);
 			if($model->save()){
 				echo "El usuario fue registrado correctamente";
 			}

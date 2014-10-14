@@ -49,7 +49,7 @@
 						<label for="tipo_id" class="col-md-5 control-label">Contacto de:</label>
 						<div class="col-md-7">
 							<select name="tipo_entidad" data-width="100%" class="selectpicker">
-								<option value="0">Seleccionar entidad</option>
+								<option value="">Seleccionar entidad</option>
 							</select>
 						</div>
 					</div>

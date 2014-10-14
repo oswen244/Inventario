@@ -54,9 +54,12 @@
 						<label class="col-md-5 control-label">Ciudad:</label>
 						<div class="col-md-7">
 							<select name="ciudad" data-width="100%" class="selectpicker">
-								<option value="0">Seleccionar ciudad</option>
-								<option value="1">Barranquilla</option>
-								<option value="2">Bogotá</option>
+								<option value="">Seleccionar ciudad</option>
+								<option value="Barranquilla">Barranquilla</option>
+								<option value="Bogota">Bogotá</option>
+								<option value="Medellin">Medellin</option>
+								<option value="Cali">Cali</option>
+								<option value="Cartagena">Cartagena</option>
 							</select>
 						</div>
 					</div>

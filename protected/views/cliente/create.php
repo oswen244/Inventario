@@ -38,15 +38,9 @@
 						<label for="tipo_identi" class="col-md-5 control-label">Tipo de ID:</label>
 						<div class="col-md-7">
 							<select name="tipo_identi" data-width="100%" class="selectpicker">
-								<option value="0">Seleccionar tipo id</option>
-								<?php
-										$connection = Yii::app()->db;
-										$sql = "SELECT * FROM clientes";
-										$command=$connection->createCommand($sql);
-										$dataReader=$command->query();
-										foreach($dataReader as $row){?>
-											<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['tipo_identi'];?></option>
-								<?php }?>
+								<option value="">Seleccionar tipo id</option>
+								<option value="CC">CC</option>
+								<option value="NIT">NIT</option>
 							</select>
 						</div>
 					</div>
@@ -61,14 +55,11 @@
 						<div class="col-md-7">
 							<select name="ciudad" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar ciudad</option>
-								<?php
-										$connection = Yii::app()->db;
-										$sql = "SELECT * FROM clientes";
-										$command=$connection->createCommand($sql);
-										$dataReader=$command->query();
-										foreach($dataReader as $row){?>
-											<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['ciudad'];?></option>
-								<?php }?>
+								<option value="Barranquilla">Barranquilla</option>
+								<option value="Bogota">Bogotá</option>
+								<option value="Medellin">Medellin</option>
+								<option value="Cali">Cali</option>
+								<option value="Cartagena">Cartagena</option>
 							</select>
 						</div>
 					</div>
