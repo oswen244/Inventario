@@ -1,6 +1,19 @@
 <script>
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
+
+		$('#form_contacto').submit(function(event) {
+			event.preventDefault();
+
+			var formulario = $(this).serialize();
+
+			 $.post('create', {data: formulario}, function(data) {
+            	success(data);
+        	});
+			 
+			 $('#form_contacto')[0].reset();
+			 
+		});
 	});
 </script>
 <h1 class="header-tittle">Contactos</h1>
@@ -14,7 +27,7 @@
 		  	</div>
 			<div class="panel-body">
 
-				<form class="form form-horizontal" action="create" method="post" role="form"><br>
+				<form id="form_contacto" class="form form-horizontal" action="create" method="post" role="form"><br>
 					<div class="form-group col-md-12">
 						<label for="nombre" class="col-md-2 control-label">Nombre:</label>
 						<div class="col-md-10">
@@ -22,10 +35,12 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="tipo_id" class="col-md-5 control-label">Tipo de entidad:</label>
+						<label for="tipo_entidad" class="col-md-5 control-label">Tipo de entidad:</label>
 						<div class="col-md-7">
 							<select name="tipo_entidad" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar tipo entidad</option>
+								<option value="1">Cliente</option>
+								<option value="2">Proveedor</option>
 							</select>
 						</div>
 					</div>
@@ -39,13 +54,6 @@
 						</div>
 					</div>
 
-					<div class="form-group col-md-6">
-						<label class="col-md-5 control-label">Número de ID:</label>
-						<div class="col-md-7">
-							<input type="text" name="num_id" class="form-control" placeholder="Número ID">
-						</div>
-					</div>
-					
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Teléfono:</label>
 						<div class="col-md-7">

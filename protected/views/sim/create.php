@@ -1,3 +1,20 @@
+<script>
+	$(document).ready(function() {
+
+		$('#crearSimcard').submit(function(event) {
+			event.preventDefault();
+
+			var formulario = $(this).serialize();
+
+			 $.post('create', {data: formulario}, function(data) {
+            	success(data);
+        	});
+			 
+			 $('#crearSimcard')[0].reset();
+			 
+		});
+	});
+</script>
 <h1 class="header-tittle">Simcards</h1><br>
 <div class="col-sm-12">
 	<div class="panel panel-primary">

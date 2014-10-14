@@ -67,16 +67,23 @@ class UsuarioController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(Yii::app()->request->isPostRequest)
 		{
-			$model->attributes=$_POST['User'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_usuario));
-		}
+			parse_str($_POST['data'], $searcharray);
+			$model->attributes=$searcharray;
+			$model->nombre=$searcharray['nombre'];
+			$model->usuario=$searcharray['usuario'];
+			$model->rol=$searcharray['rol'];
+			$model->contrasena=sha1($searcharray['contrasena']);
+			if($model->save()){
+				echo "El usuario fue registrado correctamente";
+			}
+		}else{
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+			$this->render('create',array(
+				'model'=>$model,
+			));
+		}
 	}
 
 	/**

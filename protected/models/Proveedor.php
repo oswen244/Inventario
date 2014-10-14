@@ -6,10 +6,10 @@
  * The followings are the available columns in table 'proveedores':
  * @property integer $id_proveedor
  * @property string $nombre
- * @property string $tipo_id
+ * @property string $tipo_identi
  * @property string $num_id
- * @property string $direccion
  * @property string $ciudad
+ * @property string $direccion
  * @property string $telefono
  * @property string $email
  *
@@ -35,14 +35,14 @@ class Proveedor extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, tipo_id, num_id', 'required'),
-			array('nombre, direccion, ciudad, email', 'length', 'max'=>45),
-			array('tipo_id', 'length', 'max'=>10),
+			array('nombre, tipo_identi, num_id', 'required'),
+			array('nombre, ciudad, direccion, email', 'length', 'max'=>45),
+			array('tipo_identi', 'length', 'max'=>10),
 			array('num_id', 'length', 'max'=>30),
 			array('telefono', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_proveedor, nombre, tipo_id, num_id, direccion, ciudad, telefono, email', 'safe', 'on'=>'search'),
+			array('id_proveedor, nombre, tipo_identi, num_id, ciudad, direccion, telefono, email', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,10 +67,10 @@ class Proveedor extends CActiveRecord
 		return array(
 			'id_proveedor' => 'Id Proveedor',
 			'nombre' => 'Nombre',
-			'tipo_id' => 'Tipo',
+			'tipo_identi' => 'Tipo Identi',
 			'num_id' => 'Num',
-			'direccion' => 'Direccion',
 			'ciudad' => 'Ciudad',
+			'direccion' => 'Direccion',
 			'telefono' => 'Telefono',
 			'email' => 'Email',
 		);
@@ -96,10 +96,10 @@ class Proveedor extends CActiveRecord
 
 		$criteria->compare('id_proveedor',$this->id_proveedor);
 		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('tipo_id',$this->tipo_id,true);
+		$criteria->compare('tipo_identi',$this->tipo_identi,true);
 		$criteria->compare('num_id',$this->num_id,true);
-		$criteria->compare('direccion',$this->direccion,true);
 		$criteria->compare('ciudad',$this->ciudad,true);
+		$criteria->compare('direccion',$this->direccion,true);
 		$criteria->compare('telefono',$this->telefono,true);
 		$criteria->compare('email',$this->email,true);
 

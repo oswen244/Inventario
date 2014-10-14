@@ -1,6 +1,19 @@
 <script>
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
+
+		$('#form_proveedor').submit(function(event) {
+			event.preventDefault();
+
+			var formulario = $(this).serialize();
+
+			 $.post('create', {data: formulario}, function(data) {
+            	success(data);
+        	});
+			 
+			 $('#form_proveedor')[0].reset();
+			 
+		});
 	});
 </script>
 <h1 class="header-tittle">Proveedores</h1>
@@ -14,7 +27,7 @@
 		  	</div>
 			<div class="panel-body">
 
-				<form class="form form-horizontal" action="create" method="post" role="form"><br>
+				<form id="form_proveedor" class="form form-horizontal" action="create" method="post" role="form"><br>
 					<div class="form-group col-md-12">
 						<label for="nombre" class="col-md-2 control-label">Nombre:</label>
 						<div class="col-md-10">
@@ -22,10 +35,12 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="tipo_id" class="col-md-5 control-label">Tipo de ID:</label>
+						<label for="tipo_identi" class="col-md-5 control-label">Tipo de ID:</label>
 						<div class="col-md-7">
-							<select name="tipo_id" data-width="100%" class="selectpicker">
+							<select name="tipo_identi" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar tipo id</option>
+								<option value="1">CC</option>
+								<option value="2">NIT</option>
 							</select>
 						</div>
 					</div>
@@ -40,6 +55,8 @@
 						<div class="col-md-7">
 							<select name="ciudad" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar ciudad</option>
+								<option value="1">Barranquilla</option>
+								<option value="2">Bogotá</option>
 							</select>
 						</div>
 					</div>

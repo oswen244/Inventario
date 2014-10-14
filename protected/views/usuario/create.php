@@ -1,3 +1,20 @@
+<script>
+	$(document).ready(function() {
+
+		$('#form_usuario').submit(function(event) {
+			event.preventDefault();
+
+			var formulario = $(this).serialize();
+
+			 $.post('create', {data: formulario}, function(data) {
+            	success(data);
+        	});
+			 
+			 $('#form_usuario')[0].reset();
+			 
+		});
+	});
+</script>
 <h1 class="header-tittle">Usuarios</h1>
 
 <div class="content">
@@ -8,7 +25,7 @@
 		   		<h3 class="panel-title">Registrar Usuario</h3>
 		  	</div>
 			<div class="panel-body">
-				<form class="form form-horizontal" action="create" method="post" role="form"><br>
+				<form id="form_usuario" class="form form-horizontal" action="create" method="post" role="form"><br>
 					<div class="form-group col-md-9">
 						<label for="nombre" class="col-md-5 control-label">Nombre:</label>
 						<div class="col-md-7">
@@ -24,9 +41,9 @@
 					</div>
 					
 					<div class="form-group col-md-9">
-						<label for="perfil" class="col-md-5 control-label">Perfil:</label>
+						<label for="rol" class="col-md-5 control-label">Perfil:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="perfil" placeholder="Perfil">
+							<input type="text" class="form-control" name="rol" placeholder="Perfil">
 						</div>
 					</div>
 					<div class="form-group col-md-9">

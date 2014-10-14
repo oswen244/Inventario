@@ -67,16 +67,19 @@ class ProveedorController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Proveedor']))
+		if(Yii::app()->request->isPostRequest)
 		{
-			$model->attributes=$_POST['Proveedor'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_proveedor));
-		}
+			parse_str($_POST['data'], $searcharray);
+			$model->attributes=$searcharray;
+			if($model->save()){
+				echo "El proveedor fue registrado correctamente";
+			}
+		}else{
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+			$this->render('create',array(
+				'model'=>$model,
+			));
+		}
 	}
 
 	/**
