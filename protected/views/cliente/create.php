@@ -6,12 +6,13 @@
 			event.preventDefault();
 
 			var formulario = $(this).serialize();
-
 			 $.post('create', {data: formulario}, function(data) {
+            	// alert(data);
             	success(data);
+			 	$('#form_clientes')[0].reset();
+            	$(".selectpicker").selectpicker('refresh');
         	});
 			 
-			 $('#form_clientes')[0].reset();
 			 
 		});
 	});
@@ -31,7 +32,7 @@
 					<div class="form-group col-md-12">
 						<label for="nombre" class="col-md-2 control-label">Nombre:</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="nombre" placeholder="Nombre">
+							<input type="text" class="form-control" name="no.bre" placeholder="Nombre">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
@@ -66,7 +67,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Dirección:</label>
 						<div class="col-md-7">
-							<input type="text" name="direccion" class="form-control" placeholder="Dirección">
+							<input type="text" name="dir@cion" class="form-control" placeholder="Dirección">
 						</div>
 					</div>
 					<div class="form-group col-md-6">

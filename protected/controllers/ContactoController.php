@@ -32,7 +32,7 @@ class ContactoController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','getClients','getProveedores'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -67,16 +67,48 @@ class ContactoController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Contacto']))
+		if(Yii::app()->request->isPostRequest)
 		{
-			$model->attributes=$_POST['Contacto'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_contacto));
+			$data = str_replace('+', ' ', $_POST['data']);
+			$data = str_replace('%40', '@', $data);
+			$values = preg_split("/[&]?([a-zA-Z0-9\._\-@])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
+			
+			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$model->attributes=$atributos;
+			if($model->save()){ //se guardan los datos en la bd
+				echo "El contacto se registró correctamente";
+			}else{
+				echo "Error";
+			}
+		}else{
+			$this->render('create');
 		}
+	}
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+
+	public function actionGetClients(){
+		if(Yii::app()->request->isPostRequest){
+			$connection = Yii::app()->db;
+			$sql = "SELECT id_cliente, nombre FROM clientes";
+			$command=$connection->createCommand($sql);
+			$result=$command->queryAll();
+			echo CJSON::encode($result);
+		}else{
+			echo "nada!";
+		}
+	}
+
+	public function actionGetProveedores(){
+		if(Yii::app()->request->isPostRequest){
+			$connection = Yii::app()->db;
+			$sql = "SELECT id_proveedor, nombre FROM proveedores";
+			$command=$connection->createCommand($sql);
+			$result=$command->queryAll();
+			echo CJSON::encode($result);
+		}else{
+			echo "nada!";
+		}
 	}
 
 	/**

@@ -8,17 +8,17 @@
  * @property string $f_act
  * @property string $num_linea
  * @property string $imei_sc
+ * @property string $tipo_plan
  * @property string $comentario
- * @property integer $id_cliente
- * @property integer $id_estados
+ * @property integer $id_estado
  * @property integer $id_proveedor
- * @property integer $imei_disp
- * @property integer $tipo_plan
+ * @property integer $id_plan
+ * @property string $imei_disp
  *
  * The followings are the available model relations:
- * @property Planes[] $planes
- * @property Estados $idEstados
+ * @property Estados $idEstado
  * @property Proveedores $idProveedor
+ * @property Planes $idPlan
  * @property Dispositivos $imeiDisp
  */
 class Sim extends CActiveRecord
@@ -39,14 +39,16 @@ class Sim extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('f_act, num_linea, imei_sc, id_cliente, id_estados, id_proveedor, imei_disp', 'required'),
-			array('id_cliente, id_estados, id_proveedor, imei_disp, tipo_plan', 'numerical', 'integerOnly'=>true),
+			array('f_act, num_linea, imei_sc, tipo_plan, id_estado, id_proveedor, id_plan', 'required'),
+			array('id_estado, id_proveedor, id_plan', 'numerical', 'integerOnly'=>true),
 			array('num_linea', 'length', 'max'=>12),
 			array('imei_sc', 'length', 'max'=>30),
+			array('tipo_plan', 'length', 'max'=>15),
 			array('comentario', 'length', 'max'=>1000),
+			array('imei_disp', 'length', 'max'=>25),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_sim, f_act, num_linea, imei_sc, comentario, id_cliente, id_estados, id_proveedor, imei_disp, tipo_plan', 'safe', 'on'=>'search'),
+			array('id_sim, f_act, num_linea, imei_sc, tipo_plan, comentario, id_estado, id_proveedor, id_plan, imei_disp', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,9 +60,9 @@ class Sim extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'planes' => array(self::HAS_MANY, 'Planes', 'id_sim'),
-			'idEstados' => array(self::BELONGS_TO, 'Estados', 'id_estados'),
+			'idEstado' => array(self::BELONGS_TO, 'Estados', 'id_estado'),
 			'idProveedor' => array(self::BELONGS_TO, 'Proveedores', 'id_proveedor'),
+			'idPlan' => array(self::BELONGS_TO, 'Planes', 'id_plan'),
 			'imeiDisp' => array(self::BELONGS_TO, 'Dispositivos', 'imei_disp'),
 		);
 	}
@@ -75,14 +77,31 @@ class Sim extends CActiveRecord
 			'f_act' => 'F Act',
 			'num_linea' => 'Num Linea',
 			'imei_sc' => 'Imei Sc',
-			'comentario' => 'Comentario',
-			'id_cliente' => 'Id Cliente',
-			'id_estados' => 'Id Estados',
-			'id_proveedor' => 'Id Proveedor',
-			'imei_disp' => 'Imei Disp',
 			'tipo_plan' => 'Tipo Plan',
+			'comentario' => 'Comentario',
+			'id_estado' => 'Id Estado',
+			'id_proveedor' => 'Id Proveedor',
+			'id_plan' => 'Id Plan',
+			'imei_disp' => 'Imei Disp',
 		);
 	}
+	/**
+	 * @return array customized attributes
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'imei_sc',
+			'f_act',
+			'num_linea',
+			'id_plan',
+			'id_estado',
+			'id_proveedor',
+			'comentario',
+		);
+	}
+
+
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -106,12 +125,12 @@ class Sim extends CActiveRecord
 		$criteria->compare('f_act',$this->f_act,true);
 		$criteria->compare('num_linea',$this->num_linea,true);
 		$criteria->compare('imei_sc',$this->imei_sc,true);
+		$criteria->compare('tipo_plan',$this->tipo_plan,true);
 		$criteria->compare('comentario',$this->comentario,true);
-		$criteria->compare('id_cliente',$this->id_cliente);
-		$criteria->compare('id_estados',$this->id_estados);
+		$criteria->compare('id_estado',$this->id_estado);
 		$criteria->compare('id_proveedor',$this->id_proveedor);
-		$criteria->compare('imei_disp',$this->imei_disp);
-		$criteria->compare('tipo_plan',$this->tipo_plan);
+		$criteria->compare('id_plan',$this->id_plan);
+		$criteria->compare('imei_disp',$this->imei_disp,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

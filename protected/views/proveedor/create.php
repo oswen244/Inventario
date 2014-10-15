@@ -9,9 +9,10 @@
 
 			 $.post('create', {data: formulario}, function(data) {
             	success(data);
+			 	$('#form_proveedor')[0].reset();
+			 	$(".selectpicker").selectpicker('refresh');
         	});
 			 
-			 $('#form_proveedor')[0].reset();
 			 
 		});
 	});
@@ -39,8 +40,8 @@
 						<div class="col-md-7">
 							<select name="tipo_identi" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar tipo id</option>
-								<option value="1">CC</option>
-								<option value="2">NIT</option>
+								<option value="CC">CC</option>
+								<option value="NIT">NIT</option>
 							</select>
 						</div>
 					</div>

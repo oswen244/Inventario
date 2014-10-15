@@ -1,16 +1,23 @@
 <script>
 	$(document).ready(function() {
+		
+		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
+				$('#myModal').modal({backdrop: 'static'});
+		});
 
+	
 		$('#crearSimcard').submit(function(event) {
 			event.preventDefault();
 
-			var formulario = $(this).serialize();
+			var formulario = $('#crearSimcard').serialize();
 
 			 $.post('create', {data: formulario}, function(data) {
             	success(data);
+			 	$('#crearSimcard')[0].reset();
+            	$(".selectpicker").selectpicker('refresh');
+
         	});
 			 
-			 $('#crearSimcard')[0].reset();
 			 
 		});
 	});
@@ -22,7 +29,7 @@
 			<h3 class="panel-title">Registrar Simcard</h3>
 		</div>
 		<div class="panel-body">
-			<form id="crearSimcard" class="form form-horizontal" method="post" role="form"><br>
+			<form id="crearSimcard" class="form form-horizontal" action="create" method="post" role="form"><br>
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">IMEI:</label>
 					<div class="col-md-7">
@@ -41,11 +48,21 @@
 						<input type="text" name="numero" class="form-control" placeholder="N° de linea">
 					</div>
 				</div>
-				<div class="form-group col-md-6">
-					<label class="col-md-5 control-label">Tipo de plan:</label>
+				
+				<div  class="form-group col-md-6">
+					<label class="col-md-5 control-label">Plan:</label>
 					<div class="col-md-7">
-						<select id="tipoPlan" data-width="100%" name="tipoPlan" class="selectpicker">
-							<option value="">Seleccionar tipo de plan</option>
+						<select  id="plan" data-width="100%" name="plan" class="selectpicker">
+							<option value="">Seleccionar Plan</option>
+							<?php 
+								$connection = Yii::app()->db;
+								$sql = "SELECT id_plan, nombre_plan FROM planes";
+								$command=$connection->createCommand($sql);
+								$dataReader=$command->queryAll();
+								foreach($dataReader as $row){?>
+										<option value="<?php echo $row['id_plan'];?>"><?php echo $row['nombre_plan'];?></option>
+								<?php }?>
+							 ?>
 						</select>
 					</div>
 				</div>
@@ -60,16 +77,8 @@
 									$command=$connection->createCommand($sql);
 									$dataReader=$command->query();
 									foreach($dataReader as $row){?>
-										<option value="<?php echo $row['id_estados'];?>"><?php echo $row['estado'];?></option>
-									<?php $arrayEstados[] = $row['id_estados'];}?>
-						</select>
-					</div>
-				</div>
-				<div class="form-group col-md-6">
-					<label class="col-md-5 control-label">Plan:</label>
-					<div class="col-md-7">
-						<select id="plan" data-width="100%" name="plan" class="selectpicker">
-							<option value="">Seleccionar Plan</option>
+										<option value="<?php echo $row['id_estado'];?>"><?php echo $row['estado'];?></option>
+									<?php }?>
 						</select>
 					</div>
 				</div>
@@ -79,6 +88,14 @@
 					<div class="col-md-7">
 						<select id="proveedor" data-width="100%" name="proveedor" class="selectpicker">
 							<option value="">Seleccionar Proveedor</option>
+							<?php
+							$connection = Yii::app()->db;
+							$sql = "SELECT * FROM proveedores";
+							$command=$connection->createCommand($sql);
+							$dataReader=$command->query();
+							foreach($dataReader as $row){?>
+								<option value="<?php echo $row['id_proveedor'];?>"><?php echo $row['nombre'];?></option>
+							<?php }?>
 						</select>
 					</div>
 				</div>
@@ -105,6 +122,7 @@
 				</div>
 
 			</form>
+
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">

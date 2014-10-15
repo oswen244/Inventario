@@ -2,11 +2,12 @@
 $(document).ready(function() {
 	$('#form_estado').submit(function(event) {
 		event.preventDefault();
-		var formulario = $(this).serialize();
+
+		var formulario = $('#form_estado').serialize(); //":not(input[name=prueba])"-->se ignora el campo que no se desea serializar
 		$.post('create', {data: formulario}, function(data) {
 			success(data);
+			$('#form_estado')[0].reset();
 		});
-		$('#form_estado')[0].reset();
 	});
 });
 </script>
@@ -22,13 +23,14 @@ $(document).ready(function() {
 					<div class="form-group col-md-12">
 						<label for="estado" class="col-md-2 control-label">Nombre estado:</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="estado" placeholder="Nombre">
+							<input type="text" class="form-control" name="est" placeholder="Nombre">
 						</div>
 					</div>
+					
 					<div class="form-group col-md-12 text-center">
 						<label class="col-md-2 control-label">Comentario:</label>
 						<div class="col-md-10 col-md-offset-2">
-							<textarea type="textArea" name="descripcion" class="form-control" placeholder="Comentario..."></textarea>
+							<textarea type="textArea" name="desc" class="form-control" placeholder="Comentario..."></textarea>
 						</div>
 					</div>
 					<div class="buttons-submit col-md-10">

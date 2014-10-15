@@ -77,6 +77,22 @@ class Proveedor extends CActiveRecord
 	}
 
 	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'nombre',
+			'tipo_identi',
+			'num_id',
+			'ciudad',
+			'direccion',
+			'telefono',
+			'email',
+		);
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
 	 * Typical usecase:

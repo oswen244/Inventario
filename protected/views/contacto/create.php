@@ -2,17 +2,55 @@
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker();
 
+
+		$("#tipo_entidad").on('change', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
+
+			var id_tipo_entidad = $("#tipo_entidad").val();
+			if(id_tipo_entidad=='1'){				
+				$.post('getClients',  function(data) {
+					reloadTypes(data);
+				});
+			}else{
+				if(id_tipo_entidad=='2'){				
+					$.post('getProveedores',  function(data) {
+						reloadTypes(data);
+					});
+				}else{
+					$("#contactoDe").empty();
+					$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
+					$("#contactoDe").selectpicker('refresh');
+					
+				}
+			
+			}
+	});
+
+		function reloadTypes(data){
+			var x = [];
+			$('#contactoDe').empty();
+			$('#contactoDe').append('<option value="">Seleccionar entidad</option>');
+			x = JSON.parse(data);
+			$.each(x, function(index, element) {
+				var p = new Array();
+				var cont=1;
+				$.each(element, function(i, e) {
+					p[cont]= i;
+					cont++;
+				});
+				$("#contactoDe").append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
+			});
+			$("#contactoDe").selectpicker('refresh');
+		}
+
 		$('#form_contacto').submit(function(event) {
 			event.preventDefault();
 
-			var formulario = $(this).serialize();
-
+			var formulario = $('#form_contacto').serialize();
 			 $.post('create', {data: formulario}, function(data) {
             	success(data);
+			 	$('#form_contacto')[0].reset();
+			 	$(".selectpicker").selectpicker('refresh');
         	});
-			 
-			 $('#form_contacto')[0].reset();
-			 
 		});
 	});
 </script>
@@ -37,7 +75,7 @@
 					<div class="form-group col-md-6">
 						<label for="tipo_entidad" class="col-md-5 control-label">Tipo de entidad:</label>
 						<div class="col-md-7">
-							<select name="tipo_entidad" data-width="100%" class="selectpicker">
+							<select id="tipo_entidad" name="tipo_entidad" data-width="100%" class="selectpicker">
 								<option value="0">Seleccionar tipo entidad</option>
 								<option value="1">Cliente</option>
 								<option value="2">Proveedor</option>
@@ -46,9 +84,9 @@
 					</div>
 
 					<div class="form-group col-md-6">
-						<label for="tipo_id" class="col-md-5 control-label">Contacto de:</label>
+						<label for="contactoDe" class="col-md-5 control-label">Contacto de:</label>
 						<div class="col-md-7">
-							<select name="tipo_entidad" data-width="100%" class="selectpicker">
+							<select id="contactoDe" name="contactoDe" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar entidad</option>
 							</select>
 						</div>
@@ -71,7 +109,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Cargo:</label>
 						<div class="col-md-7">
-							<input type="text" name="email" class="form-control" placeholder="Cargo">
+							<input type="text" name="cargo" class="form-control" placeholder="Cargo">
 						</div>
 					</div>
 					

@@ -69,8 +69,14 @@ class ProveedorController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			parse_str($_POST['data'], $searcharray);
-			$model->attributes=$searcharray;
+			$data = str_replace('+', ' ', $_POST['data']);
+			$data = str_replace('%40', '@', $data);
+			$values = preg_split("/[&]?([a-zA-Z0-9\._\-@])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
+
+
+			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$model->attributes=$atributos;
 			if($model->save()){
 				echo "El proveedor fue registrado correctamente";
 			}

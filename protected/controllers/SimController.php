@@ -67,17 +67,29 @@ class SimController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Sim']))
+		if(Yii::app()->request->isPostRequest)
 		{
-			$model->attributes=$_POST['Sim'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_sim));
+			$data = str_replace('+', ' ', $_POST['data']);
+			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
+		
+			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$model->attributes=$atributos;
+			if($atributos['id_plan']==0){
+				$model->tipo_plan = "Prepago";
+			}else{
+				$model->tipo_plan = "Postpago";
+			}
+			if($model->save()){ //se guardan los datos en la bd
+				echo "La sim se registró correctamente";
+			}else{
+				echo "Error";
+			}
+		}else{
+			$this->render('create');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
+
 
 	/**
 	 * Updates a particular model.

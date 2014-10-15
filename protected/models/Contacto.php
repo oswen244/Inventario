@@ -72,6 +72,21 @@ class Contacto extends CActiveRecord
 	}
 
 	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'nombre',
+			'tipo_entidad',
+			'id_entidad',
+			'telefono',
+			'email',
+			'cargo',
+		);
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
 	 * Typical usecase:

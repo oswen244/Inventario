@@ -62,18 +62,22 @@ class EstadoController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$estado=new Estado;
+		$model=new Estado;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($estado);
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			parse_str($_POST['data'], $searcharray);
-			$estado->attributes=$searcharray;
+			$data = str_replace('+', ' ', $_POST['data']);
+			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
+			
+			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$model->attributes=$atributos; //se asignan los datos al modelo
 
-			if($estado->save()){
-				echo "El estado fue registrado correctamente";
+			if($model->save()){ //se guardan los datos en la bd
+				echo "El estado se registró correctamente";
 			}else{
 				echo "Error";
 			}
@@ -130,7 +134,7 @@ class EstadoController extends Controller
 		// $model = Estado::model();
 		// $est = $model->findAll();
 
-		$sql = "SELECT estado, descripcion FROM Estados";
+		$sql = "SELECT * FROM Estados";
 		$est = Yii::app()->db->createCommand($sql)->queryAll();
 		$estado = CJSON::encode($est); 
 

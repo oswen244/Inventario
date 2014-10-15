@@ -4,7 +4,7 @@
  * This is the model class for table "estados".
  *
  * The followings are the available columns in table 'estados':
- * @property integer $id_estados
+ * @property integer $id_estado
  * @property string $estado
  * @property string $descripcion
  *
@@ -34,7 +34,7 @@ class Estado extends CActiveRecord
 			array('descripcion', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_estados, estado, descripcion', 'safe', 'on'=>'search'),
+			array('id_estado, estado, descripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,7 +47,7 @@ class Estado extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'dispositivoses' => array(self::HAS_MANY, 'Dispositivos', 'id_estado'),
-			'sims' => array(self::HAS_MANY, 'Sims', 'id_estados'),
+			'sims' => array(self::HAS_MANY, 'Sims', 'id_estado'),
 		);
 	}
 
@@ -57,9 +57,19 @@ class Estado extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_estados' => 'Id Estados',
+			'id_estado' => 'Id Estado',
 			'estado' => 'Estado',
 			'descripcion' => 'Descripcion',
+		);
+	}
+	/**
+	 * @return array customized attributes
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'estado',
+			'descripcion',
 		);
 	}
 
@@ -81,7 +91,7 @@ class Estado extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_estados',$this->id_estados);
+		$criteria->compare('id_estado',$this->id_estado);
 		$criteria->compare('estado',$this->estado,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
 
