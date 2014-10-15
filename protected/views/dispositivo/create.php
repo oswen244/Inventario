@@ -1,8 +1,9 @@
 <script>
 	$(document).ready(function() {
-		// var dbNames = ["f_adquirido", "imei_ref", "id_estado", "id_proveedor", "tipo_disp", "comentario"];
+		// var dbNames = ["fecha", "imei", "estado", "proveedor", "t_disp", "coment"];
 		var ignorar = ["proveedor"];
-		validar("#crearDispositivo",ignorar); //Activa el bootstrapValidator
+		validar("#crearDispositivo"); //Activa el bootstrapValidator
+		// validar("#crearDispositivo",ignorar); //Activa el bootstrapValidator
 		$('.selectpicker').selectpicker(); //Convierte los selects
 		$(":file").filestyle(); //Convierte los input tipo files
 		$('#infoDisp').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} ); //Crea el datatable sin paginación, sin filtros
@@ -11,7 +12,7 @@
 			if(id_proveedor!=0){
 				$.post('getTypes', {proveedor: id_proveedor}, function(data) {
 					reloadTypes(data);
-					$("#crearDispositivo").bootstrapValidator('revalidateField', 'tipoDispositivo');
+					// $("#crearDispositivo").bootstrapValidator('revalidateField', 'texto');
 				});
 			}
 		});
@@ -27,23 +28,6 @@
 		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
 				$('#myModal').modal({backdrop: 'static'});
 		});
-		// $('#crearDispositivo').submit(function(event) {
-		// 	event.preventDefault();
-		//     var fields = $('#crearDispositivo').data('bootstrapValidator').getOptions().fields,
-		//         $parent;
-
-		//     for (var field in fields) {
-		//         $parent = $('[name="' + field + '"]').parent();
-		//         alert(field+"  "+$parent.html());
-		//     }
-		        
-		// 	// var formulario = $(this).serialize();
-		// 	// $.post('create', {data: formulario}, function(data) {
-  //  //          	success(data);
-  //  //      	});
-		// // alert(formulario);
-		// });
-		
 	});
 	function reloadTable(data){
 		var x = [];
@@ -86,21 +70,21 @@
 			<div class="panel-body">
 				<form id="crearDispositivo" action="create" class="form form-horizontal" role="form"><br>
 					<div class="form-group col-md-6">
-						<label for="date" class="col-md-5 control-label">Fecha de adquisición:</label>
+						<label class="col-md-5 control-label">Fecha de adquisición:</label>
 						<div class="col-md-7">
-							<input type="date" class="form-control" name="date" placeholder="aaaa-mm-dd">
+							<input type="date" class="form-control" name="fecha" placeholder="aaaa-mm-dd">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">IMEI o referencia:</label>
 						<div class="col-md-7">
-							<input type="text" name="imei" class="form-control" placeholder="IMEI o referencia">
+							<input type="text" name="texto" class="form-control" placeholder="IMEI o referencia">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Estado:</label>
 						<div class="col-md-7">
-							<select id="estado" data-width="100%" name="estado" class="selectpicker">
+							<select id="estado" data-width="100%" name="texto" class="selectpicker">
 								<option value="">Seleccionar estado</option>
 								<?php
 										$connection = Yii::app()->db;
@@ -108,7 +92,7 @@
 										$command=$connection->createCommand($sql);
 										$dataReader=$command->query();
 										foreach($dataReader as $row){?>
-											<option value="<?php echo $row['id_estados'];?>"><?php echo $row['estado'];?></option>
+											<option value="<?php echo $row['id_estado'];?>"><?php echo $row['estado'];?></option>
 										<?php }?>
 							</select>
 						</div>
@@ -116,7 +100,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Proveedor:</label>
 						<div class="col-md-7">
-							<select id="proveedor" data-width="100%" name="proveedor" class="selectpicker">
+							<select id="proveedor" data-width="100%" name="texto" class="ignorar selectpicker">
 								<option value="">Seleccionar proveedor</option>
 								<?php
 										$connection = Yii::app()->db;
@@ -132,7 +116,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select id="tipoDispositivo" data-width="100%" name="tipoDispositivo" class="selectpicker">
+							<select id="tipoDispositivo" data-width="100%" name="texto" class="selectpicker">
 								<option value="">Seleccionar Tipo de dispositivo</option>
 								<option value="">Debes escoger un proveedor</option>
 							</select>
@@ -187,11 +171,11 @@
 							</div>
 							<div class="modal-body">
 								<div class="row">
-									<form enctype="multipart/form-data" class="form form-horizontal" method="post" role="form">
+									<form id="fileForm" enctype="multipart/form-data" class="form form-horizontal" action="createByFile" role="form">
 										<div class="form-group col-md-12">
 											<label for="archivo" class="col-md-2 control-label">Archivo:</label>
 											<div class="col-md-7">
-												<input class="filestyle" data-buttonText="Examinar" data-buttonName="btn-primary" type="file" class="form-control" name="archivo">
+												<input class="filestyle" name="texto" data-buttonText="Examinar" data-buttonName="btn-primary" type="file" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-6 col-xs-offset-2">

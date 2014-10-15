@@ -65,6 +65,20 @@ class Dispositivo extends CActiveRecord
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'f_adquirido',
+			'imei_ref',
+			'id_estado',
+			'tipo_disp',
+			'comentario',
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
 	public function attributeLabels()
 	{
 		return array(

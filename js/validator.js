@@ -1,21 +1,21 @@
-function validar(formName, ignorar){
+function validar(formName){
 	$(formName)
-		.find('[name="estado"]')
+		.find('#estado')
         .selectpicker()
         .change(function(e) {
-            $(formName).bootstrapValidator('revalidateField', 'estado');
+            $(formName).bootstrapValidator('revalidateField', 'texto');
         })
         .end()
-        .find('[name="proveedor"]')
+        .find('#proveedor')
         .selectpicker()
         .change(function(e) {
-            $(formName).bootstrapValidator('revalidateField', 'proveedor');
+            $(formName).bootstrapValidator('revalidateField', 'texto');
         })
         .end()
-        .find('[name="tipoDispositivo"]')
+        .find('#tipoDispositivo')
         .selectpicker()
         .change(function(e) {
-            $(formName).bootstrapValidator('revalidateField', 'tipoDispositivo');
+            $(formName).bootstrapValidator('revalidateField', 'texto');
         })
         .end()
         .bootstrapValidator({
@@ -28,43 +28,22 @@ function validar(formName, ignorar){
 			validating: 'glyphicon glyphicon-refresh'
 		},
 		fields: {
-			date: {
+			fecha: {
 				validators: {
 					notEmpty: {
-						message: 'The date is required'
+						message: 'La fecha es requerida'
 					},
 					date: {
                         format: 'DD/MM/YYYY',
-                        message: 'The value is not a valid date'
+                        message: 'El valor introducido no es una fecha válida'
                     }
 				}
 			},
-			imei: {
+			texto: {
                 validators: {
                     notEmpty: {
-	                    message: 'The imei is required'
+	                    message: 'El campo es requerido'
 	                }
-                }
-            },
-            estado: {
-                validators: {
-                    notEmpty: {
-                        message: 'Debes seleccionar un estado'
-                    }
-                }
-            },
-            proveedor: {
-                validators: {
-                    notEmpty: {
-                        message: 'Debes seleccionar un proveedor'
-                    }
-                }
-            },
-            tipoDispositivo: {
-                validators: {
-                    notEmpty: {
-                        message: 'Debes seleccionar un tipo de dispositivo'
-                    }
                 }
             },
 	        // estado: {
@@ -126,8 +105,8 @@ function validar(formName, ignorar){
 	.on('error.field.bv', function(e, data) {
             // Get the tooltip
         var $parent = data.element.parents('.form-group'),
-            $icon   = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
-            title   = $icon.data('bs.tooltip').getTitle();
+            $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+            title = $icon.data('bs.tooltip').getTitle();
 
         // Destroy the old tooltip and create a new one positioned to the right
         $icon.tooltip('destroy').tooltip({
@@ -140,7 +119,7 @@ function validar(formName, ignorar){
 	// .on('error.field.bv', function(e, data) {
 	//             // Get the popover
 	//             var $parent = data.element.parents('.form-group'),
-	//                 $icon   = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
+	//                 $icon = $parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]'),
 	//                 content = $icon.data('bs.popover').getContent();
 
 	//             // Destroy the old tooltip and create a new one positioned to the right
@@ -159,20 +138,20 @@ function validar(formName, ignorar){
             var $form = $(e.target);
             // Get the BootstrapValidator instance
             var bv = $form.data('bootstrapValidator');
-            var inputs = $form.find('[name]');
-            var ignorados = ":not([name='q1w2e3']";
-            $.each(ignorar, function(index, val) {
-            	ignorados+=",[name='"+val+"']";
-            });
-            ignorados+=")";
-			var atributos = $(ignorados,$form).serialize();
+            // var inputs = $form.find('[name]');
+            // var ignorados = ":not([name='q1w2e3']";
+            // $.each(ignorar, function(index, val) {
+            // 	ignorados+=",[name='"+val+"']";
+            // });
+            // ignorados+=")";
+			var atributos = $(":not(.ignorar)",$form).serialize();
 			alert(atributos);
-			// alert($(ignorados,$form).serialize());
 			// $.each(inputs, function(index, val) {
 			// 	$form.find('[name="'+val.name+'"]').attr('name',dbNames[index]); //Cambia el valor de los names a los pasados por parámetro
 			// });
             $.post($form.attr('action'), {data: atributos}, function(result) {
                 alert(result);
+                $form.data('bootstrapValidator').resetForm();
             });
 			
         });
