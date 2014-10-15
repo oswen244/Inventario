@@ -1,18 +1,6 @@
 function validar(formName){
 	$(formName)
-		.find('#estado')
-        .selectpicker()
-        .change(function(e) {
-            $(formName).bootstrapValidator('revalidateField', 'texto');
-        })
-        .end()
-        .find('#proveedor')
-        .selectpicker()
-        .change(function(e) {
-            $(formName).bootstrapValidator('revalidateField', 'texto');
-        })
-        .end()
-        .find('#tipoDispositivo')
+		.find('.selectpicker')
         .selectpicker()
         .change(function(e) {
             $(formName).bootstrapValidator('revalidateField', 'texto');
@@ -54,49 +42,37 @@ function validar(formName){
 			      //       }
 	        // 	}
 	        // },
-	        // lastname: {
-	        //     validators: {
-	        //         notEmpty: {
-	        //             message: 'The LastName is required'
-	        //         },
-	        //         stringLength: {
-	        //             min: 6,
-	        //             max: 15,
-	        //             message: 'The Name must be more than 6 and less than 15 characters'
-	        //         }
-	        //     }
-	        // },
 	        email: {
 	            validators: {
 	            	notEmpty: {
-	                    message: 'The email is required'
+	                    message: 'El email es requerido'
 	                },
 	                emailAddress: {
-	                    message: 'The value is not a valid email address'
+	                    message: 'La dirección de correo electrónico ingresada no es válida'
 	                }
 	            }
 	        },
 	        password: {
 	            validators: {
 	            	notEmpty: {
-	                    message: 'The password is required'
+	                    message: 'La contraseña es requerida'
 	                },
-	                stringLength: {
-	                	min: 4,
-	                    max: 12,
-	                    message: 'The password must be more than 4 and less than 12 characters'
-	                },
-	                different: {
-	                    field: 'name',
-	                    message: 'The password cannot be the same as username'
-	                }
+	                // stringLength: {
+	                // 	min: 4,
+	                //     max: 12,
+	                //     message: 'El campo debe tener entre 4 y 12 caracteres'
+	                // },
+	                // different: {
+	                //     field: 'name',
+	                //     message: 'La contraseña no puede ser igual al nombre de usuario'
+	                // }
 	            }
 	        },
-	        confirmpassword: {
+	        confirmPassword: {
 	            validators: {
 	                identical: {
 	                    field: 'password',
-	                    message: 'The password and its confirm are not the same'
+	                    message: 'Los campos de contraseña no coinciden'
 	                }
 	            }
 	        }
@@ -132,25 +108,19 @@ function validar(formName){
 	//             });
 	//         })
 	.on('success.form.bv', function(e) {
-            // Prevent form submission
             e.preventDefault();
-            // Get the form instance
             var $form = $(e.target);
-            // Get the BootstrapValidator instance
             var bv = $form.data('bootstrapValidator');
-            // var inputs = $form.find('[name]');
-            // var ignorados = ":not([name='q1w2e3']";
-            // $.each(ignorar, function(index, val) {
-            // 	ignorados+=",[name='"+val+"']";
-            // });
-            // ignorados+=")";
 			var atributos = $(":not(.ignorar)",$form).serialize();
 			alert(atributos);
+            // var inputs = $form.find('[name]');
 			// $.each(inputs, function(index, val) {
-			// 	$form.find('[name="'+val.name+'"]').attr('name',dbNames[index]); //Cambia el valor de los names a los pasados por parámetro
+			// $form.find('[name="'+val.name+'"]').attr('name',dbNames[index]); //Cambia el valor de los names a los pasados por parámetro
 			// });
             $.post($form.attr('action'), {data: atributos}, function(result) {
                 alert(result);
+                $form[0].reset();
+                $(".selectpicker",$form).selectpicker('refresh');
                 $form.data('bootstrapValidator').resetForm();
             });
 			

@@ -60,14 +60,12 @@ class DispositivoController extends Controller
 	{
 		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
-			// parse_str($_POST['data'], $searcharray);
-			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $_POST['data'], null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
+			$data = str_replace('+', ' ', $_POST['data']);
+			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
 			$dbNames = $dispositivo->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
-			print_r($dbNames);
-			print_r($values);
-			print_r($atributos);
+			
 			if($dispositivo->save()){
 				echo "Dispositivo agregado correctamente";
 				// $this->redirect('/inventario');
