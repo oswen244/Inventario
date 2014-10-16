@@ -10,6 +10,7 @@ function validar(formName){
 		container: 'tooltip',
 		// container: 'popover',
 		excluded: ':disabled',
+		live: 'enabled',
 		feedbackIcons: {
 			valid: 'glyphicon glyphicon-ok',
 			invalid: 'glyphicon glyphicon-remove',

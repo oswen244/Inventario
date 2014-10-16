@@ -1,3 +1,4 @@
+<?php Yii::import('simpleExcel'); ?>
 <script>
 	$(document).ready(function() {
 		// var dbNames = ["fecha", "imei", "estado", "proveedor", "t_disp", "coment"];
