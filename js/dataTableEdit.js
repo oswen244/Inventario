@@ -49,7 +49,40 @@ function columnList(atributos){
     return structure.substring(0,structure.length-1);
 }
 
-function customDataTable(nombre, data, atributos) {
+function valoresDeFila(p){
+
+     var seleccionados = [];
+    $.each(p, function(index, val) {
+                var values = new Array();
+                $.each(val, function(index, valor) {
+                    values.push(valor);
+                });
+                seleccionados.push(values);    
+    });
+
+    return seleccionados;
+}
+
+function borrar(id, table, nombre){
+
+    $(id).click( function () {
+            // table.row('.selected').remove().draw( false );
+            var p = table.rows($('.selected')).data();
+            var seleccionados = valoresDeFila(p);
+            var ids ='';
+
+            $.each(seleccionados, function(index, val) {
+                ids += val[0][0]+',';
+            });
+
+            ids = ids.substring(0,ids.length-1);
+            $.post('delete', {data: ids}, function(data) {
+                 success(data);
+            });
+    });
+}
+
+function customDataTable(nombre, data, atributos, eliminar) {
         
         var columnas = columnList(atributos);
         // columnas = '[{"data": "id", "class": "center" },{ "data": "invdate", "class": "center" },{ "data": "client_id", "class": "center" },{ "data": "amount", "class": "center edit" },{ "data": "tax", "class": "center edit" },{ "data": "total", "class": "center edit" },{ "data": "note", "class": "center edit" }]';
@@ -77,10 +110,8 @@ function customDataTable(nombre, data, atributos) {
              });
          } );
 
-        $('#delete').click( function () {
-            success("ok");
-            table.row('.selected').remove().draw( false );
-        } );
+
+        borrar(eliminar, table, nombre);  
 
 
     //Quita la caja de texto guardando el valor que tenia en la celda

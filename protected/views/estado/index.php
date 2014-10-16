@@ -4,8 +4,8 @@
 
 	    var datos = <?php echo $estados; ?>;
 	    var atributos = ["estado","descripcion"];
-	    customDataTable('#datatable', datos, atributos);
-
+	    customDataTable('#datatable', datos, atributos, '#delete');
+	    	    
 	});
 
 </script>
