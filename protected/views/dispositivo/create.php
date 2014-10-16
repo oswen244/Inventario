@@ -2,11 +2,16 @@
 <script>
 	$(document).ready(function() {
 		// var dbNames = ["fecha", "imei", "estado", "proveedor", "t_disp", "coment"];
+		<?php if(isset($_POST['byFile'])){
+			$excel = new SimpleExcel('CSV');
+			$excel->parser->loadFile($_POST['byFile']); ?>
+			$("#selectFile").filestyle()
+			$('#myModal').modal({backdrop: 'static'});
+		<?php } ?>
 		var ignorar = ["proveedor"];
 		validar("#crearDispositivo"); //Activa el bootstrapValidator
-		// validar("#crearDispositivo",ignorar); //Activa el bootstrapValidator
 		$('.selectpicker').selectpicker(); //Convierte los selects
-		$(":file").filestyle(); //Convierte los input tipo files
+		$("#selectFile").filestyle(); //Convierte los input tipo files
 		$('#infoDisp').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} ); //Crea el datatable sin paginación, sin filtros
 		$("#proveedor").on('change', function() { //Cuando se cambia el proveedor se crean los tipos de dispositivos en el select respectivo
 			var id_proveedor = $("#proveedor").val();
@@ -23,6 +28,11 @@
 				$.post('getPrices', {tipo: id_dispositivo}, function(data) {
 					reloadTable(data);
 				});
+			}else{
+				$('#prices').empty();
+				for (var i = 0; i < 5; i++) {
+					$('#prices').append('<td>-</td>');
+				};
 			}
 			// $('#infoDisp').ajax.reload();
 		});
@@ -176,7 +186,7 @@
 										<div class="form-group col-md-12">
 											<label for="archivo" class="col-md-2 control-label">Archivo:</label>
 											<div class="col-md-7">
-												<input class="filestyle" name="texto" data-buttonText="Examinar" data-buttonName="btn-primary" type="file" class="form-control">
+												<input id="selectFile" class="filestyle" name="texto" data-buttonText="Examinar" data-buttonName="btn-primary" type="file" class="form-control">
 											</div>
 										</div>
 										<div class="col-xs-6 col-xs-offset-2">
