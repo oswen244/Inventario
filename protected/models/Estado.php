@@ -30,8 +30,8 @@ class Estado extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('estado', 'length', 'max'=>15),
-			array('descripcion', 'length', 'max'=>100),
+			array('estado', 'length', 'max'=>45),
+			array('descripcion', 'length', 'max'=>250),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_estado, estado, descripcion', 'safe', 'on'=>'search'),

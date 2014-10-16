@@ -4,8 +4,16 @@
 
 	    var datos = <?php echo $estados; ?>;
 	    var atributos = ["estado","descripcion"];
-	    customDataTable('#datatable', datos, atributos, '#delete');
-	    	    
+	    var table = customDataTable('#datatable', datos, atributos);
+
+	    $('#delete').click(function() {
+            var ids = listaIds(table);
+
+            $.post('delete', {data: ids}, function(data) {
+                 success(data);
+            });
+        });
+
 	});
 
 </script>
@@ -16,7 +24,7 @@
 <div class="content">
 	<?php $this->beginContent('//layouts/column1'); ?>
 
-		<li><a href="estado/create">Registrar estado</a></li>
+		<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/estado/create">Registrar estado</a></li>
 	
 	<?php $this->endContent(); ?>
 

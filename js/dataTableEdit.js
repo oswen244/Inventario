@@ -63,28 +63,26 @@ function valoresDeFila(p){
     return seleccionados;
 }
 
-function borrar(id, table, nombre){
+function listaIds(table){
+    var ids='';
 
-    $(id).click( function () {
-            // table.row('.selected').remove().draw( false );
-            var p = table.rows($('.selected')).data();
-            var seleccionados = valoresDeFila(p);
-            var ids ='';
+    var p = table.rows($('.selected')).data();
+    var seleccionados = valoresDeFila(p);
 
-            $.each(seleccionados, function(index, val) {
-                ids += val[0][0]+',';
-            });
-
-            ids = ids.substring(0,ids.length-1);
-            $.post('delete', {data: ids}, function(data) {
-                 success(data);
-            });
+    $.each(seleccionados, function(index, val) {
+        ids += val[0]+',';
     });
+
+    ids = ids.substring(0,ids.length-1);
+    table.row('.selected').remove().draw( false );         
+
+    return ids;
 }
 
-function customDataTable(nombre, data, atributos, eliminar) {
+function customDataTable(nombre, data, atributos) {
         
         var columnas = columnList(atributos);
+
         // columnas = '[{"data": "id", "class": "center" },{ "data": "invdate", "class": "center" },{ "data": "client_id", "class": "center" },{ "data": "amount", "class": "center edit" },{ "data": "tax", "class": "center edit" },{ "data": "total", "class": "center edit" },{ "data": "note", "class": "center edit" }]';
         columnas = '['+columnList(atributos)+']';
 
@@ -109,39 +107,33 @@ function customDataTable(nombre, data, atributos, eliminar) {
                 alert(val);
              });
          } );
+        
 
-
-        borrar(eliminar, table, nombre);  
-
-
+        
+        return table;
     //Quita la caja de texto guardando el valor que tenia en la celda
-    $(nombre+' tbody').on( 'blur', 'td', function () {
+   //  $(nombre+' tbody').on( 'blur', 'td', function () {
 
-        $(this).html($(this).find('input').val());
-        valAfter = $(this).html();
-        $(this).css('padding','8px');
-        var miArray = [];
+   //      $(this).html($(this).find('input').val());
+   //      valAfter = $(this).html();
+   //      $(this).css('padding','8px');
+   //      var miArray = [];
 
-        var datos = $(this).parent().find('td').each(function() {
-            miArray.push($(this).html());
-        });
+   //      var datos = $(this).parent().find('td').each(function() {
+   //          miArray.push($(this).html());
+   //      });
 
-        $.post('update', {data: miArray}, function(data) {
-            success(data);
-        });
-    });
+   //      $.post('update', {data: miArray}, function(data) {
+   //          success(data);
+   //      });
+   //  });
 
-    table.on( 'draw', function () {
+   //  table.on( 'draw', function () {
               
-        actualizarEdit(nombre);
-    });
+   //      actualizarEdit(nombre);
+   //  });
 
-   actualizarEdit(nombre);
+   // actualizarEdit(nombre);
 
-
-    /*Descomentar para colocar funcionalidad a un boton */
-    $('#button').click( function () {
-        alert( table.rows('.selected').data().length +' row(s) selected' );
-    });
 
 }

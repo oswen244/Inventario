@@ -70,12 +70,13 @@ class EstadoController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			$data = str_replace('+', ' ', $_POST['data']);
-			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			$data = str_replace('%0D%0A', '\n', $data);
+
+			$values = preg_split("/[&]?([a-zA-Z0-9\._\-@])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 			
 			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$model->attributes=$atributos; //se asignan los datos al modelo
-
 			if($model->save()){ //se guardan los datos en la bd
 				echo "El estado se registró correctamente";
 			}else{
@@ -119,12 +120,10 @@ class EstadoController extends Controller
 	public function actionDelete()
 	{
 
-		$deleteArray = $_POST['data']->toString();
-		// $this->loadModel($id)->delete();
+		//Preguntar si los estados a borrar estan vacios (no tienen dispositivos asociados)
 
-		// // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		// if(!isset($_GET['ajax']))
-		// 	$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
+		$est = Yii::app()->db->createCommand($sql)->query();
 	}
 
 	/**
