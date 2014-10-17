@@ -9,10 +9,10 @@
 				var formulario = $(this).serialize();
 
 				 $.post('create', {data: formulario}, function(data) {
-	            	success(data);
+	            	success(data,1);
 	        	});
 
-				 $('#form_estado')[0].reset();
+				 $('#form_plan')[0].reset();
 			
 		});
 

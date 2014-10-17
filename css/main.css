@@ -10,6 +10,9 @@ a{
 	cursor: pointer;
 }
 
+textarea{
+	resize:vertical;
+}
 
 @media (max-width: 1071px) {
 	ul.nav.navbar-nav li a {
@@ -64,6 +67,10 @@ a{
 	background: white;
 }
 
+.btnActions{
+	margin: 0 10px 20px 10px;
+	float: right;
+}
 
 nav.nav-bar ul li a{
 	color: #5E6061;

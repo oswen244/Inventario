@@ -29,7 +29,7 @@ class User extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('usuario, contrasena, rol', 'required'),
-			array('usuario, rol', 'length', 'max'=>15),
+			array('usuario, rol', 'length', 'max'=>30),
 			array('contrasena', 'length', 'max'=>75),
 			array('nombre', 'length', 'max'=>45),
 			// The following rule is used by search().

@@ -74,6 +74,8 @@ class UsuarioController extends Controller
 			$model->attributes=$searcharray;
 			if($model->save()){
 				echo "El usuario fue registrado correctamente";
+			}else{
+				echo "error";
 			}
 		}else{
 
@@ -112,13 +114,13 @@ class UsuarioController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		$sql = "DELETE FROM usuarios WHERE id_usuario IN (".$_POST['data'].") AND id_usuario<>1";
+		if(Yii::app()->db->createCommand($sql)->query())
+			echo "1";
+		else
+			echo "2";
 	}
 
 	/**

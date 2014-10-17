@@ -6,12 +6,12 @@
 		$("#tipo_entidad").on('change', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
 
 			var id_tipo_entidad = $("#tipo_entidad").val();
-			if(id_tipo_entidad=='1'){				
+			if(id_tipo_entidad=='Cliente'){				
 				$.post('getClients',  function(data) {
 					reloadTypes(data);
 				});
 			}else{
-				if(id_tipo_entidad=='2'){				
+				if(id_tipo_entidad=='Proveedor'){				
 					$.post('getProveedores',  function(data) {
 						reloadTypes(data);
 					});
@@ -47,7 +47,7 @@
 
 			var formulario = $('#form_contacto').serialize();
 			 $.post('create', {data: formulario}, function(data) {
-            	success(data);
+            	success(data,1);
 			 	$('#form_contacto')[0].reset();
 			 	$(".selectpicker").selectpicker('refresh');
         	});
@@ -76,9 +76,9 @@
 						<label for="tipo_entidad" class="col-md-5 control-label">Tipo de entidad:</label>
 						<div class="col-md-7">
 							<select id="tipo_entidad" name="tipo_entidad" data-width="100%" class="selectpicker">
-								<option value="0">Seleccionar tipo entidad</option>
-								<option value="1">Cliente</option>
-								<option value="2">Proveedor</option>
+								<option value="">Seleccionar tipo entidad</option>
+								<option value="Cliente">Cliente</option>
+								<option value="Proveedor">Proveedor</option>
 							</select>
 						</div>
 					</div>

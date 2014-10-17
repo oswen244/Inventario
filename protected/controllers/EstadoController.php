@@ -36,7 +36,7 @@ class EstadoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','deleteCascade'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -120,11 +120,37 @@ class EstadoController extends Controller
 	public function actionDelete()
 	{
 
-		//Preguntar si los estados a borrar estan vacios (no tienen dispositivos asociados)
+		$sql = "SELECT COUNT(id_disp) FROM dispositivos WHERE id_estado IN (".$_POST['data'].")";
+		$num = Yii::app()->db->createCommand($sql)->query();
 
-		$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
-		$est = Yii::app()->db->createCommand($sql)->query();
+		if($num=="0"){
+			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1,El(los) registro(s) se ha borrado";			
+			} catch (Exception $e) {
+				echo "3,Error: existen activos asociados con ese estado";
+			}
+		}else{
+			echo "3,Error: existen activos asociados con ese estado";
+		}
+		
 	}
+
+	public function actionDeleteCascade()
+	{
+
+			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1,El(los) registro(s) se ha borrado";			
+			} catch (Exception $e) {
+				echo "3,Error: existen activos asociados con ese estado";
+			}
+		
+	}
+
+	
 
 	/**
 	 * Lists all models.
