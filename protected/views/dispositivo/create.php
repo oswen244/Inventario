@@ -72,6 +72,7 @@
 			$("#tipoDispositivo").selectpicker('refresh');
 	}
 </script>
+<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bv_ES_es.js"></script>
 <h1 class="header-tittle">Dispositivos</h1><br>
 	<div class="col-sm-12">
 		<div class="panel panel-primary">
