@@ -121,6 +121,7 @@ class ProveedorController extends Controller
 	 */
 	public function actionDelete()
 	{
+
 		$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
 		if(Yii::app()->db->createCommand($sql)->query())
 			echo "1";

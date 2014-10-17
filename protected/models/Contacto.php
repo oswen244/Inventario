@@ -7,7 +7,7 @@
  * @property integer $id_contacto
  * @property string $nombre
  * @property string $telefono
- * @property integer $tipo_entidad
+ * @property string $tipo_entidad
  * @property string $cargo
  * @property string $email
  * @property integer $id_entidad
@@ -34,9 +34,10 @@ class Contacto extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre, tipo_entidad, email, id_entidad', 'required'),
-			array('tipo_entidad, id_entidad', 'numerical', 'integerOnly'=>true),
+			array('id_entidad', 'numerical', 'integerOnly'=>true),
 			array('nombre, cargo, email', 'length', 'max'=>45),
 			array('telefono', 'length', 'max'=>20),
+			array('tipo_entidad', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_contacto, nombre, telefono, tipo_entidad, cargo, email, id_entidad', 'safe', 'on'=>'search'),
@@ -107,7 +108,7 @@ class Contacto extends CActiveRecord
 		$criteria->compare('id_contacto',$this->id_contacto);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('telefono',$this->telefono,true);
-		$criteria->compare('tipo_entidad',$this->tipo_entidad);
+		$criteria->compare('tipo_entidad',$this->tipo_entidad,true);
 		$criteria->compare('cargo',$this->cargo,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('id_entidad',$this->id_entidad);

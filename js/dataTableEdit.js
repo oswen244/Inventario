@@ -86,17 +86,32 @@ function listaIds(table){ //Obtiene la lista de los ids de los registros que est
     return ids;
 }
 
-function borrar(table,modal,btnDelete){ 
+function borrar(table,modal,modalCascade,btnDelete,deleteCascade){ 
   var ids = listaIds(table);
   if (ids!=''){
-    $(modal).modal('show');
-    $(btnDelete).click(function() {
+    $(modal).modal();
+    $(btnDelete).one('click', function(event) {
+      event.preventDefault();
       $.post('delete', {data: ids}, function(data) {
-        if(data=="1"){
-          success("El(los) registro(s) se ha borrado",1);
+        data = data.split(',');
+        if(data[0]=="1"){
           table.row('.selected').remove().draw( false );
+          success(data[1],1);
         }else{
-          success("Error",3);
+          success(data[1],3);
+          $(modalCascade).modal();
+          $(brnDeleteCascade).click(function(event) {
+              $.post('delete', {data: ids}, function(data) {
+                 data = data.split(',');
+                 if(data[0]=="1"){
+                    table.row('.selected').remove().draw( false );
+                    success(data[1],1);
+                  }else{
+                    success(data[1],3); 
+                  }
+              });
+          });
+
         }
       });
     });
