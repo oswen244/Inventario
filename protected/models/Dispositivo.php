@@ -76,6 +76,18 @@ class Dispositivo extends CActiveRecord
 		);
 	}
 
+	public function getUpdatingAttributes()
+	{
+		return array(
+			'f_adquirido',
+			'imei_ref',
+			'id_estado',
+			'tipo_disp',
+			'comentario',
+			'ubicacion',
+		);
+	}
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

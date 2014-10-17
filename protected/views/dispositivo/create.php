@@ -8,7 +8,6 @@
 			$("#selectFile").filestyle()
 			$('#myModal').modal({backdrop: 'static'});
 		<?php } ?>
-		var ignorar = ["proveedor"];
 		validar("#crearDispositivo"); //Activa el bootstrapValidator
 		$('.selectpicker').selectpicker(); //Convierte los selects
 		$("#selectFile").filestyle(); //Convierte los input tipo files
@@ -72,7 +71,6 @@
 			$("#tipoDispositivo").selectpicker('refresh');
 	}
 </script>
-<script type="text/javascript" charset="utf8" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bv_ES_es.js"></script>
 <h1 class="header-tittle">Dispositivos</h1><br>
 	<div class="col-sm-12">
 		<div class="panel panel-primary">

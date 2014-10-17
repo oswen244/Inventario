@@ -45,11 +45,13 @@ class DispositivoController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$connection = Yii::app()->db;
+		$sql = "SELECT d.f_adquirido, d.imei_ref, d.id_estado, p.id_proveedor, d.tipo_disp, d.comentario, d.ubicacion FROM tipo_disp t, dispositivos d, proveedores p WHERE d.tipo_disp=t.id_tipo AND t.id_proveedor = p.id_proveedor AND d.id_disp =".$_POST['id'];
+		$command=$connection->createCommand($sql);
+		$result=$command->queryAll();
+		echo CJSON::encode($result);
 	}
 
 	/**
@@ -112,23 +114,30 @@ class DispositivoController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Dispositivo']))
-		{
-			$model->attributes=$_POST['Dispositivo'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_disp));
+		// $dispositivo=$this->loadModel($id);
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
+			// $data = str_replace('+', ' ', $_POST['data'].'.');
+			// $values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'imei_ref=:imei_ref';
+			$criteria->params = array(':imei_ref'=>$data[1]);
+			$dispositivo = Dispositivo::model()->find($criteria);
+			$dbNames = $dispositivo->getUpdatingAttributes(); //Obtiene solo los atributos para crear de la tabla
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
+			// print_r($data);
+			// print_r($atributos);
+			// print_r($dbNames);
+			if($dispositivo->save()){
+				echo "Dispositivo actualizado correctamente";
+				// $this->redirect('/inventario');
+			}else{
+				echo "No se pudo actualizar el dispositivo, intente nuevamente";
+			}
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -157,7 +166,9 @@ class DispositivoController extends Controller
 		$command=$connection->createCommand($sql);
 		$d=$command->queryAll();
 		$dispositivo = CJSON::encode($d);
-		$this->render('index', array('dispositivos' => $dispositivo));
+		if(!Yii::app()->request->isPostRequest){
+			$this->render('index', array('dispositivos' => $dispositivo));
+		}
 	}
 
 	public function actionDispositivos()

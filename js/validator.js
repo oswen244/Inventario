@@ -112,14 +112,13 @@ function validar(formName){
             e.preventDefault();
             var $form = $(e.target);
             var bv = $form.data('bootstrapValidator');
+			// alert(atributos);
+            $form.find('[name]').each(function(index, el) {
+				$(this).attr('name',index); //Cambia el valor de los names a los pasados por parámetro
+            });
 			var atributos = $(":not(.ignorar)",$form).serialize();
-			alert(atributos);
-            // var inputs = $form.find('[name]');
-			// $.each(inputs, function(index, val) {
-			// $form.find('[name="'+val.name+'"]').attr('name',dbNames[index]); //Cambia el valor de los names a los pasados por parámetro
-			// });
             $.post($form.attr('action'), {data: atributos}, function(result) {
-                alert(result);
+                success(result);
                 $form[0].reset();
                 $(".selectpicker",$form).selectpicker('refresh');
                 $form.data('bootstrapValidator').resetForm();
