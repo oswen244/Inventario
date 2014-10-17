@@ -121,9 +121,12 @@ class EstadoController extends Controller
 	{
 
 		//Preguntar si los estados a borrar estan vacios (no tienen dispositivos asociados)
-
+		
 		$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
-		$est = Yii::app()->db->createCommand($sql)->query();
+		if(Yii::app()->db->createCommand($sql)->query())
+			echo "1";
+		else
+			echo "2";
 	}
 
 	/**

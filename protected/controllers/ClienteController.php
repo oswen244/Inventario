@@ -116,13 +116,15 @@ class ClienteController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
+	public function actionDelete()
 	{
-		$this->loadModel($id)->delete();
+		//preguntar cuales clientes se pueden borrar TODO
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		$sql = "DELETE FROM clientes WHERE id_cliente IN (".$_POST['data'].")";
+		if(Yii::app()->db->createCommand($sql)->query())
+			echo "1";
+		else
+			echo "2";
 	}
 
 	/**
@@ -133,7 +135,7 @@ class ClienteController extends Controller
 		// $model = Cliente::model();
 		// $cl = $model->findAll();
 
-		$sql = "SELECT nombre,tipo_identi,num_id,ciudad,direccion,telefono,email FROM Clientes";
+		$sql = "SELECT * FROM Clientes";
 		$cl = Yii::app()->db->createCommand($sql)->queryAll();
 		$cliente = CJSON::encode($cl); 
 

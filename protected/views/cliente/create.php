@@ -7,8 +7,7 @@
 
 			var formulario = $(this).serialize();
 			 $.post('create', {data: formulario}, function(data) {
-            	// alert(data);
-            	success(data);
+            	success(data,1);
 			 	$('#form_clientes')[0].reset();
             	$(".selectpicker").selectpicker('refresh');
         	});

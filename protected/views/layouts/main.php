@@ -68,7 +68,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Simcard <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim">Listado de simcards</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim/index">Listado de simcards</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim/create">Registrar simcard</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/sim/asignar">Asignar simcard</a></li>
 							</ul>
@@ -76,29 +76,29 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Proveedores <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/proveedor">Listado de proveedores</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/proveedor/index">Listado de proveedores</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/proveedor/create">Registrar proveedores</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Clientes <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/cliente">Listado de clientes</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/cliente/index">Listado de clientes</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/cliente/create">Registrar clientes</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario">Listado de usuarios</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/index">Listado de usuarios</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/create">Registrar usuario</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Otras opciones <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/plan">Planes</a></li>
-								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/contacto">Contactos</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/plan/index">Planes</a></li>
+								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/contacto/index">Contactos</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/estado/index">Estados</a></li>
 							</ul>
 						</li>

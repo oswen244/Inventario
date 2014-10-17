@@ -7,7 +7,7 @@
 			var formulario = $(this).serialize();
 
 			 $.post('create', {data: formulario}, function(data) {
-            	success(data);
+            	success(data,1);
         	});
 			 
 			 $('#form_usuario')[0].reset();

@@ -20,7 +20,7 @@ function actualizarEdit(table){
 
 }
 
- function success(mensaje){
+ function success(mensaje,num){
 
         toastr.options = {
             "closeButton": false,
@@ -36,10 +36,17 @@ function actualizarEdit(table){
             "showMethod": "slideDown",
             "hideMethod": "slideUp"
         }
-        toastr.success(mensaje)
+        switch(num){
+          case 1: toastr.success(mensaje);break;
+          case 2: toastr.warning(mensaje);break;
+          case 3: toastr.error(mensaje);break;
+        }
+        
 }
 
-function columnList(atributos){
+
+
+function columnList(atributos){ //Genera la lista con los nombres de las columnas de la tabla
 
     var structure = '';
     for (var i = 0 ; i<atributos.length; i++) {
@@ -49,7 +56,7 @@ function columnList(atributos){
     return structure.substring(0,structure.length-1);
 }
 
-function valoresDeFila(p){
+function valoresDeFila(p){ //Obtiene los valores de los registros de la tabla
 
      var seleccionados = [];
     $.each(p, function(index, val) {
@@ -63,7 +70,7 @@ function valoresDeFila(p){
     return seleccionados;
 }
 
-function listaIds(table){
+function listaIds(table){ //Obtiene la lista de los ids de los registros que estan en la tabla
     var ids='';
 
     var p = table.rows($('.selected')).data();
@@ -74,17 +81,35 @@ function listaIds(table){
     });
 
     ids = ids.substring(0,ids.length-1);
-    table.row('.selected').remove().draw( false );         
+             
 
     return ids;
 }
 
+function borrar(table,modal,btnDelete){ 
+  var ids = listaIds(table);
+  if (ids!=''){
+    $(modal).modal('show');
+    $(btnDelete).click(function() {
+      $.post('delete', {data: ids}, function(data) {
+        if(data=="1"){
+          success("El(los) registro(s) se ha borrado",1);
+          table.row('.selected').remove().draw( false );
+        }else{
+          success("Error",3);
+        }
+      });
+    });
+  }else{success("No se ha seleccionado ninguna fila", 2)}
+
+}
+
 function customDataTable(nombre, data, atributos) {
-        
-        var columnas = columnList(atributos);
+
+ //-----------------------Generando la tabla----------------------------//
 
         // columnas = '[{"data": "id", "class": "center" },{ "data": "invdate", "class": "center" },{ "data": "client_id", "class": "center" },{ "data": "amount", "class": "center edit" },{ "data": "tax", "class": "center edit" },{ "data": "total", "class": "center edit" },{ "data": "note", "class": "center edit" }]';
-        columnas = '['+columnList(atributos)+']';
+        var columnas = '['+columnList(atributos)+']';
 
         columnas = JSON.parse(columnas);
         var table = $(nombre).DataTable( {
@@ -97,6 +122,8 @@ function customDataTable(nombre, data, atributos) {
               
         });
 
+//---------------------Metodos que trabajan con la tabla-----------------------//
+
          $(nombre+' tbody').on( 'click', 'tr', function () {
              $(this).toggleClass('selected');
          } );
@@ -107,8 +134,6 @@ function customDataTable(nombre, data, atributos) {
                 alert(val);
              });
          } );
-        
-
         
         return table;
     //Quita la caja de texto guardando el valor que tenia en la celda
