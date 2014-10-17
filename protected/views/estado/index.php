@@ -6,7 +6,7 @@
 	    var table = customDataTable('#datatable', <?php echo $estados; ?>, atributos);
 
 	    $('#dialog').click(function() {
-            borrar(table,'#myModal','#modalCascade','#delete');
+            borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
         });
 
         $('#datatable tr th').each(function() {

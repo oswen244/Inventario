@@ -36,7 +36,7 @@ class EstadoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','deleteCascade'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -120,9 +120,10 @@ class EstadoController extends Controller
 	public function actionDelete()
 	{
 
-		$num = "SELECT COUNT(id_disp) FROM dispositivos WHERE id_estado IN (".$_POST['data'].")";
+		$sql = "SELECT COUNT(id_disp) FROM dispositivos WHERE id_estado IN (".$_POST['data'].")";
+		$num = Yii::app()->db->createCommand($sql)->query();
 
-		if($num==0){
+		if($num=="0"){
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			try {
 				Yii::app()->db->createCommand($sql)->query();
@@ -133,6 +134,19 @@ class EstadoController extends Controller
 		}else{
 			echo "3,Error: existen activos asociados con ese estado";
 		}
+		
+	}
+
+	public function actionDeleteCascade()
+	{
+
+			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1,El(los) registro(s) se ha borrado";			
+			} catch (Exception $e) {
+				echo "3,Error: existen activos asociados con ese estado";
+			}
 		
 	}
 

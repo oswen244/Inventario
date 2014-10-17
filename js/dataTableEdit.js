@@ -100,8 +100,8 @@ function borrar(table,modal,modalCascade,btnDelete,deleteCascade){
         }else{
           success(data[1],3);
           $(modalCascade).modal();
-          $(brnDeleteCascade).click(function(event) {
-              $.post('delete', {data: ids}, function(data) {
+          $(deleteCascade).click(function(event) {
+              $.post('deleteCascade', {data: ids}, function(data) {
                  data = data.split(',');
                  if(data[0]=="1"){
                     table.row('.selected').remove().draw( false );
