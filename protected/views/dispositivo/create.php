@@ -39,7 +39,7 @@
 				$('#myModal').modal({backdrop: 'static'});
 		});
 	});
-	function reloadTable(data){
+	function reloadTable(data){ //Actualiza los valores de la tabla de precios
 		var x = [];
 		x = JSON.parse(data);
 		$('#prices').empty();
@@ -54,7 +54,7 @@
 			});
 		});
 	}
-	function reloadTypes(data){
+	function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependiendo del proveedor escogido
 		var x = [];
 		$('#tipoDispositivo').empty();
 		$('#tipoDispositivo').append('<option value="">Seleccionar Tipo de dispositivo</option>');
@@ -97,13 +97,13 @@
 							<select id="estado" data-width="100%" name="texto" class="selectpicker">
 								<option value="">Seleccionar estado</option>
 								<?php
-										$connection = Yii::app()->db;
-										$sql = "SELECT * FROM estados";
-										$command=$connection->createCommand($sql);
-										$dataReader=$command->query();
-										foreach($dataReader as $row){?>
-											<option value="<?php echo $row['id_estado'];?>"><?php echo $row['estado'];?></option>
-										<?php }?>
+									$connection = Yii::app()->db;
+									$sql = "SELECT * FROM estados";
+									$command=$connection->createCommand($sql);
+									$dataReader=$command->query();
+									foreach($dataReader as $row){?>
+										<option value="<?php echo $row['id_estado'];?>"><?php echo $row['estado'];?></option>
+									<?php }?>
 							</select>
 						</div>
 					</div>

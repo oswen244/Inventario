@@ -1,77 +1,118 @@
 <script type="text/javascript">
 	$(document).ready(function() {
-		validar("#editarDispositivo");
 		var datos = <?php echo $dispositivos; ?>;
 		var id = '#dispTable';
+		var x;
 		var atributos = ["Referencia","Fecha_Adq","Estado","Proveedor","Imei_ref"];
 		var nombres = ["Referencia:&nbsp","Tipo:&nbsp","Fecha de adquisición:&nbsp","Estado:&nbsp","Proveedor:&nbsp","IMEI:&nbsp","Precio de compra sin IVA:&nbsp","Precio de compra con IVA:&nbsp","Precio de venta sin IVA:&nbsp","Precio de venta con IVA:&nbsp","Comentario de dispositivo:&nbsp","Descripción del tipo de dispositivo:&nbsp","Ubicación:&nbsp"];
+		$("#proveedor").on('change', function() { //Cuando se cambia el proveedor se crean los tipos de dispositivos en el select respectivo
+			var id_proveedor = $("#proveedor").val();
+			if(id_proveedor!=0){
+				$.post('getTypes', {proveedor: id_proveedor}, function(data) {
+					reloadTypes(data);
+				});
+			}else{
+				$('#tipoDispositivo').empty().append('<option value="">Debes seleccionar un proveedor</option>');
+				$(".selectpicker").selectpicker("refresh");
+			}
+		});
+		// $('.selectpicker').on('change', function(event) {
+		// 	$(this).selectpicker('refresh');
+		// 	$('#editarDispositivo').bootstrapValidator('revalidateField', 'texto');
+		// });
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
 		pruebaDataTable(id, datos, atributos,nombres);
+		validar("#editarDispositivo");
 	});
 	function pruebaDataTable(nombre, data, atributos, nombres) {
-        
-        var columnas = columnList(atributos);
-        columnas = '['+columnList(atributos)+']';
 
+        // var columnas = columnList(atributos);
+        var columnas = '['+columnList(atributos)+']';
         columnas = JSON.parse(columnas);
-        var table = $(nombre).DataTable( {
+        var table = $(nombre).DataTable({
             data: data,
             dataType: "json",
             lengthMenu: [10, 20, 50, 75, 100 ],
             bLengthChange: true,
             columns: columnas
-              
         });
 
         $(nombre+' tbody').on( 'click', 'tr', function () {
             $(this).toggleClass('selected');
+            // alert(table.fnGetPosition( this ));
         } );
 
-		$(nombre+' tbody').on( 'dblclick', 'tr', function () {
-			$('tr').removeClass('selected');
-			$(this).toggleClass('selected');
-			var p = table.row($(this)).data();
+		$(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobre una fila de la tabla
+			// editado = $(this);
+			tr = $(this);
+			$('tr').removeClass('selected'); // Se quitan las columnas seleccionadas
+			$(this).toggleClass('selected'); // Sombrea la fila que se le hizo doble click por medio de la calse selected
+			var p = table.row($(this)).data(); //obtiene los datos de la fila a partir del datasource del dataTable
 			valores = new Array(); //variable global
 			$.each(p, function(index, val) {
-				valores.push(val);
+				valores.push(val); //se guardan únicamente los valores de la fila en un array
 			});
-			idDisp = valores[valores.length-1];
-			$('#modalInfoLabel').html('Información del dispositivo: '+idDisp);
-			$('#filas').html("");
-			$(nombres).each(function(index, val) {
-				if(valores[index]!=null){
-					$('#filas').append('<tr><td class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index]+'</td></tr>');
+			idDisp = valores[0]; //En la última posisición del Array está el id
+			$('#modalInfoLabel').html('Información del dispositivo: '+idDisp); //Título del modal de Info
+			$('#filas').empty(); //Se borra la info actual del modal de Info
+			$(nombres).each(function(index, val) { //Se coloca la información en el modal
+				if(valores[index+1]!=null){
+					$('#filas').append('<tr><td class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index+1]+'</td></tr>');
 				}else{
 					$('#filas').append('<tr><td class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
 				}
 			});
 			// table.ajax.reload();
-			$('#modalInfo').modal({backdrop: 'static'});
-			$.post('view', {id: idDisp}, function(data) {
+			$('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
+			$.post('view', {id: idDisp}, function(data) { //Se obtienen los datos para el modal de Edit
 				var x = JSON.parse(data);
-				var datos = new Array();
-				$.each(x[0], function(index, val) {
-					datos.push(val);
+				value = new Array(); //Variable global
+				$.each(x[0], function(index, val) { //Coloca los datos para editar en un array para luego asignarlo a cada campo de entrada
+					value.push(val);
 				});
-				$('form').find('[name]').each(function(index, el) {
-					$(this).val(datos[index]);
-					$(".selectpicker").selectpicker('refresh');
-					// alert(el.name+": "+datos[index]);
+			})
+			.done(function(){
+				$.post('getTypes', {proveedor: value[4]}, function(data) { //Busca los tipos de dispositivo del proveedor actual
+					reloadTypes(data);
+				})
+				.done(function(){
+					$('form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
+						$(this).val(value[index]);
+					});
+					$(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
 				});
 			});
         } );
         $('#btnEditar').on('click', function(event) {
         	event.preventDefault();
-        	// $('#modalInfo').modal('toggle');
-        	$('#modalEdit').modal({backdrop: 'static'});
+        	// $('#modalInfo').modal('toggle'); //Quita el modal de Info
+        	$('#modalEdit').modal({backdrop: 'static'}); //Muestra el modal de Edit
         });
-        $('#btnGuardar').on('click', function(event) {
+        $('#btnGuardar').on('click', function(event) { //Oculta el modal de Edit, las acciones las maneja el Bootstrap Validator en el evento success
         	$('#modalEdit').modal('toggle');
         });
-  //       $('#modalEdit').on('hidden.bs.modal', function (e) {
-        	
-		// });
+        $('#modalEdit').on('hidden.bs.modal', function (e) {
+        	$('#editarDispositivo')[0].reset();
+            $(".selectpicker",$('#editarDispositivo')).selectpicker('refresh');
+            $('#editarDispositivo').data('bootstrapValidator').resetForm();
+		});
 }
+
+function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependiendo del proveedor escogido
+		var x = [];
+		$('#tipoDispositivo').empty().append('<option value="">Seleccionar Tipo de dispositivo</option>');
+		x = JSON.parse(data);
+		$.each(x, function(index, element) {
+			var p = new Array();
+			var cont=1;
+			$.each(element, function(i, e) {
+				p[cont]= i;
+				cont++;
+			});
+				$("#tipoDispositivo").append('<option value='+element[p[1]]+'>'+element[p[3]]+'</option>');
+		});
+			$("#tipoDispositivo").selectpicker('refresh');
+	}
 </script>
 <h1 class="header-tittle">Dispositivos</h1>
 
@@ -186,14 +227,6 @@
 									<div class="col-md-7">
 										<select id="tipoDispositivo" data-width="100%" name="texto" class="selectpicker">
 											<option value="">Seleccionar Tipo de dispositivo</option>
-											<?php
-													$connection = Yii::app()->db;
-													$sql = "SELECT * FROM tipo_disp";
-													$command=$connection->createCommand($sql);
-													$dataReader=$command->query();
-													foreach($dataReader as $row){?>
-														<option value="<?php echo $row['id_tipo'];?>"><?php echo $row['nombre'];?></option>
-											<?php	}?>
 										</select>
 									</div>
 								</div>

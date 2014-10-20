@@ -32,7 +32,7 @@ class DispositivoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update','getTypes','getPrices'),
+				'actions'=>array('admin','delete','create','update','getTypes','getPrices','dataSource'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -62,10 +62,10 @@ class DispositivoController extends Controller
 	{
 		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
-			$data = str_replace('+', ' ', $_POST['data']);
-			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
+			parse_str($_POST['data'], $data);
+			// $values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
 			$dbNames = $dispositivo->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
-			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
 			
 			if($dispositivo->save()){
@@ -91,7 +91,7 @@ class DispositivoController extends Controller
 			$result=$command->queryAll();
 			echo CJSON::encode($result);
 		}else{
-			echo "nada!";
+			echo "No disponible";
 		}
 	}
 	// La función GetPrices() devuelve en un JSON los precios del tipo de dispositivo enviado por POST
@@ -103,7 +103,7 @@ class DispositivoController extends Controller
 			$result=$command->queryAll();
 			echo CJSON::encode($result);
 		}else{
-			echo "nada!";
+			echo "No disponible";
 		}
 	}
 
@@ -128,9 +128,6 @@ class DispositivoController extends Controller
 			$dbNames = $dispositivo->getUpdatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
-			// print_r($data);
-			// print_r($atributos);
-			// print_r($dbNames);
 			if($dispositivo->save()){
 				echo "Dispositivo actualizado correctamente";
 				// $this->redirect('/inventario');
@@ -154,6 +151,15 @@ class DispositivoController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
+	public function actionDataSource()
+	{
+		$connection = Yii::app()->db;
+		$sql = "SELECT * FROM detalles_disps";
+		$command=$connection->createCommand($sql);
+		$d=$command->queryAll();
+		echo CJSON::encode($d);
+	}
+
 	/**
 	 * Lists all models.
 	 */
@@ -165,9 +171,12 @@ class DispositivoController extends Controller
 		$sql = "SELECT * FROM detalles_disps";
 		$command=$connection->createCommand($sql);
 		$d=$command->queryAll();
-		$dispositivo = CJSON::encode($d);
-		if(!Yii::app()->request->isPostRequest){
+		if(Yii::app()->request->isPostRequest){
+			echo CJSON::encode($d);
+		}else{
+			$dispositivo = CJSON::encode($d);
 			$this->render('index', array('dispositivos' => $dispositivo));
+			// $this->render('index');
 		}
 	}
 
