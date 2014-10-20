@@ -1,3 +1,30 @@
+<script>
+	$(document).on('ready', function(event) {
+		$('#tipoDispositivo').on('change', function(event) {
+			if($('#tipoDispositivo').val()!=0){
+				$.post('getDisps', {id_tipo: $('#tipoDispositivo').val()})
+				.done(function(data){
+					// reloadDisps(data);
+				});
+			}
+		});
+	});
+	// function reloadDisps(data){ //Actualiza el select de dispositivos dependiendo del tipo escogido
+	// 	var x = [];
+	// 	$('#dispositivo').empty().append('<option value="">Seleccionar Dispositivo</option>');
+	// 	x = JSON.parse(data);
+	// 	$.each(x, function(index, element) {
+	// 		var p = new Array();
+	// 		var cont=1;
+	// 		$.each(element, function(i, e) {
+	// 			p[cont]= i;
+	// 			cont++;
+	// 		});
+	// 			$("#dispositivo").append('<option value='+element[p[1]]+'>'+element[p[3]]+'</option>');
+	// 	});
+	// 		$("#dispositivo").selectpicker('refresh');
+	// }
+</script>
 <h1 class="header-tittle">Simcards</h1><br>
 <div class="content">
 	<div class="col-sm-12">
@@ -7,97 +34,67 @@
 			</div>
 			<div class="panel-body">
 				<form id="crearSimcar" class="form form-horizontal" method="post" role="form"><br>
-
-
-					<div class="form-group col-md-6">
-						<label class="col-md-5 control-label">Cliente:</label>
-						<div class="col-md-7">
-							<select id="cliente" name="cliente" data-width="100%" class="selectpicker">
-								<option value="">Seleccionar cliente</option>
-							</select>
-						</div>
-					</div>	
-
-					<div class="form-group col-md-6">
-						<label class="col-md-5 control-label">Estado:</label>
-						<div class="col-md-7">
-							<select id="select_estado" name="estado" data-width="100%" class="selectpicker">
-								<option value="">Seleccionar estado</option>
-								<?php
-										$connection = Yii::app()->db;
-										$sql = "SELECT * FROM estados";
-										$command=$connection->createCommand($sql);
-										$dataReader=$command->query();
-										foreach($dataReader as $row){?>
-											<option value="<?php echo $row['id_estados'];?>"><?php echo $row['estado'];?></option>
-										<?php $arrayEstados[] = $row['id_estados'];}?>
-							</select>
-						</div>
-					</div>
-
 					<div class="form-group col-md-6">
 						<label for="dateAsi" class="col-md-5 control-label">Fecha de asignación:</label>
 						<div class="col-md-7">
-							<input type="date" class="form-control" name="dateAsi" placeholder="dd/mm/aaaa">
+							<input type="date" class="form-control" name="fecha" placeholder="dd/mm/aaaa">
 						</div>
 					</div>
-
-					
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select id="tipoDisp" name="tipoDisp" data-width="100%" class="selectpicker">
-								<option value="0">Seleccionar dispositivo</option>
+							<select id="tipoDispositivo" name="text" data-width="100%" class="selectpicker">
+								<option value="">Seleccionar dispositivo</option>
+								<?php
+								$connection = Yii::app()->db;
+								$sql = "SELECT * FROM tipo_disp WHERE usa_sim='si'";
+								$command=$connection->createCommand($sql);
+								$dataReader=$command->query();
+								foreach($dataReader as $row){?>
+									<option value="<?php echo $row['id_tipo'];?>"><?php echo $row['nombre'];?></option>
+								<?php }?>
 							</select>
 						</div>
 					</div>
-					
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Dispositivo:</label>
 						<div class="col-md-7">
-							<select id="dispositivo" name="dispositivo" data-width="100%" class="selectpicker">
+							<select id="dispositivo" name="text" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar dispositivo</option>
 							</select>
 						</div>
 					</div>
-
-					<div class="form-group col-md-6">
-						<label class="col-md-5 control-label">Tipo de Plan:</label>
-						<div class="col-md-7">
-							<select id="tipoPlan" name="tipoPlan" data-width="100%" class="selectpicker">
-								<option value="">Seleccionar tipo de plan</option>
-							</select>
-						</div>
-					</div>	
-
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Plan:</label>
 						<div class="col-md-7">
-							<select id="plan" name="plan" data-width="100%" class="selectpicker">
+							<select id="plan" name="text" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar plan</option>
+								<?php
+								$connection = Yii::app()->db;
+								$sql = "SELECT * FROM planes";
+								$command=$connection->createCommand($sql);
+								$dataReader=$command->query();
+								foreach($dataReader as $row){?>
+									<option value="<?php echo $row['id_plan'];?>"><?php echo $row['nombre_plan'];?></option>
+								<?php }?>
 							</select>
 						</div>
-					</div>		
-
+					</div>
 					<div class="form-group col-md-12 text-center">
 						<label class="col-md-3 control-label">Coomentarios:</label>
 						<div class="col-md-9 col-md-offset-2">
 							<textarea type="textArea" name="comentario" class="form-control" placeholder="Comentario..."></textarea>
 						</div>
 					</div>
-
-
-					<div class="buttons-submit col-md-10">
-						<div class="col-md-2 col-md-offset-4">
-							<button href="" type="submit" class="btn btn-primary">Asignar simcard</button>
+					<div class="buttons-submit col-md-9">
+						<div class="col-md-2 col-md-offset-5">
+							<button id="btnAsignar" type="submit" class="btn btn-primary">Asignar simcard</button>
 						</div>
-						<div class="col-md-3 col-md-offset-1">
-							<button href="" type="submit" class="btn btn-success">Cancelar</button>
+						<div class="col-md-2 col-md-offset-1">
+							<a href="#" class="btn btn-success">Cancelar</a>
 						</div>
-					</div>	
-
+					</div>
 				</form>
-				
 			</div>
 		</div>
 	</div>

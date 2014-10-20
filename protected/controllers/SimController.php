@@ -36,10 +36,10 @@ class SimController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','asignar'),
+				'actions'=>array('admin','delete','asignar','getDisps'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny all users
+			array('deny', // deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -54,6 +54,16 @@ class SimController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+
+	public function actionGetDisps(){
+		if(Yii::app()->request->isPostRequest && isset($_POST['id_tipo'])){
+			$connection = Yii::app()->db;
+			$sql = "SELECT * FROM dispositivos WHERE tipo_disp=".$_POST['id_tipo'];
+			$command=$connection->createCommand($sql);
+			$result=$command->queryAll();
+			echo CJSON::encode($result);
+		}
 	}
 
 	/**
@@ -145,7 +155,9 @@ class SimController extends Controller
 
 	public function actionAsignar()
 	{
-		$this->render('asignar');
+		echo	$data['tipo_disp'];
+		echo	$data['imei'];
+		// $this->render('asignar');
 	}
 
 	/**

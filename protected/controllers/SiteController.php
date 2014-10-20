@@ -31,7 +31,7 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		// $this->render('login');
-		$this->redirect(Yii::app()->homeUrl.'dispositivo');
+		$this->redirect(Yii::app()->homeUrl.'dispositivo/index');
 	}
 
 	public function actionDispositivos()
@@ -101,7 +101,7 @@ class SiteController extends Controller
 			$model->username=$_POST['username'];
 			$model->password=$_POST['password'];
 			if($model->login()){
-				$this->redirect(Yii::app()->homeUrl.'dispositivo');
+				$this->redirect(Yii::app()->homeUrl.'dispositivo/index');
 			}
 		}
 		// $this->redirect('index');

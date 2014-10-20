@@ -32,7 +32,7 @@ class DispositivoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update','getTypes','getPrices','dataSource'),
+				'actions'=>array('admin','delete','create','update','getTypes','getPrices','dataSource','asignar'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -78,6 +78,18 @@ class DispositivoController extends Controller
 			$this->render('create',array(
 				'model'=>$dispositivo,
 			));
+		}
+	}
+
+	public function actionAsignar()
+	{
+		if(Yii::app()->request->isPostRequest){
+			$data['tipo_disp'] = $_POST['tipo_disp'];
+			$data['imei'] = $_POST['imei'];
+			$data['informado'] = "1";
+			// $this->renderPartial('/sim/asignar', array('data' => json_encode($data)));
+			$html = $this->render('//sim/asignar', array('data' => json_encode($data)), true);
+			echo $html;
 		}
 	}
 

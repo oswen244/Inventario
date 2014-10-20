@@ -16,16 +16,17 @@
 				$(".selectpicker").selectpicker("refresh");
 			}
 		});
-		// $('.selectpicker').on('change', function(event) {
-		// 	$(this).selectpicker('refresh');
-		// 	$('#editarDispositivo').bootstrapValidator('revalidateField', 'texto');
-		// });
+		$('#btnAsignar').on('click', function(event) {
+			event.preventDefault();
+			$('#modalInfo').modal('toggle');
+			$.post('asignar', {tipo_disp: valores[2], imei: valores[6]});
+		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
 		pruebaDataTable(id, datos, atributos,nombres);
 		validar("#editarDispositivo");
 	});
 	function pruebaDataTable(nombre, data, atributos, nombres) {
-
+		
         // var columnas = columnList(atributos);
         var columnas = '['+columnList(atributos)+']';
         columnas = JSON.parse(columnas);
@@ -57,32 +58,35 @@
 			$('#filas').empty(); //Se borra la info actual del modal de Info
 			$(nombres).each(function(index, val) { //Se coloca la información en el modal
 				if(valores[index+1]!=null){
-					$('#filas').append('<tr><td class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index+1]+'</td></tr>');
+					$('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index+1]+'</td></tr>');
 				}else{
-					$('#filas').append('<tr><td class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
+					$('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
 				}
 			});
+			if(valores[valores.length-1]=='no'){
+				$('#btnAsignar').addClass('disabled');
+			}else{
+				$('#btnAsignar').removeClass('disabled');
+			}
 			// table.ajax.reload();
 			$('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
-			$.post('view', {id: idDisp}, function(data) { //Se obtienen los datos para el modal de Edit
+			$.post('view', {id: idDisp}) //Se obtienen los datos para el modal de Edit
+			.done(function(data){
 				var x = JSON.parse(data);
-				value = new Array(); //Variable global
+				var value = new Array();
 				$.each(x[0], function(index, val) { //Coloca los datos para editar en un array para luego asignarlo a cada campo de entrada
 					value.push(val);
 				});
-			})
-			.done(function(){
-				$.post('getTypes', {proveedor: value[4]}, function(data) { //Busca los tipos de dispositivo del proveedor actual
+				$.post('getTypes', {proveedor: value[3]}) //Busca los tipos de dispositivo del proveedor actual
+				.done(function(data){
 					reloadTypes(data);
-				})
-				.done(function(){
 					$('form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
 						$(this).val(value[index]);
 					});
 					$(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
 				});
 			});
-        } );
+        });
         $('#btnEditar').on('click', function(event) {
         	event.preventDefault();
         	// $('#modalInfo').modal('toggle'); //Quita el modal de Info
@@ -239,7 +243,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 								<div class="form-group col-md-12">
 									<label class="col-md-2 control-label">Ubicación:</label>
 									<div class="col-md-11 col-md-offset-1">
-										<textarea type="textArea" name="comentario" class="form-control" placeholder="Comentario..."></textarea>
+										<textarea type="textArea" name="comentario" class="form-control" placeholder="Ubicación..."></textarea>
 									</div>
 								</div>
 								<div class="buttons-submit col-sm-12">
