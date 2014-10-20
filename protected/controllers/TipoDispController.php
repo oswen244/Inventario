@@ -64,19 +64,25 @@ class TipoDispController extends Controller
 	{
 		$model=new TipoDisp;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['TipoDisp']))
+		if(Yii::app()->request->isPostRequest)
 		{
-			$model->attributes=$_POST['TipoDisp'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_tipo));
-		}
+			parse_str($_POST['data'], $data);
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+			$dbNames = $model->getCreatingAttributes();
+
+
+			// $atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			// $model->attributes=$atributos;
+			
+
+			if($model->save()){ //se guardan los datos en la bd
+				echo "El contacto se registró correctamente";
+			}else{
+				echo "Error";
+			}
+		}else{
+			$this->render('create');
+		}
 	}
 
 	/**

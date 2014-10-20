@@ -92,31 +92,41 @@ function borrar(table,modal,modalCascade,btnDelete,deleteCascade){
     $(modal).modal();
     $(btnDelete).one('click', function(event) {
       event.preventDefault();
-      $.post('delete', {data: ids}, function(data) {
-        data = data.split(',');
-        if(data[0]=="1"){
-          table.row('.selected').remove().draw( false );
-          success(data[1],1);
-        }else{
-          success(data[1],3);
-          $(modalCascade).modal();
-          $(deleteCascade).one('click', function(event) {
-              $.post('deleteCascade', {data: ids}, function(data) {
-                 data = data.split(',');
-                 if(data[0]=="1"){
-                    table.row('.selected').remove().draw( false );
-                    success(data[1],1);
-                  }else{
-                    success(data[1],3); 
-                  }
-              });
-          });
-
-        }
+      $.post('delete', {data: ids})
+        .done(function(data){
+          data = data.split(',');
+          if(data[0]=="1"){
+            table.row('.selected').remove().draw( false );
+            success(data[1],1);
+          }else{
+            success(data[1],3);
+            $(modalCascade).modal();
+            $(deleteCascade).one('click', function(event) {
+                $.post('deleteCascade', {data: ids})
+                  .done(function(data){
+                     data = data.split(',');
+                     if(data[0]=="1"){
+                        table.row('.selected').remove().draw( false );
+                        success(data[1],1);
+                      }else{
+                        success(data[1],3); 
+                      }
+                  });
+            });
+          }
       });
+
     });
   }else{success("No se ha seleccionado ninguna fila", 2)}
 
+}
+
+function precioIva(pcsiva,pvsiva,iva){
+  var precios = [];
+  
+  precios[0] = pcsiva+(pcsiva*iva);
+  precios[1] = pvsiva+(pvsiva*iva);
+  return precios;
 }
 
 function customDataTable(nombre, data, atributos) {

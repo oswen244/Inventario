@@ -4,7 +4,8 @@ $(document).ready(function() {
 		event.preventDefault();
 
 		var formulario = $('#form_estado').serialize(); //":not(input[name=prueba])"-->se ignora el campo que no se desea serializar
-		$.post('create', {data: formulario}, function(data) {
+		$.post('create', {data: formulario})
+		.done(function(data){
 			success(data,1);
 			$('#form_estado')[0].reset();
 		});

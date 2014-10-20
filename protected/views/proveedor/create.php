@@ -7,11 +7,12 @@
 
 			var formulario = $(this).serialize();
 
-			 $.post('create', {data: formulario}, function(data) {
+			 $.post('create', {data: formulario})
+			 .done(function(data){
             	success(data,1);
 			 	$('#form_proveedor')[0].reset();
 			 	$(".selectpicker").selectpicker('refresh');
-        	});
+			 });
 			 
 			 
 		});

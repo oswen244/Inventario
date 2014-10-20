@@ -7,14 +7,17 @@
 
 			var id_tipo_entidad = $("#tipo_entidad").val();
 			if(id_tipo_entidad=='Cliente'){				
-				$.post('getClients',  function(data) {
+				$.post('getClients')
+				.done(function(data){
 					reloadTypes(data);
 				});
 			}else{
 				if(id_tipo_entidad=='Proveedor'){				
-					$.post('getProveedores',  function(data) {
+					$.post('getProveedores')
+					.done(function(data){
 						reloadTypes(data);
 					});
+
 				}else{
 					$("#contactoDe").empty();
 					$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
@@ -46,11 +49,13 @@
 			event.preventDefault();
 
 			var formulario = $('#form_contacto').serialize();
-			 $.post('create', {data: formulario}, function(data) {
+
+			 $.post('create', {data: formulario})
+			.done(function(data){
             	success(data,1);
 			 	$('#form_contacto')[0].reset();
-			 	$(".selectpicker").selectpicker('refresh');
-        	});
+			 	$(".selectpicker").selectpicker('refresh');						
+			});
 		});
 	});
 </script>

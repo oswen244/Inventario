@@ -69,18 +69,18 @@ class ContactoController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			$data = str_replace('+', ' ', $_POST['data']);
-			$data = str_replace('%40', '@', $data);
-			$values = preg_split("/[&]?([a-zA-Z0-9\._\-@])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
-			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
-			
-			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
-			
-			if($atributos['tipo_entidad']=="Proveedor") //Pregunta si el contacto es de cliente o proveedor
-				$model->attributes->id_cliente = '';
-			else
-				$model->attributes->id_proveedor = '';
+			parse_str($_POST['data'], $data);
+
+
+			if($data['tipo_entidad']=="Proveedor"){ //Pregunta si el contacto es de cliente o proveedor
+				$dbNames = $model->getCreatingAttributesProv(); //Obtiene los atributos de la tabla
+			}else{
+				$dbNames = $model->getCreatingAttributesClient(); //Obtiene los atributos de la tabla
+			}
+
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$model->attributes=$atributos;
+			
 
 			if($model->save()){ //se guardan los datos en la bd
 				echo "El contacto se registró correctamente";
@@ -148,12 +148,16 @@ class ContactoController extends Controller
 	 */
 	public function actionDelete()
 	{
-		//validar cuales sims se pueden borrar
+
 		$sql = "DELETE FROM contactos WHERE id_contacto IN (".$_POST['data'].")";
-		if(Yii::app()->db->createCommand($sql)->query())
-			echo "1";
-		else
-			echo "2";
+		try {
+
+			Yii::app()->db->createCommand($sql)->query();
+			echo "1,El contacto se ha borrado correctamente";
+		} catch (Exception $e) {
+			echo "3,Error: No se pueden borrar los contactos seleccionados";			
+		}
+		
 	}
 
 	/**

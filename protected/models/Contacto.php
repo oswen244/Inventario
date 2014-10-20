@@ -10,10 +10,12 @@
  * @property string $tipo_entidad
  * @property string $cargo
  * @property string $email
- * @property integer $id_entidad
+ * @property integer $id_proveedor
+ * @property integer $id_cliente
  *
  * The followings are the available model relations:
- * @property Clientes $idEntidad
+ * @property Proveedores $idProveedor
+ * @property Clientes $idCliente
  */
 class Contacto extends CActiveRecord
 {
@@ -33,14 +35,14 @@ class Contacto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, tipo_entidad, email, id_entidad', 'required'),
-			array('id_entidad', 'numerical', 'integerOnly'=>true),
+			array('nombre, tipo_entidad, email', 'required'),
+			array('id_proveedor, id_cliente', 'numerical', 'integerOnly'=>true),
 			array('nombre, cargo, email', 'length', 'max'=>45),
 			array('telefono', 'length', 'max'=>20),
 			array('tipo_entidad', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_contacto, nombre, telefono, tipo_entidad, cargo, email, id_entidad', 'safe', 'on'=>'search'),
+			array('id_contacto, nombre, telefono, tipo_entidad, cargo, email, id_proveedor, id_cliente', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,8 +54,8 @@ class Contacto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'id_prov_Entidad' => array(self::BELONGS_TO, 'Proveedores', 'id_entidad'),
-			'id_client_Entidad' => array(self::BELONGS_TO, 'Clientes', 'id_entidad'),
+			'idProveedor' => array(self::BELONGS_TO, 'Proveedores', 'id_proveedor'),
+			'idCliente' => array(self::BELONGS_TO, 'Clientes', 'id_cliente'),
 		);
 	}
 
@@ -69,24 +71,41 @@ class Contacto extends CActiveRecord
 			'tipo_entidad' => 'Tipo Entidad',
 			'cargo' => 'Cargo',
 			'email' => 'Email',
-			'id_entidad' => 'Id Entidad',
+			'id_proveedor' => 'Id Proveedor',
+			'id_cliente' => 'Id Cliente',
 		);
 	}
 
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function getCreatingAttributes()
+	public function getCreatingAttributesClient()
 	{
 		return array(
 			'nombre',
 			'tipo_entidad',
-			'id_entidad',
+			'id_cliente',
 			'telefono',
 			'email',
 			'cargo',
 		);
 	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function getCreatingAttributesProv()
+	{
+		return array(
+			'nombre',
+			'tipo_entidad',
+			'id_proveedor',
+			'telefono',
+			'email',
+			'cargo',
+		);
+	}
+
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -112,7 +131,8 @@ class Contacto extends CActiveRecord
 		$criteria->compare('tipo_entidad',$this->tipo_entidad,true);
 		$criteria->compare('cargo',$this->cargo,true);
 		$criteria->compare('email',$this->email,true);
-		$criteria->compare('id_entidad',$this->id_entidad);
+		$criteria->compare('id_proveedor',$this->id_proveedor);
+		$criteria->compare('id_cliente',$this->id_cliente);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

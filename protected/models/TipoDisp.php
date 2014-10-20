@@ -6,13 +6,14 @@
  * The followings are the available columns in table 'tipo_disp':
  * @property integer $id_tipo
  * @property string $tipo_ref
- * @property string $descripcion
- * @property integer $id_proveedor
- * @property string $pc_iva
- * @property string $pc_siva
- * @property string $pv_iva
- * @property string $pv_siva
  * @property string $nombre
+ * @property string $descripcion
+ * @property string $pc_siva
+ * @property string $pc_iva
+ * @property string $pv_siva
+ * @property string $pv_iva
+ * @property integer $id_proveedor
+ * @property string $usa_sim
  *
  * The followings are the available model relations:
  * @property Dispositivos[] $dispositivoses
@@ -36,13 +37,14 @@ class TipoDisp extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_tipo, tipo_ref, id_proveedor, pc_iva, pc_siva', 'required'),
-			array('id_tipo, id_proveedor', 'numerical', 'integerOnly'=>true),
-			array('tipo_ref, descripcion, nombre', 'length', 'max'=>45),
-			array('pc_iva, pc_siva, pv_iva, pv_siva', 'length', 'max'=>10),
+			array('tipo_ref, pc_siva, pc_iva, id_proveedor, usa_sim', 'required'),
+			array('id_proveedor', 'numerical', 'integerOnly'=>true),
+			array('tipo_ref, nombre, descripcion', 'length', 'max'=>45),
+			array('pc_siva, pc_iva, pv_siva, pv_iva', 'length', 'max'=>10),
+			array('usa_sim', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_tipo, tipo_ref, descripcion, id_proveedor, pc_iva, pc_siva, pv_iva, pv_siva, nombre', 'safe', 'on'=>'search'),
+			array('id_tipo, tipo_ref, nombre, descripcion, pc_siva, pc_iva, pv_siva, pv_iva, id_proveedor, usa_sim', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,13 +69,30 @@ class TipoDisp extends CActiveRecord
 		return array(
 			'id_tipo' => 'Id Tipo',
 			'tipo_ref' => 'Tipo Ref',
-			'descripcion' => 'Descripcion',
-			'id_proveedor' => 'Id Proveedor',
-			'pc_iva' => 'Pc Iva',
-			'pc_siva' => 'Pc Siva',
-			'pv_iva' => 'Pv Iva',
-			'pv_siva' => 'Pv Siva',
 			'nombre' => 'Nombre',
+			'descripcion' => 'Descripcion',
+			'pc_siva' => 'Pc Siva',
+			'pc_iva' => 'Pc Iva',
+			'pv_siva' => 'Pv Siva',
+			'pv_iva' => 'Pv Iva',
+			'id_proveedor' => 'Id Proveedor',
+			'usa_sim' => 'Usa Sim',
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'nombre',
+			'tipo_ref',
+			'id_proveedor',
+			'pc_siva',
+			'pv_siva',
+			'usa_sim',
+			'descripcion',
 		);
 	}
 
@@ -97,13 +116,14 @@ class TipoDisp extends CActiveRecord
 
 		$criteria->compare('id_tipo',$this->id_tipo);
 		$criteria->compare('tipo_ref',$this->tipo_ref,true);
-		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('id_proveedor',$this->id_proveedor);
-		$criteria->compare('pc_iva',$this->pc_iva,true);
-		$criteria->compare('pc_siva',$this->pc_siva,true);
-		$criteria->compare('pv_iva',$this->pv_iva,true);
-		$criteria->compare('pv_siva',$this->pv_siva,true);
 		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('pc_siva',$this->pc_siva,true);
+		$criteria->compare('pc_iva',$this->pc_iva,true);
+		$criteria->compare('pv_siva',$this->pv_siva,true);
+		$criteria->compare('pv_iva',$this->pv_iva,true);
+		$criteria->compare('id_proveedor',$this->id_proveedor);
+		$criteria->compare('usa_sim',$this->usa_sim,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

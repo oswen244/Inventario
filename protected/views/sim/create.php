@@ -11,12 +11,12 @@
 
 			var formulario = $('#crearSimcard').serialize();
 
-			 $.post('create', {data: formulario}, function(data) {
+			 $.post('create', {data: formulario})
+			 .done(function(data){
             	success(data,1);
 			 	$('#crearSimcard')[0].reset();
             	$(".selectpicker").selectpicker('refresh');
-
-        	});
+			 });
 			 
 			 
 		});

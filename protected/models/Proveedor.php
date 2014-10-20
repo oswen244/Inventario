@@ -14,6 +14,7 @@
  * @property string $email
  *
  * The followings are the available model relations:
+ * @property Contactos[] $contactoses
  * @property Sims[] $sims
  * @property TipoDisp[] $tipoDisps
  */
@@ -54,6 +55,7 @@ class Proveedor extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'contactoses' => array(self::HAS_MANY, 'Contactos', 'id_proveedor'),
 			'sims' => array(self::HAS_MANY, 'Sims', 'id_proveedor'),
 			'tipoDisps' => array(self::HAS_MANY, 'TipoDisp', 'id_proveedor'),
 		);

@@ -121,6 +121,7 @@ class ProveedorController extends Controller
 	 */
 	public function actionDelete()
 	{
+		//preguntar por las otras tablas
 		$sql = "SELECT COUNT(id_tipo) FROM tipo_disp WHERE id_proveedor IN (".$_POST['data'].")";
 		$num = Yii::app()->db->createCommand($sql)->query();
 

@@ -7,7 +7,7 @@
 	    var table = customDataTable('#contactoTable', datos, atributos); 
 
 	    $('#dialog').click(function() {
-            borrar(table,'#myModal','#delete');
+            borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
         });
 
 	    $('#planTable tr th').each(function() {
@@ -67,7 +67,26 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		</div>
+
+		<div id="modalCascade" class="modal fade" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">Advertencia</h4>
+					</div>
+					<div class="modal-body">
+						<p>El(los) estado(s) tienen uno o más dispositivos asociados.
+							¿Borrar de todas formas?</p>
+					</div>
+					<div class="modal-footer">
+						<button id="deleteCascade" type="button" class="btn btn-primary" data-dismiss="modal">Si</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </div>
