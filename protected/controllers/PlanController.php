@@ -114,11 +114,13 @@ class PlanController extends Controller
 	 */
 	public function actionDelete()
 	{
-		$sql = "DELETE FROM planes WHERE id_plan IN (".$_POST['data'].")";
-		if(Yii::app()->db->createCommand($sql)->query())
-			echo "1";
-		else
-			echo "2";
+			$sql = "DELETE FROM planes WHERE id_plan IN (".$_POST['data'].")";
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1,El(los) registro(s) se ha borrado";			
+			} catch (Exception $e) {
+				echo "3,Error: existen Sims asociadas con ese(esos) Plan(es)";
+			}
 	}
 
 	/**

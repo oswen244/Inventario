@@ -75,7 +75,13 @@ class ContactoController extends Controller
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 			
 			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			
+			if($atributos['tipo_entidad']=="Proveedor") //Pregunta si el contacto es de cliente o proveedor
+				$model->attributes->id_cliente = '';
+			else
+				$model->attributes->id_proveedor = '';
 			$model->attributes=$atributos;
+
 			if($model->save()){ //se guardan los datos en la bd
 				echo "El contacto se registró correctamente";
 			}else{
