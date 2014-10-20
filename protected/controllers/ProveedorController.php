@@ -36,7 +36,7 @@ class ProveedorController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','deleteCascade'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -121,12 +121,35 @@ class ProveedorController extends Controller
 	 */
 	public function actionDelete()
 	{
+		$sql = "SELECT COUNT(id_tipo) FROM tipo_disp WHERE id_proveedor IN (".$_POST['data'].")";
+		$num = Yii::app()->db->createCommand($sql)->query();
 
-		$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
-		if(Yii::app()->db->createCommand($sql)->query())
-			echo "1";
-		else
-			echo "2";
+		if($num=="0"){
+			$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1,El(los) registro(s) se ha borrado";			
+			} catch (Exception $e) {
+				echo "3,Error: existen activos asociados con ese proveedor";
+			}
+		}else{
+			echo "3,Error: existen activos asociados con ese proveedor";
+		}
+	}
+
+	public function actionDeleteCascade()
+	{
+
+			$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
+
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1,El(los) registro(s) se ha borrado";			
+			} catch (Exception $e) {
+				// echo "3,Error: existen activos asociados con ese estado";
+				echo "3,".$e->getMessage();
+			}
+		
 	}
 
 	/**

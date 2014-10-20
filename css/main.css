@@ -209,10 +209,11 @@ div.sidebar ul li a{
 #logo
 {
 
-	width: 158px;
-	height: 65px;
 	background: url(/inventario/images/logo.png) no-repeat;
-	text-indent: -9999px;	
+	height: 65px;
+	margin-left: 0;	
+	text-indent: -9999px;
+	width: 158px;
 }
 
 #mainmenu
