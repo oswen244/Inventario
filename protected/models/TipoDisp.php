@@ -91,6 +91,8 @@ class TipoDisp extends CActiveRecord
 			'id_proveedor',
 			'pc_siva',
 			'pv_siva',
+			'pc_iva',
+			'pv_iva',
 			'usa_sim',
 			'descripcion',
 		);

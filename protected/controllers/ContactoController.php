@@ -72,7 +72,7 @@ class ContactoController extends Controller
 			parse_str($_POST['data'], $data);
 
 
-			if($data['tipo_entidad']=="Proveedor"){ //Pregunta si el contacto es de cliente o proveedor
+			if($data['1']=="Proveedor"){ //Pregunta si el contacto es de cliente o proveedor
 				$dbNames = $model->getCreatingAttributesProv(); //Obtiene los atributos de la tabla
 			}else{
 				$dbNames = $model->getCreatingAttributesClient(); //Obtiene los atributos de la tabla
@@ -83,10 +83,13 @@ class ContactoController extends Controller
 			
 
 			if($model->save()){ //se guardan los datos en la bd
-				echo "El contacto se registró correctamente";
+				$result['mensaje'] = "El contacto se registró correctamente";
+				$result['cod'] = "1";
 			}else{
-				echo "Error";
+				$result['mensaje'] = "Error: No se pudo registrar el contacto";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 			$this->render('create');
 		}
@@ -153,9 +156,9 @@ class ContactoController extends Controller
 		try {
 
 			Yii::app()->db->createCommand($sql)->query();
-			echo "1,El contacto se ha borrado correctamente";
+			echo "1;El contacto se ha borrado correctamente";
 		} catch (Exception $e) {
-			echo "3,Error: No se pueden borrar los contactos seleccionados";			
+			echo "3;Error: No se pueden borrar los contactos seleccionados";			
 		}
 		
 	}

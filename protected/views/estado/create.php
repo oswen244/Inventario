@@ -1,15 +1,6 @@
 <script>
 $(document).ready(function() {
-	$('#form_estado').submit(function(event) {
-		event.preventDefault();
-
-		var formulario = $('#form_estado').serialize(); //":not(input[name=prueba])"-->se ignora el campo que no se desea serializar
-		$.post('create', {data: formulario})
-		.done(function(data){
-			success(data,1);
-			$('#form_estado')[0].reset();
-		});
-	});
+	validar('#form_estado');
 });
 </script>
 <h1 class="header-tittle">Estados</h1>
@@ -24,14 +15,14 @@ $(document).ready(function() {
 					<div class="form-group col-md-12">
 						<label for="estado" class="col-md-2 control-label">Nombre estado:</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="est" placeholder="Nombre">
+							<input type="text" class="form-control" name="texto" placeholder="Nombre">
 						</div>
 					</div>
 					
 					<div class="form-group col-md-12 text-center">
 						<label class="col-md-2 control-label">Comentario:</label>
 						<div class="col-md-10 col-md-offset-2">
-							<textarea type="textArea" name="desc" class="form-control" placeholder="Comentario..."></textarea>
+							<textarea type="textArea" name="texto" class="form-control" placeholder="Comentario..."></textarea>
 						</div>
 					</div>
 					<div class="buttons-submit col-md-10">

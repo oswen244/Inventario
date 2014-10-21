@@ -1,6 +1,6 @@
 <script>
 	$(document).ready(function() {
-		$('.selectpicker').selectpicker();
+		validar('#form_contacto');
 
 
 		$("#tipo_entidad").on('change', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
@@ -45,18 +45,6 @@
 			$("#contactoDe").selectpicker('refresh');
 		}
 
-		$('#form_contacto').submit(function(event) {
-			event.preventDefault();
-
-			var formulario = $('#form_contacto').serialize();
-
-			 $.post('create', {data: formulario})
-			.done(function(data){
-            	success(data,1);
-			 	$('#form_contacto')[0].reset();
-			 	$(".selectpicker").selectpicker('refresh');						
-			});
-		});
 	});
 </script>
 <h1 class="header-tittle">Contactos</h1>
@@ -74,13 +62,13 @@
 					<div class="form-group col-md-12">
 						<label for="nombre" class="col-md-2 control-label">Nombre:</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" name="nombre" placeholder="Nombre">
+							<input type="text" class="form-control" name="texto" placeholder="Nombre">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
 						<label for="tipo_entidad" class="col-md-5 control-label">Tipo de entidad:</label>
 						<div class="col-md-7">
-							<select id="tipo_entidad" name="tipo_entidad" data-width="100%" class="selectpicker">
+							<select id="tipo_entidad" name="texto" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar tipo entidad</option>
 								<option value="Cliente">Cliente</option>
 								<option value="Proveedor">Proveedor</option>
@@ -91,7 +79,7 @@
 					<div class="form-group col-md-6">
 						<label for="contactoDe" class="col-md-5 control-label">Contacto de:</label>
 						<div class="col-md-7">
-							<select id="contactoDe" name="contactoDe" data-width="100%" class="selectpicker">
+							<select id="contactoDe" name="texto" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar entidad</option>
 							</select>
 						</div>
@@ -100,7 +88,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Teléfono:</label>
 						<div class="col-md-7">
-							<input type="text" name="telefono" class="form-control" placeholder="Teléfono">
+							<input type="texto" name="texto" class="form-control" placeholder="Teléfono">
 						</div>
 					</div>
 
@@ -114,7 +102,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Cargo:</label>
 						<div class="col-md-7">
-							<input type="text" name="cargo" class="form-control" placeholder="Cargo">
+							<input type="text" name="texto" class="form-control" placeholder="Cargo">
 						</div>
 					</div>
 					

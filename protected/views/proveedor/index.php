@@ -65,9 +65,8 @@
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 						<h4 class="modal-title">Advertencia</h4>
 					</div>
-					<div class="modal-body">
-						<p>El(los) estado(s) tienen uno o más dispositivos asociados.
-							¿Borrar de todas formas?</p>
+					<div class="cascada modal-body">
+						<p></p>
 					</div>
 					<div class="modal-footer">
 						<button id="deleteCascade" type="button" class="btn btn-primary" data-dismiss="modal">Si</button>

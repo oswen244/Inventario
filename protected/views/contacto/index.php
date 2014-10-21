@@ -43,7 +43,8 @@
 					<th>Tipo entidad</th>
 					<th>Cargo</th>
 					<th>E-mail</th>
-					<th>Entidad</th>
+					<th>id_proveedor</th>
+					<th>id_cliente</th>
 				</tr>
 			</thead>
 			<tbody>

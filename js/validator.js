@@ -119,7 +119,6 @@ function validar(formName){
 			var atributos = $(":not(.ignorar)",$form).serialize();
             $.post($form.attr('action'), {data: atributos}, function(result) {
             	result = JSON.parse(result);
-            	alert(result['mensaje']+" "+result['cod'])
                 success(result['mensaje'],parseInt(result['cod']));
                 $form[0].reset();
                 $(".selectpicker",$form).selectpicker('refresh');

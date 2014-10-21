@@ -25,7 +25,7 @@ function actualizarEdit(table){
         toastr.options = {
             "closeButton": false,
             "debug": false,
-            "positionClass": "toast-top-left",
+            "positionClass": "toast-top-right",
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
@@ -94,17 +94,17 @@ function borrar(table,modal,modalCascade,btnDelete,deleteCascade){
       event.preventDefault();
       $.post('delete', {data: ids})
         .done(function(data){
-          data = data.split(',');
+          data = data.split(';');
           if(data[0]=="1"){
             table.row('.selected').remove().draw( false );
             success(data[1],1);
           }else{
-            success(data[1],3);
+            $('.cascada > p').html(data[1]);
             $(modalCascade).modal();
             $(deleteCascade).one('click', function(event) {
                 $.post('deleteCascade', {data: ids})
                   .done(function(data){
-                     data = data.split(',');
+                     data = data.split(';');
                      if(data[0]=="1"){
                         table.row('.selected').remove().draw( false );
                         success(data[1],1);

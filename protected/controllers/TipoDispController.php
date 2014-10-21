@@ -70,16 +70,18 @@ class TipoDispController extends Controller
 
 			$dbNames = $model->getCreatingAttributes();
 
-
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$model->attributes=$atributos;
 			
 
 			if($model->save()){ //se guardan los datos en la bd
-				echo "El contacto se registró correctamente";
+				$result['mensaje'] = "El tipo de dispositivo se registró correctamente";
+				$result['cod'] = "1";
 			}else{
-				echo "Error";
+				$result['mensaje'] = "Error: No se pudo registrar el tipo de dispositivo";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 			$this->render('create');
 		}

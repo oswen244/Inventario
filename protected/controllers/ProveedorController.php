@@ -69,19 +69,19 @@ class ProveedorController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			$data = str_replace('+', ' ', $_POST['data']);
-			$data = str_replace('%40', '@', $data);
-			$values = preg_split("/[&]?([a-zA-Z0-9\._\-@])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			parse_str($_POST['data'], $data);
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 
-
-			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$model->attributes=$atributos;
 			if($model->save()){
-				echo "El proveedor fue registrado correctamente";
+				$result['mensaje'] = "El proveedor fue registrado correctamente";
+				$result['cod'] = "1";
 			}else{
-				echo "error";
+				$result['mensaje'] = "Error: No se pudo registrar el proveedor";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 
 			$this->render('create',array(
@@ -121,34 +121,47 @@ class ProveedorController extends Controller
 	 */
 	public function actionDelete()
 	{
-		//preguntar por las otras tablas
-		$sql = "SELECT COUNT(id_tipo) FROM tipo_disp WHERE id_proveedor IN (".$_POST['data'].")";
-		$num = Yii::app()->db->createCommand($sql)->query();
+		//se verifica si existen registros asociados antes de borrar
 
-		if($num=="0"){
+		$sql = "SELECT COUNT(id_contacto) AS total FROM contactos WHERE id_proveedor IN (".$_POST['data'].")";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$contactos = $result[0]['total'];
+
+		$sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_proveedor IN (".$_POST['data'].")";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$sims = $result[0]['total'];
+
+		$sql = "SELECT COUNT(id_tipo) AS total FROM tipo_disp WHERE id_proveedor IN (".$_POST['data'].")";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$tipo = $result[0]['total'];
+
+		//Si no existe ningun registro asociado, se procede al borrado
+		if($contactos=="0" && $sims=="0" && $tipo=="0"){
 			$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
 			try {
 				Yii::app()->db->createCommand($sql)->query();
-				echo "1,El(los) registro(s) se ha borrado";			
+				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
-				echo "3,Error: existen activos asociados con ese proveedor";
+				echo "3;Error";
 			}
-		}else{
-			echo "3,Error: existen activos asociados con ese proveedor";
+		}else{ //sino, se envia un mensaje advirtiendo que el registro tiene otros registros asoaciados
+			echo "3;Error: existen dispositivos, sims y/o contactos asiciados con los proveerdores seleccionados.
+			Borrar de todas formas?
+			Advertencia: Se borrarán tambien los registros asociados.";
 		}
 	}
 
 	public function actionDeleteCascade()
 	{
-
+			//se realiza el borrado en cascada de los registros seleccionados
 			$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
 
 			try {
 				Yii::app()->db->createCommand($sql)->query();
-				echo "1,El(los) registro(s) se ha borrado";			
+				echo "1;El(los) registro(s) se ha borrado";			
 			} catch (Exception $e) {
 				// echo "3,Error: existen activos asociados con ese estado";
-				echo "3,".$e->getMessage();
+				echo "3;".$e->getMessage();
 			}
 		
 	}

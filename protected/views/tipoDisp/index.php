@@ -10,8 +10,8 @@ $(document).ready(function() {
  			var pcsiva = parseFloat($('#pc_siva').val());
   			var pvsiva = parseFloat($('#pv_siva').val());
   			precios = precioIva(pcsiva,pvsiva,iva);
-			$('#pc_iva').attr('value', '$'+precios[0]);
-			$('#pv_iva').attr('value', '$'+precios[1]);
+			$('#pc_iva').attr('value', precios[0]);
+			$('#pv_iva').attr('value', precios[1]);
 		}
 
 	});
@@ -63,20 +63,6 @@ $(document).ready(function() {
 						</div>
 					</div>
 					
-					<div class="form-group col-md-9">
-						<label for="pc_siva" class="col-md-5 control-label">Precio de compra sin IVA:</label>
-						<div class="col-md-7 input-group">
-							<span class="input-group-addon">$</span><input id="pc_siva" value="" type="number" class="precios form-control" name="texto" placeholder="Precio compra sin iva"><span class="input-group-addon">.00</span>
-						</div>
-					</div>
-					
-
-					<div class="form-group col-md-9">
-						<label for="pv_siva" class="col-md-5 control-label">Precio de venta sin IVA:</label>
-						<div class="col-md-7 input-group">
-							<span class="input-group-addon">$</span><input id="pv_siva" value="" type="number" class="precios form-control" name="texto" placeholder="Precio venta sin iva"><span class="input-group-addon">.00</span>
-						</div>
-					</div>
 
 					<div class="form-group col-md-9">
 						<label class="col-md-5 control-label">Porcentaje de IVA:</label>
@@ -95,6 +81,35 @@ $(document).ready(function() {
 							</select>
 						</div>
 					</div>
+					
+					<div class="form-group col-md-9">
+						<label for="pc_siva" class="col-md-5 control-label">Precio de compra sin IVA:</label>
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="pc_siva" value="" type="number" class="precios form-control" name="texto" placeholder="Precio compra sin iva"><span class="input-group-addon">.00</span>
+						</div>
+					</div>
+					
+
+					<div class="form-group col-md-9">
+						<label for="pv_siva" class="col-md-5 control-label">Precio de venta sin IVA:</label>
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="pv_siva" value="" type="number" class="precios form-control" name="texto" placeholder="Precio venta sin iva"><span class="input-group-addon">.00</span>
+						</div>
+					</div>
+
+					<div class="form-group col-md-9">
+						<label for="pc_iva" class="col-md-5 control-label">Precio de compra con IVA:</label>
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="pc_iva" value="$0000" readonly="true" type="text" class="text-center form-control" name="texto" placeholder="Precio compra sin iva"><span class="input-group-addon">.00</span>
+						</div>
+					</div>
+
+					<div class="form-group col-md-9">
+						<label for="pv_iva" class="col-md-5 control-label">Precio de venta con IVA:</label>
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="pv_iva" value="$0000" readonly="true" type="text" class="text-center form-control" name="texto" placeholder="Precio compra sin iva"><span class="input-group-addon">.00</span>
+						</div>
+					</div>
 
 					<div class="form-group col-md-9">
 						<label class="col-md-5 control-label">¿Usa Simcard?:</label>
@@ -106,24 +121,14 @@ $(document).ready(function() {
 							</select>
 						</div>
 					</div>
-					
+
 					<div class="form-group col-md-9">
-						<label for="nombre" class="col-md-5 control-label">Precio de compra (con IVA):</label>
-						<div class="col-md-7">
-							<input id="pc_iva" type="text" readonly="true" class="text-center form-control" value="$0000" name="pc_iva" placeholder="$0000">
-						</div>
-					</div>
-					<div class="form-group col-md-9">
-						<label for="nombre" class="col-md-5 control-label">Precio de venta (con IVA):</label>
-						<div class="col-md-7">
-							<input id="pv_iva" type="text"  readonly="true" class="text-center form-control" value="$0000" name="pv_iva" placeholder="$0000">
+						<label for="num_sim" class="col-md-5 control-label">Número de sims:</label>
+						<div class="col-md-7 input-group">
+							<input id="num_sim" value="0" readonly="true" type="text" class="form-control" name="texto" placeholder="Número de sims">
 						</div>
 					</div>
 					
-					<!-- <div class="form-group col-md-9">
-						<label for="pcCIVA" class="col-md-7 control-label">Precio de compra (con IVA): <?php echo "$0000"; ?></label>
-						<label for="pvCIVA" class="col-md-7 control-label">Precio de venta (con IVA): <?php echo "$0000"; ?></label>
-					</div> -->
 					
 					<div class="form-group col-md-9 text-center">
 						<label class="col-md-5 control-label">Coomentarios:</label>
