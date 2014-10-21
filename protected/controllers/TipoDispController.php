@@ -71,8 +71,8 @@ class TipoDispController extends Controller
 			$dbNames = $model->getCreatingAttributes();
 
 
-			// $atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
-			// $model->attributes=$atributos;
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$model->attributes=$atributos;
 			
 
 			if($model->save()){ //se guardan los datos en la bd
