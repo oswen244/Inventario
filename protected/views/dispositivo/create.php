@@ -38,6 +38,7 @@
 		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
 				$('#myModal').modal({backdrop: 'static'});
 		});
+		validar("#crearDispositivo");
 	});
 	function reloadTable(data){ //Actualiza los valores de la tabla de precios
 		var x = [];

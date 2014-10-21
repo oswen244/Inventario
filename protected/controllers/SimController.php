@@ -79,11 +79,10 @@ class SimController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			$data = str_replace('+', ' ', $_POST['data']);
-			$values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			parse_str($_POST['data'], $data);
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 		
-			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$model->attributes=$atributos;
 			if($atributos['id_plan']==0){
 				$model->tipo_plan = "Prepago";
@@ -91,10 +90,13 @@ class SimController extends Controller
 				$model->tipo_plan = "Postpago";
 			}
 			if($model->save()){ //se guardan los datos en la bd
-				echo "La sim se registró correctamente";
+				$result['mensaje'] = "La sim se registró correctamente";
+				$result['cod'] = "1";
 			}else{
-				echo "Error";
+				$result['mensaje'] = "No se pudo guardar la sim";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 			$this->render('create');
 		}

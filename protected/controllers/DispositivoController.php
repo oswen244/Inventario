@@ -67,12 +67,13 @@ class DispositivoController extends Controller
 			$dbNames = $dispositivo->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
-			
-			if($dispositivo->save()){
-				echo "Dispositivo agregado correctamente";
+			if($dispositivo->save()){ //se guardan los datos en la bd
+				$result['mensaje'] = "La sim se registró correctamente";
+				$result['cod'] = "1";
 				// $this->redirect('/inventario');
 			}else{
-				echo "No se pudo agregar el dispositivo, intente nuevamente";
+				$result['mensaje'] = "No se pudo guardar las sim";
+				$result['cod'] = "3";
 			}
 		}else{
 			$this->render('create',array(

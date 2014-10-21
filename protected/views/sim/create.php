@@ -4,22 +4,7 @@
 		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
 				$('#myModal').modal({backdrop: 'static'});
 		});
-
-	
-		$('#crearSimcard').submit(function(event) {
-			event.preventDefault();
-
-			var formulario = $('#crearSimcard').serialize();
-
-			 $.post('create', {data: formulario})
-			 .done(function(data){
-            	success(data,1);
-			 	$('#crearSimcard')[0].reset();
-            	$(".selectpicker").selectpicker('refresh');
-			 });
-			 
-			 
-		});
+		validar("#crearSimcard");
 	});
 </script>
 <h1 class="header-tittle">Simcards</h1><br>
@@ -33,26 +18,26 @@
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">IMEI:</label>
 					<div class="col-md-7">
-						<input type="text" name="referencia" class="form-control" placeholder="N° Imei">
+						<input type="text" name="texto" class="form-control" placeholder="N° Imei">
 					</div>
 				</div>
 				<div class="form-group col-md-6">
 					<label for="dateAct" class="col-md-5 control-label">Fecha de activación:</label>
 					<div class="col-md-7">
-						<input type="date" class="form-control" name="dateAct" placeholder="aaaa-mm-dd">
+						<input type="date" class="form-control" name="fecha" placeholder="aaaa-mm-dd">
 					</div>
 				</div>
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">N° de linea:</label>
 					<div class="col-md-7">
-						<input type="text" name="numero" class="form-control" placeholder="N° de linea">
+						<input type="text" name="texto" class="form-control" placeholder="N° de linea">
 					</div>
 				</div>
 				
 				<div  class="form-group col-md-6">
 					<label class="col-md-5 control-label">Plan:</label>
 					<div class="col-md-7">
-						<select  id="plan" data-width="100%" name="plan" class="selectpicker">
+						<select  id="plan" data-width="100%" name="texto" class="selectpicker">
 							<option value="">Seleccionar Plan</option>
 							<?php 
 								$connection = Yii::app()->db;
@@ -69,7 +54,7 @@
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">Estado:</label>
 					<div class="col-md-7">
-						<select id="select_estado" data-width="100%" name="estado" class="selectpicker">
+						<select id="select_estado" data-width="100%" name="texto" class="selectpicker">
 							<option value="">Seleccionar estado</option>
 							<?php
 									$connection = Yii::app()->db;
@@ -86,7 +71,7 @@
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">Proveedor:</label>
 					<div class="col-md-7">
-						<select id="proveedor" data-width="100%" name="proveedor" class="selectpicker">
+						<select id="proveedor" data-width="100%" name="texto" class="selectpicker">
 							<option value="">Seleccionar Proveedor</option>
 							<?php
 							$connection = Yii::app()->db;
