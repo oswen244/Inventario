@@ -2,28 +2,21 @@
 	$(document).on('ready', function(event) {
 		$('#tipoDispositivo').on('change', function(event) {
 			if($('#tipoDispositivo').val()!=0){
-				$.post('getDisps', {id_tipo: $('#tipoDispositivo').val()})
+				$.post('getDispDisponibles', {id_tipo: $('#tipoDispositivo').val()})
 				.done(function(data){
-					// reloadDisps(data);
+					
 				});
 			}
 		});
+		data = <?php echo $data;?>;
+		if(data['informado']=='1'){
+			$('#tipoDispositivo').val(data['tipo']);
+			$('#tipoDispositivo option:not(:selected)').attr('disabled', 'true');
+			$('#imeiDisp').val(data['imei']);
+		}
+		validar("#asignarSimcard");
 	});
-	// function reloadDisps(data){ //Actualiza el select de dispositivos dependiendo del tipo escogido
-	// 	var x = [];
-	// 	$('#dispositivo').empty().append('<option value="">Seleccionar Dispositivo</option>');
-	// 	x = JSON.parse(data);
-	// 	$.each(x, function(index, element) {
-	// 		var p = new Array();
-	// 		var cont=1;
-	// 		$.each(element, function(i, e) {
-	// 			p[cont]= i;
-	// 			cont++;
-	// 		});
-	// 			$("#dispositivo").append('<option value='+element[p[1]]+'>'+element[p[3]]+'</option>');
-	// 	});
-	// 		$("#dispositivo").selectpicker('refresh');
-	// }
+	
 </script>
 <h1 class="header-tittle">Simcards</h1><br>
 <div class="content">
@@ -33,7 +26,7 @@
 				<h3 class="panel-title">Asignar Simcard</h3>
 			</div>
 			<div class="panel-body">
-				<form id="crearSimcar" class="form form-horizontal" method="post" role="form"><br>
+				<form id="asignarSimcard" action="asignar" class="form form-horizontal" method="post" role="form"><br>
 					<div class="form-group col-md-6">
 						<label for="dateAsi" class="col-md-5 control-label">Fecha de asignación:</label>
 						<div class="col-md-7">
@@ -43,7 +36,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select id="tipoDispositivo" name="text" data-width="100%" class="selectpicker">
+							<select id="tipoDispositivo" name="texto" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar dispositivo</option>
 								<?php
 								$connection = Yii::app()->db;
@@ -57,17 +50,15 @@
 						</div>
 					</div>
 					<div class="form-group col-md-6">
-						<label class="col-md-5 control-label">Dispositivo:</label>
+						<label class="col-md-5 control-label">Imei del dispositivo a asignar:</label>
 						<div class="col-md-7">
-							<select id="dispositivo" name="text" data-width="100%" class="selectpicker">
-								<option value="">Seleccionar dispositivo</option>
-							</select>
+							<input id="imeiDisp" type="text" readonly="true" class="form-control" name="texto" placeholder="Imei">
 						</div>
 					</div>
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Plan:</label>
 						<div class="col-md-7">
-							<select id="plan" name="text" data-width="100%" class="selectpicker">
+							<select id="plan" name="texto" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar plan</option>
 								<?php
 								$connection = Yii::app()->db;
@@ -81,7 +72,7 @@
 						</div>
 					</div>
 					<div class="form-group col-md-12 text-center">
-						<label class="col-md-3 control-label">Coomentarios:</label>
+						<label class="col-md-3 control-label">Comentarios:</label>
 						<div class="col-md-9 col-md-offset-2">
 							<textarea type="textArea" name="comentario" class="form-control" placeholder="Comentario..."></textarea>
 						</div>

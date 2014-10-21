@@ -16,10 +16,21 @@
 				$(".selectpicker").selectpicker("refresh");
 			}
 		});
-		$('#btnAsignar').on('click', function(event) {
+		$('#btnAsignar').on('mouseover', function(event) {
 			event.preventDefault();
-			$('#modalInfo').modal('toggle');
-			$.post('asignar', {tipo_disp: valores[2], imei: valores[6]});
+			// $('#modalInfo').modal('toggle');
+			// $.post('asignar', {tipo_disp: valores[2], imei: valores[6]})
+			// .done(function(data){
+			// 	// $(':root').html(data);
+			// 	alert("Se debería cargar");
+			// });
+		// $.get('/inventario/sim/asignar', {tipo_disp: valores[2], imei: valores[6]})
+		// 	.done(function(data){
+		// 		// $(':root').html(data);
+		// 		alert("Se debería cargar");
+			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
+			// $('#btnAsignar').trigger('click');
+			// });
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
 		pruebaDataTable(id, datos, atributos,nombres);
@@ -161,7 +172,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 							<button id="btnEditar" data-dismiss="modal" class="btn btn-warning" type="button">Editar&nbsp</button>
 						</div><br><br>
 						<div class="col-xs-6">
-							<button id="btnAsignar" class="btn btn-success" type="button">Asignar Simcard</button>
+							<a id="btnAsignar" class="btn btn-success" type="button">Asignar Simcard</a>
 						</div>
 						<div class="col-xs-3 col-xs-offset-3">
 							<button id="btnCerrar" data-dismiss="modal" class="btn btn-danger" type="button">Cerrar</button>

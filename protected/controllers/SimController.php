@@ -155,11 +155,38 @@ class SimController extends Controller
 		$this->render('index', array('sims' => $sim));
 	}
 
+	public function getDispDisponibles()
+	{
+		if(Yii::app()->request->isPostRequest && isset($_POST['id_tipo'])){
+			$connection = Yii::app()->db;
+			// $sql = "SELECT COUNT(id_tipo) AS total, id_tipo FROM dispositivos WHERE id_tipo=".$_POST['id_tipo'];
+			$sql = "SELECT * FROM dispositivos WHERE sim_asig = 'no' AND id_estado = 1";
+			$command=$connection->createCommand($sql);
+			$result=$command->queryAll();
+			echo CJSON::encode($result);
+		}
+
+	}
+
 	public function actionAsignar()
 	{
-		echo	$data['tipo_disp'];
-		echo	$data['imei'];
-		// $this->render('asignar');
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
+		}else{
+			$data['informado'] = "0";
+			if(isset($_GET['tipo_disp'])){
+				$connection = Yii::app()->db;
+				$sql = "SELECT id_tipo FROM tipo_disp WHERE nombre='".$_GET['tipo_disp']."'";
+				$command=$connection->createCommand($sql);
+				$result=$command->queryAll();
+				$data['tipo'] = $result[0]['id_tipo'];
+				$data['imei'] = $_GET['imei'];
+				$data['informado'] = "1";
+				// $this->renderPartial('/sim/asignar', array('data' => json_encode($data)));
+			}
+			$this->render('asignar', array('data' => json_encode($data)));
+			// $this->redirect(array('asignar', 'data' => json_encode($data)));
+		}
 	}
 
 	/**

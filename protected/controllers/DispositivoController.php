@@ -81,18 +81,21 @@ class DispositivoController extends Controller
 			));
 		}
 	}
-
-	public function actionAsignar()
-	{
-		if(Yii::app()->request->isPostRequest){
-			$data['tipo_disp'] = $_POST['tipo_disp'];
-			$data['imei'] = $_POST['imei'];
-			$data['informado'] = "1";
-			// $this->renderPartial('/sim/asignar', array('data' => json_encode($data)));
-			$html = $this->render('//sim/asignar', array('data' => json_encode($data)), true);
-			echo $html;
-		}
-	}
+// Yii::app()->createUrl('modelo/generarDoc',array(tipo_disp => valores[2], imei => valores[6]))
+	// public function actionAsignar()
+	// {
+	// 	$data['informado'] = "0";
+	// 	if(Yii::app()->request->isPostRequest && isset($_POST['tipo_disp'])){
+	// 		$connection = Yii::app()->db;
+	// 		$sql = "SELECT id_tipo FROM tipo_disp WHERE nombre='".$_POST['tipo_disp']."'";
+	// 		$command=$connection->createCommand($sql);
+	// 		$result=$command->queryAll();
+	// 		$data['tipo'] = $result[0]['id_tipo'];
+	// 		$data['imei'] = $_POST['imei'];
+	// 		$data['informado'] = "1";
+	// 	}
+	// 		$this->render('/sim/asignar', array('data' => json_encode($data)));
+	// }
 
 // La función GetTypes() devuelve los tipos de dispositivos/activos en un JSON
 
