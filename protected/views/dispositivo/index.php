@@ -16,21 +16,8 @@
 				$(".selectpicker").selectpicker("refresh");
 			}
 		});
-		$('#btnAsignar').on('mouseover', function(event) {
-			event.preventDefault();
-			// $('#modalInfo').modal('toggle');
-			// $.post('asignar', {tipo_disp: valores[2], imei: valores[6]})
-			// .done(function(data){
-			// 	// $(':root').html(data);
-			// 	alert("Se debería cargar");
-			// });
-		// $.get('/inventario/sim/asignar', {tipo_disp: valores[2], imei: valores[6]})
-		// 	.done(function(data){
-		// 		// $(':root').html(data);
-		// 		alert("Se debería cargar");
+		$('#btnAsignar').on('mouseover', function() {
 			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
-			// $('#btnAsignar').trigger('click');
-			// });
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
 		pruebaDataTable(id, datos, atributos,nombres);
@@ -74,10 +61,17 @@
 					$('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
 				}
 			});
-			if(valores[valores.length-1]=='no'){
+			if(valores[valores.length-3]=='no'){ //Hablita o no el botón de asignar sim dependiendo di el dispositivo usa
 				$('#btnAsignar').addClass('disabled');
+				$('#msjSim').html('Este Artículo no utiliza simcards');
 			}else{
-				$('#btnAsignar').removeClass('disabled');
+				if(valores[valores.length-2]==valores[valores.length-1]){ //Pregunta si el dispositivo ya tiene su capacidad de sims ocupadas
+					$('#btnAsignar').addClass('disabled');
+					$('#msjSim').html('No hay ranura disponible para sim en este dispositivo');
+				}else{
+					$('#btnAsignar').removeClass('disabled');
+					$('#msjSim').html(valores[valores.length-2]-valores[valores.length-1]+' Ranura(s) disponible(s)');
+				}
 			}
 			// table.ajax.reload();
 			$('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
@@ -168,15 +162,16 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 						</div>
 					</div><br>
 					<div class="row">
-						<div class="col-xs-3 col-xs-offset-3">
+						<div class="buttons-submit col-sm-3 col-sm-offset-3">
 							<button id="btnEditar" data-dismiss="modal" class="btn btn-warning" type="button">Editar&nbsp</button>
-						</div><br><br>
-						<div class="col-xs-6">
+						</div>
+						<div class="buttons-submit col-sm-3">
 							<a id="btnAsignar" class="btn btn-success" type="button">Asignar Simcard</a>
+							<p id="msjSim" class="text-center"></p>
 						</div>
-						<div class="col-xs-3 col-xs-offset-3">
+						<!-- <div class="buttons-submit col-sm-4">
 							<button id="btnCerrar" data-dismiss="modal" class="btn btn-danger" type="button">Cerrar</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

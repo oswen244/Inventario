@@ -36,7 +36,7 @@ class SimController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','asignar','getDisps'),
+				'actions'=>array('admin','delete','asignar','getDispDisponibles'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -54,16 +54,6 @@ class SimController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
-	}
-
-	public function actionGetDisps(){
-		if(Yii::app()->request->isPostRequest && isset($_POST['id_tipo'])){
-			$connection = Yii::app()->db;
-			$sql = "SELECT * FROM dispositivos WHERE tipo_disp=".$_POST['id_tipo'];
-			$command=$connection->createCommand($sql);
-			$result=$command->queryAll();
-			echo CJSON::encode($result);
-		}
 	}
 
 	/**
@@ -159,19 +149,55 @@ class SimController extends Controller
 	{
 		if(Yii::app()->request->isPostRequest && isset($_POST['id_tipo'])){
 			$connection = Yii::app()->db;
-			// $sql = "SELECT COUNT(id_tipo) AS total, id_tipo FROM dispositivos WHERE id_tipo=".$_POST['id_tipo'];
-			$sql = "SELECT * FROM dispositivos WHERE sim_asig = 'no' AND id_estado = 1";
+			$sql = "SELECT * FROM dispositivos WHERE sim_asig = 0 AND id_estado = 1";
 			$command=$connection->createCommand($sql);
 			$result=$command->queryAll();
 			echo CJSON::encode($result);
 		}
-
 	}
 
 	public function actionAsignar()
 	{
 		if(Yii::app()->request->isPostRequest){
 			parse_str($_POST['data'], $data);
+			$connection = Yii::app()->db;
+			$transaction=$connection->beginTransaction();
+			try
+			{
+				$criteria = new CDbCriteria();
+				$criteria->condition = 'imei_ref=:imei_ref';
+				$criteria->params = array(':imei_ref'=>$data[3]);
+				$dispositivo = Dispositivo::model()->find($criteria);
+				$dispositivo->sims_asig = (($dispositivo->sims_asig)+1);
+				$dispositivo->save();
+
+				$sql = "SELECT * FROM sims WHERE isnull(imei_disp) AND id_plan = ".$data[4]." ORDER BY id_sim ASC LIMIT 0,1";
+				$command=$connection->createCommand($sql);
+				$result=$command->queryAll();
+				$sim = $result[0]['id_sim'];
+
+				$sql = "UPDATE sims SET id_estado=".$data[0].", imei_disp='".$data[3]."', f_asig='".$data[1]."' WHERE id_sim = ".$sim;
+				$command=$connection->createCommand($sql);
+				$result=$command->execute();
+
+				// if($transaction->commit()){
+					$r['mensaje'] = "La sim se asignó correctamente al dispositivo";
+					$r['cod'] = "1";
+				// }else{
+				// 	$r['mensaje'] = "Sino del commit()";
+				// 	$r['cod'] = "2";
+				// }
+			}
+			catch(Exception $e) // se arroja una excepción si una consulta falla
+			{
+				$transaction->rollBack();
+				$r['mensaje'] = $e->getMessage();
+				$r['cod'] = "3";
+			}
+			
+			echo json_encode($r);
+
+
 		}else{
 			$data['informado'] = "0";
 			if(isset($_GET['tipo_disp'])){
@@ -195,7 +221,7 @@ class SimController extends Controller
 	public function actionAdmin()
 	{
 		$model=new Sim('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();// clear any default values
 		if(isset($_GET['Sim']))
 			$model->attributes=$_GET['Sim'];
 

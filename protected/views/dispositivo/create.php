@@ -95,7 +95,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Estado:</label>
 						<div class="col-md-7">
-							<select id="estado" data-width="100%" name="texto" class="selectpicker">
+							<select id="estado" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
 								<option value="">Seleccionar estado</option>
 								<?php
 									$connection = Yii::app()->db;
@@ -111,7 +111,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Proveedor:</label>
 						<div class="col-md-7">
-							<select id="proveedor" data-width="100%" name="texto" class="ignorar selectpicker">
+							<select id="proveedor" data-live-search="true" data-width="100%" name="texto" class="ignorar selectpicker">
 								<option value="">Seleccionar proveedor</option>
 								<?php
 										$connection = Yii::app()->db;
@@ -127,7 +127,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Tipo de dispositivo:</label>
 						<div class="col-md-7">
-							<select id="tipoDispositivo" data-width="100%" name="texto" class="selectpicker">
+							<select id="tipoDispositivo" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
 								<option value="">Seleccionar Tipo de dispositivo</option>
 								<option value="">Debes escoger un proveedor</option>
 							</select>

@@ -37,15 +37,15 @@
 				<div  class="form-group col-md-6">
 					<label class="col-md-5 control-label">Plan:</label>
 					<div class="col-md-7">
-						<select  id="plan" data-width="100%" name="texto" class="selectpicker">
+						<select id="plan" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
 							<option value="">Seleccionar Plan</option>
-							<?php 
+							<?php
 								$connection = Yii::app()->db;
 								$sql = "SELECT id_plan, nombre_plan FROM planes";
 								$command=$connection->createCommand($sql);
 								$dataReader=$command->queryAll();
 								foreach($dataReader as $row){?>
-										<option value="<?php echo $row['id_plan'];?>"><?php echo $row['nombre_plan'];?></option>
+									<option value="<?php echo $row['id_plan'];?>"><?php echo $row['nombre_plan'];?></option>
 								<?php }?>
 							 ?>
 						</select>
@@ -54,7 +54,7 @@
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">Estado:</label>
 					<div class="col-md-7">
-						<select id="select_estado" data-width="100%" name="texto" class="selectpicker">
+						<select id="select_estado" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
 							<option value="">Seleccionar estado</option>
 							<?php
 									$connection = Yii::app()->db;
@@ -71,7 +71,7 @@
 				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">Proveedor:</label>
 					<div class="col-md-7">
-						<select id="proveedor" data-width="100%" name="texto" class="selectpicker">
+						<select id="proveedor" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
 							<option value="">Seleccionar Proveedor</option>
 							<?php
 							$connection = Yii::app()->db;
