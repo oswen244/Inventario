@@ -6,8 +6,11 @@ body
 	font: normal 10pt Arial,Helvetica,sans-serif;
 }
 
-a{
+a, tr{
 	cursor: pointer;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 textarea{

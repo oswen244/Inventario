@@ -20,92 +20,9 @@
 			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
-		pruebaDataTable(id, datos, atributos,nombres);
+		customDataTable(id, datos, atributos,nombres);
 		validar("#editarDispositivo");
 	});
-	function pruebaDataTable(nombre, data, atributos, nombres) {
-		
-        // var columnas = columnList(atributos);
-        var columnas = '['+columnList(atributos)+']';
-        columnas = JSON.parse(columnas);
-        var table = $(nombre).DataTable({
-            data: data,
-            dataType: "json",
-            lengthMenu: [10, 20, 50, 75, 100 ],
-            bLengthChange: true,
-            columns: columnas
-        });
-
-        $(nombre+' tbody').on( 'click', 'tr', function () {
-            $(this).toggleClass('selected');
-            // alert(table.fnGetPosition( this ));
-        } );
-
-		$(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobre una fila de la tabla
-			// editado = $(this);
-			tr = $(this);
-			$('tr').removeClass('selected'); // Se quitan las columnas seleccionadas
-			$(this).toggleClass('selected'); // Sombrea la fila que se le hizo doble click por medio de la calse selected
-			var p = table.row($(this)).data(); //obtiene los datos de la fila a partir del datasource del dataTable
-			valores = new Array(); //variable global
-			$.each(p, function(index, val) {
-				valores.push(val); //se guardan únicamente los valores de la fila en un array
-			});
-			idDisp = valores[0]; //En la última posisición del Array está el id
-			$('#modalInfoLabel').html('Información del dispositivo: '+idDisp); //Título del modal de Info
-			$('#filas').empty(); //Se borra la info actual del modal de Info
-			$(nombres).each(function(index, val) { //Se coloca la información en el modal
-				if(valores[index+1]!=null){
-					$('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index+1]+'</td></tr>');
-				}else{
-					$('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
-				}
-			});
-			if(valores[valores.length-3]=='no'){ //Hablita o no el botón de asignar sim dependiendo di el dispositivo usa
-				$('#btnAsignar').addClass('disabled');
-				$('#msjSim').html('Este Artículo no utiliza simcards');
-			}else{
-				if(valores[valores.length-2]==valores[valores.length-1]){ //Pregunta si el dispositivo ya tiene su capacidad de sims ocupadas
-					$('#btnAsignar').addClass('disabled');
-					$('#msjSim').html('No hay ranura disponible para sim en este dispositivo');
-				}else{
-					$('#btnAsignar').removeClass('disabled');
-					$('#msjSim').html(valores[valores.length-2]-valores[valores.length-1]+' Ranura(s) disponible(s)');
-				}
-			}
-			// table.ajax.reload();
-			$('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
-			$.post('view', {id: idDisp}) //Se obtienen los datos para el modal de Edit
-			.done(function(data){
-				var x = JSON.parse(data);
-				var value = new Array();
-				$.each(x[0], function(index, val) { //Coloca los datos para editar en un array para luego asignarlo a cada campo de entrada
-					value.push(val);
-				});
-				$.post('getTypes', {proveedor: value[3]}) //Busca los tipos de dispositivo del proveedor actual
-				.done(function(data){
-					reloadTypes(data);
-					$('form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
-						$(this).val(value[index]);
-					});
-					$(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
-				});
-			});
-        });
-        $('#btnEditar').on('click', function(event) {
-        	event.preventDefault();
-        	// $('#modalInfo').modal('toggle'); //Quita el modal de Info
-        	$('#modalEdit').modal({backdrop: 'static'}); //Muestra el modal de Edit
-        });
-        $('#btnGuardar').on('click', function(event) { //Oculta el modal de Edit, las acciones las maneja el Bootstrap Validator en el evento success
-        	$('#modalEdit').modal('toggle');
-        });
-        $('#modalEdit').on('hidden.bs.modal', function (e) {
-        	$('#editarDispositivo')[0].reset();
-            $(".selectpicker",$('#editarDispositivo')).selectpicker('refresh');
-            $('#editarDispositivo').data('bootstrapValidator').resetForm();
-		});
-}
 
 function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependiendo del proveedor escogido
 		var x = [];
@@ -127,9 +44,9 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 
 <div class="content">
 	<div class="content-side">
-		<input type="button" data-toggle="modal" class="btnActions btn btn-danger btn-sm" value="Eliminar">
-		<input type="button" data-toggle="modal" class="btnActions btn btn-success btn-sm" value="Facturar">
-		<table id="dispTable" class="display responsive nowrap" width="100%" cellspacing="0">
+		<button id="btnEliminar" class="btnActions btn btn-danger btn-sm">Eliminar</button>
+		<button id="btnFacturar" class="btnActions btn btn-success btn-sm">Facturar</button>
+		<table id="dispTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 				<thead>
 					<tr>
 						<th>Referencia</th>

@@ -106,7 +106,7 @@
 						<button id="btnAsignar" type="submit" class="btn btn-primary">Asignar simcard</button>
 					</div>
 					<div class="col-md-2 col-md-offset-1">
-						<a href="#" class="btn btn-success">Cancelar</a>
+						<a href="<?php echo Yii::app()->user->returnUrl ?>" class="btn btn-success">Cancelar</a>
 					</div>
 				</div>
 			</form>
