@@ -86,6 +86,28 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				</div>
 				<div class="modal-body">
 					<div class="row">
+						<div class="form-group col-md-6">
+							<label class="col-md-5 control-label">Cliente:</label>
+							<div class="col-md-7">
+								<select id="cliente" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
+									<option value="">Seleccionar cliente</option>
+									<?php
+									$connection = Yii::app()->db;
+									$sql = "SELECT * FROM clientes";
+									$command=$connection->createCommand($sql);
+									$dataReader=$command->query();
+									foreach($dataReader as $row){?>
+										<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['nombre'];?></option>
+									<?php }?>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label class="col-md-5 control-label">IMEI o referencia:</label>
+							<div class="col-md-7">
+								<input type="text" name="texto" class="form-control" placeholder="IMEI o referencia">
+							</div>
+						</div>
 						<div class="col-xs-12">
 							<table id="tableFact" class="display responsive nowrap table-striped" width="100%" cellspacing="0">
 								<thead>
