@@ -156,7 +156,7 @@ class ContactoController extends Controller
 		try {
 
 			Yii::app()->db->createCommand($sql)->query();
-			echo "1;El contacto se ha borrado correctamente";
+			echo "1;El(los) contacto(s) se ha(n) borrado correctamente";
 		} catch (Exception $e) {
 			echo "3;Error: No se pueden borrar los contactos seleccionados";			
 		}
@@ -169,8 +169,11 @@ class ContactoController extends Controller
 	public function actionIndex()
 	{
 		$model = Contacto::model();
-		$con = $model->findAll();
-		$contacto = CJSON::encode($con); 
+
+		$sql = "CALL entidad()";
+		$con = Yii::app()->db->createCommand($sql)->queryAll();
+		
+		$contacto = CJSON::encode($con);
 
 		$this->render('index', array('contactos' => $contacto));
 	}

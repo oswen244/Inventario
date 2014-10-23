@@ -3,7 +3,7 @@
 	$(document).ready(function() {
 		var nombres = [];
 	    var atributos = ["estado","descripcion"];
-	    var table = customDataTable('#datatable', <?php echo $estados; ?>, atributos);
+	    var table = customDataTable('#datatable', <?php echo $estados; ?>, atributos, nombres);
 
 	    $('#dialog').click(function() {
             borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
@@ -36,7 +36,7 @@
 				<li><a href="estado/create">Registrar estado</a></li>
 			</ul>
 		</div>
-		<table id="datatable" class="display responsive nowrap" width="100%" cellspacing="0">
+		<table id="datatable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Estado</th>

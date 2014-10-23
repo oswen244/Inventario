@@ -158,7 +158,7 @@ class ProveedorController extends Controller
 
 			try {
 				Yii::app()->db->createCommand($sql)->query();
-				echo "1;El(los) registro(s) se ha borrado";			
+				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
 				// echo "3,Error: existen activos asociados con ese estado";
 				echo "3;".$e->getMessage();

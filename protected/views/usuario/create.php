@@ -1,19 +1,6 @@
 <script>
 	$(document).ready(function() {
-
-		$('#form_usuario').submit(function(event) {
-			event.preventDefault();
-
-			var formulario = $(this).serialize();
-
-			 $.post('create', {data: formulario})
-			 .done(function(data){
-            	success(data,1);
-			 });
-			 
-			 $('#form_usuario')[0].reset();
-			 
-		});
+		validar('#form_usuario');
 	});
 </script>
 <h1 class="header-tittle">Usuarios</h1>
@@ -30,33 +17,33 @@
 					<div class="form-group col-md-9">
 						<label for="nombre" class="col-md-5 control-label">Nombre:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="nombre" placeholder="Nombre">
+							<input type="text" class="form-control" name="texto" placeholder="Nombre">
 						</div>
 					</div>
 					
 					<div class="form-group col-md-9">
 						<label for="usuario" class="col-md-5 control-label">Usuario:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="usuario" placeholder="Usuario">
+							<input type="text" class="form-control" name="texto" placeholder="Usuario">
 						</div>
 					</div>
 					
 					<div class="form-group col-md-9">
 						<label for="rol" class="col-md-5 control-label">Perfil:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="rol" placeholder="Perfil">
+							<input type="text" class="form-control" name="texto" placeholder="Perfil">
 						</div>
 					</div>
 					<div class="form-group col-md-9">
 						<label for="contrasena" class="col-md-5 control-label">Contraseña:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="contrasena" placeholder="Contraseña">
+							<input type="password" class="form-control" name="password" placeholder="Contraseña">
 						</div>
 					</div>
 					<div class="form-group col-md-9">
 						<label for="c_contrasena" class="col-md-5 control-label">Confirmar contraseña:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="c_contrasena" placeholder="Confirmar contraseña">
+							<input type="password" class="ignorar form-control" name="confirmPassword" placeholder="Confirmar contraseña">
 						</div>
 					</div>
 

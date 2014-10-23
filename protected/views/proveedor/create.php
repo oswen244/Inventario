@@ -1,22 +1,6 @@
 <script>
 	$(document).ready(function() {
 		validar('#form_proveedor');
-		// $('.selectpicker').selectpicker();
-
-		// $('#form_proveedor').submit(function(event) {
-		// 	event.preventDefault();
-
-		// 	var formulario = $(this).serialize();
-
-		// 	 $.post('create', {data: formulario})
-		// 	 .done(function(data){
-  //           	success(data,1);
-		// 	 	$('#form_proveedor')[0].reset();
-		// 	 	$(".selectpicker").selectpicker('refresh');
-		// 	 });
-			 
-			 
-		// });
 	});
 </script>
 <h1 class="header-tittle">Proveedores</h1>

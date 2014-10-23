@@ -1,22 +1,16 @@
 <script>
-
 	$(document).ready(function() {
+		validar('#form_plan');
 
-		$('#form_plan').submit(function(event) {
-			event.preventDefault();
-
-			
-				var formulario = $(this).serialize();
-
-				 $.post('create', {data: formulario})
-				.done(function(data){
-	            	success(data,1);
-			 	});
-
-				 $('#form_plan')[0].reset();
-			
+		$('#datos').on('change', function() {
+			var precios = parseFloat($('#datos').val())+parseFloat($('#voz').val());
+			$('#cargo_fijo').attr('value', precios);
 		});
 
+		$('#voz').on('change', function() {
+			var precios = parseFloat($('#datos').val())+parseFloat($('#voz').val());
+			$('#cargo_fijo').attr('value', precios);
+		});
 	});
 </script>
 
@@ -35,41 +29,44 @@
 					<div class="form-group col-md-9">
 						<label for="nombre_plan" class="col-md-5 control-label">Nombre del plan:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="nombre_plan" placeholder="Nombre del plan">
+							<input type="text" class="form-control" name="texto" placeholder="Nombre del plan">
 						</div>
 					</div>
 
 					<div class="form-group col-md-9">
 						<label for="desc_p_datos" class="col-md-5 control-label">Plan datos:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="desc_p_datos" placeholder="Ej: 200MB">
+							<input type="text" class="form-control" name="texto" placeholder="Ej: 200MB">
 						</div>
 					</div>
 					
 					<div class="form-group col-md-9">
 						<label for="desc_p_voz" class="col-md-5 control-label">Plan voz:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="desc_p_voz" placeholder="Ej: 200 MINS">
+							<input type="text" class="form-control" name="texto" placeholder="Ej: 200 MINS">
 						</div>
 					</div>
-					
+
 					<div class="form-group col-md-9">
 						<label for="cargo_datos" class="col-md-5 control-label">Cargo por datos:</label>
-						<div class="col-md-7">
-							<input type="text" class="form-control" name="cargo_datos" placeholder="$">
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="datos" type="number" class="form-control" name="texto"><span class="input-group-addon">.00</span>
 						</div>
 					</div>
 
 					<div class="form-group col-md-9">
 						<label for="cargo_voz" class="col-md-5 control-label">Cargo por voz:</label>
-						<div class="col-md-7">
-							<input type="text" class="form-control" name="cargo_voz" placeholder="$">
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="voz" type="number" class="form-control" name="texto"><span class="input-group-addon">.00</span>
 						</div>
 					</div>
+					
 
 					<div class="form-group col-md-9">
 						<label for="c_fijoM" class="col-md-5 control-label">Cargo fijo mensual:</label>
-						<label for="c_fijoM" class="col-md-7 control-label">$0000</label>
+						<div class="col-md-7 input-group">
+							<span class="input-group-addon">$</span><input id="cargo_fijo" type="number" readonly class="ignorar form-control" name="texto"><span class="input-group-addon">.00</span>
+						</div>
 					</div>
 
 

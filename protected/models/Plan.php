@@ -70,6 +70,20 @@ class Plan extends CActiveRecord
 	}
 
 	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'nombre_plan',
+			'cargo_datos',
+			'cargo_voz',
+			'desc_p_datos',
+			'desc_p_voz',
+		);
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
 	 * Typical usecase:

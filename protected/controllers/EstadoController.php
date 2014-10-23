@@ -129,11 +129,28 @@ class EstadoController extends Controller
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$sims = $result[0]['total'];
 
+		$sql = "SELECT estado AS nombres FROM estados WHERE id_estado IN (".$_POST['data'].")";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+
+		$nomEstados = '';
+		foreach ($result as $key => $value) {
+			$nomEstados .= $result[$key]['nombres'].",";
+		}
+		$nomEstados = rtrim($nomEstados, ",");	//Elimina la ultima coma ,			
+
+
 		if($estados=="0" && $sims=="0"){
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			try {
 				Yii::app()->db->createCommand($sql)->query();
-				echo "1;El(los) registro(s) se ha borrado";			
+				try {
+					$accion = "Estado(s) ".$nomEstados." BORRADO(S)";
+					$sql = "CALL historico('".Yii::app()->user->name."','".$accion."')";
+					Yii::app()->db->createCommand($sql)->query();
+				} catch (Exception $e) {
+					echo $e->getMessage();
+				}
+				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
 				echo "3;Error: existen activos asociados con ese estado";
 			}
@@ -151,7 +168,7 @@ class EstadoController extends Controller
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			try {
 				Yii::app()->db->createCommand($sql)->query();
-				echo "1;El(los) registro(s) se ha borrado";			
+				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
 				echo "3;Error: existen activos asociados con ese estado";
 			}

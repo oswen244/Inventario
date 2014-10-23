@@ -4,7 +4,7 @@
 		var nombres = [];
 	    var datos = <?php echo $proveedores; ?>;
 	    var atributos = ["nombre","tipo_identi","num_id","ciudad","direccion","telefono","email"];	    
-	    var table = customDataTable('#proveedorTable', datos, atributos); 
+	    var table = customDataTable('#proveedorTable', datos, atributos,nombres); 
 
 	    $('#dialog').click(function(event) {
 			 borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');	
@@ -23,7 +23,7 @@
 	
 <div class="content-side">
 	<input type="button" id="dialog" data-toggle="modal"  class="btnActions btn btn-danger btn-sm" value="Eliminar">
-	<table id="proveedorTable" class="display responsive nowrap" width="100%" cellspacing="0">
+	<table id="proveedorTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Nombre</th>

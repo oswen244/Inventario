@@ -5,7 +5,7 @@
 		var nombres = [];
 	    var datos = <?php echo $clientes; ?>;
 	    var atributos = ["nombre","tipo_identi","num_id","ciudad","direccion","telefono","email"];	    
-	    var table = customDataTable('#clienteTable', datos, atributos); 
+	    var table = customDataTable('#clienteTable', datos, atributos, nombres); 
 
 
 	    $('#dialog').click(function(event) {
@@ -27,7 +27,7 @@
 
 <div class="content-side">
 	<input type="button" id="dialog" data-toggle="modal"  class="btnActions btn btn-danger btn-sm" value="Eliminar">
-	<table id="clienteTable" class="display responsive nowrap" width="100%" cellspacing="0">
+	<table id="clienteTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Nombre</th>
@@ -70,8 +70,7 @@
 						<h4 class="modal-title">Advertencia</h4>
 					</div>
 					<div class="modal-body">
-						<p>El(los) estado(s) tienen uno o más dispositivos asociados.
-							¿Borrar de todas formas?</p>
+						<p></p>
 					</div>
 					<div class="modal-footer">
 						<button id="deleteCascade" type="button" class="btn btn-primary" data-dismiss="modal">Si</button>

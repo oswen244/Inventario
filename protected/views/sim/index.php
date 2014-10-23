@@ -4,7 +4,7 @@
 		var nombres = [];
 	    var datos = <?php echo $sims; ?>;
 	    var atributos = ["f_act","num_linea","imei_sc","tipo_plan","comentario","id_estado","id_proveedor","id_plan","imei_disp"];	    
-	    var table= customDataTable('#simTable', datos, atributos); 
+	    var table= customDataTable('#simTable', datos, atributos,nombres); 
 
 	    $('#dialog').click(function() {
             borrar(table,'#myModal','#delete');
@@ -23,7 +23,7 @@
 	
 	<div class="content-side">
 		<input type="button" id="dialog" data-toggle="modal"  class="btnActions btn btn-danger btn-sm" value="Eliminar">
-		<table id="simTable" class="display responsive nowrap" width="100%" cellspacing="0">
+		<table id="simTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Fecha de activación</th>

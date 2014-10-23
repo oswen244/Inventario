@@ -69,16 +69,20 @@ class ClienteController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			$data = str_replace('+', ' ', $_POST['data']);
-			$data = str_replace('%40', '@', $data);
-			$values = preg_split("/[&]?([a-zA-Z0-9\._\-@])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY);
+			parse_str($_POST['data'], $data);
+
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 
-			$atributos = array_combine($dbNames, $values); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$model->attributes=$atributos;
 			if($model->save()){
-				echo "El cliente fue registrado correctamente";
+				$result['mensaje'] = "El cliente se registró correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo registrar el cliente";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 
 			$this->render('create',array(
@@ -124,9 +128,9 @@ class ClienteController extends Controller
 			$sql = "DELETE FROM clientes WHERE id_cliente IN (".$_POST['data'].")";
 			try {
 				Yii::app()->db->createCommand($sql)->query();
-				echo "1,El(los) registro(s) se ha borrado";			
+				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
-				echo "3,Error: existen activos asociados con ese estado";
+				echo "3;Error: existen contactos y/o facturas asociados con los clientes seleccionados";
 			}
 		
 	}

@@ -69,14 +69,21 @@ class UsuarioController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			parse_str($_POST['data'], $searcharray);
-			$searcharray['contrasena'] = sha1($searcharray['contrasena']);
-			$model->attributes=$searcharray;
+			parse_str($_POST['data'], $data);
+			$data[3] = sha1($data[3]);
+			$dbNames = $model->getCreatingAttributes();
+
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+
+			$model->attributes=$atributos;
 			if($model->save()){
-				echo "El usuario fue registrado correctamente";
+				$result['mensaje'] = "El usuario se registró correctamente";
+				$result['cod'] = "1";
 			}else{
-				echo "error";
+				$result['mensaje'] = "Error: No se pudo registrar el usuario";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 
 			$this->render('create',array(
@@ -118,9 +125,9 @@ class UsuarioController extends Controller
 	{
 		$sql = "DELETE FROM usuarios WHERE id_usuario IN (".$_POST['data'].") AND id_usuario<>1";
 		if(Yii::app()->db->createCommand($sql)->query())
-			echo "1";
+			echo "1; El(los) usuario(s) ha(n) sido borrado(s)";
 		else
-			echo "2";
+			echo "3; Error: No se pueden borrar los usuarios seleccionados";
 	}
 
 	/**

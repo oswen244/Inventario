@@ -3,8 +3,8 @@
 	$(document).ready(function() {
 		var nombres = [];
 	    var datos = <?php echo $contactos; ?>;
-	    var atributos = ["nombre","telefono","tipo_entidad","cargo","email", "id_entidad"];	    
-	    var table = customDataTable('#contactoTable', datos, atributos); 
+	    var atributos = ["Nombre","Telefono","Tipo_entidad","Cargo","Email","Entidad"];	    
+	    var table = customDataTable('#contactoTable', datos, atributos, nombres); 
 
 	    $('#dialog').click(function() {
             borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
@@ -35,7 +35,7 @@
 				<li><a href="contacto/create">Registrar contacto</a></li>
 			</ul>
 		</div>
-		<table id="contactoTable" class="display responsive nowrap" width="100%" cellspacing="0">
+		<table id="contactoTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Nombre</th>
@@ -43,8 +43,7 @@
 					<th>Tipo entidad</th>
 					<th>Cargo</th>
 					<th>E-mail</th>
-					<th>id_proveedor</th>
-					<th>id_cliente</th>
+					<th>Entidad</th>
 				</tr>
 			</thead>
 			<tbody>

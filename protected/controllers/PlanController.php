@@ -69,11 +69,19 @@ class PlanController extends Controller
 
 		if(Yii::app()->request->isPostRequest)
 		{
-			parse_str($_POST['data'], $searcharray);
-			$model->attributes=$searcharray;
+			parse_str($_POST['data'], $data);
+
+			$dbNames = $model->getCreatingAttributes();
+			$atributos = array_combine($dbNames, $data);
+			$model->attributes=$atributos;
 			if($model->save()){
-				echo "El estado fue registrado correctamente";
+				$result['mensaje'] = "El plan se registró correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo registrar el plan";
+				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 
 			$this->render('create',array(
@@ -114,13 +122,22 @@ class PlanController extends Controller
 	 */
 	public function actionDelete()
 	{
+		$sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_sim IN (".$_POST['data'].")";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$sims = $result[0]['total'];
+
+
+		if($sims=="0"){
 			$sql = "DELETE FROM planes WHERE id_plan IN (".$_POST['data'].")";
 			try {
-				Yii::app()->db->createCommand($sql)->query();
-				echo "1,El(los) registro(s) se ha borrado";			
+					Yii::app()->db->createCommand($sql)->query();
+					echo "1;El(los) registro(s) se ha(n) borrado";		
 			} catch (Exception $e) {
-				echo "3,Error: existen Sims asociadas con ese(esos) Plan(es)";
+					echo "3;".$e->getMessage();
 			}
+		}else{
+					echo "3;Error: existen Sims asociadas con ese(esos) Plan(es).";
+		}
 	}
 
 	/**

@@ -64,6 +64,19 @@ class User extends CActiveRecord
 	}
 
 	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function getCreatingAttributes()
+	{
+		return array(
+			'nombre',
+			'usuario',
+			'rol',
+			'contrasena',
+		);
+	}
+
+	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 *
 	 * Typical usecase:

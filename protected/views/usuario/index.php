@@ -1,14 +1,20 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+	    var nombres = [];	
 	    var datos = <?php echo $users; ?>;
 	    var id = '#usuariosTable';
 	    var atributos = ["usuario","rol","nombre"];	    
-	    var table = customDataTable(id, datos, atributos);
+	    var table = customDataTable('#usuariosTable' datos, atributos,nombres);
 
 	    $('#dialog').click(function(event) {
 	    	borrar(table,'#myModal','#delete');
 	    }); 
+
+	    $('#datatable tr th').each(function() {
+	    	nombres.push($(this).html());
+	    });
+
 
 	});
 
@@ -21,7 +27,7 @@
 	
 <div class="content-side">
 	<input type="button" id="dialog" data-toggle="modal"  class="btnActions btn btn-danger btn-sm" value="Eliminar">
-	<table id="usuariosTable" class="display responsive nowrap" width="100%" cellspacing="0">
+	<table id="usuariosTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr>
 					<th>Usuario</th>
