@@ -73,15 +73,26 @@ class ProveedorController extends Controller
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
-			$model->attributes=$atributos;
-			if($model->save()){
-				$result['mensaje'] = "El proveedor fue registrado correctamente";
-				$result['cod'] = "1";
-			}else{
-				$result['mensaje'] = "Error: No se pudo registrar el proveedor";
+			$elem = $atributos['nombre'].", ".$atributos['ciudad'].", ".$atributos['telefono'].", ".$atributos['email'];
+			$accion = "CREADO";
+			$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+			try {
+				$model->attributes=$atributos;
+				Yii::app()->db->createCommand($sql)->query();				
+				if($model->save()){
+					$result['mensaje'] = "El proveedor se registró correctamente";
+					$result['cod'] = "1";
+				}else{
+					$result['mensaje'] = "Error: No se pudo registrar el proveedor";
+					$result['cod'] = "3";
+				}
+				echo json_encode($result);
+
+			} catch (Exception $e) {
+				$result['mensaje'] = $e->getMessage();
 				$result['cod'] = "3";
 			}
-			echo json_encode($result);
+
 		}else{
 
 			$this->render('create',array(

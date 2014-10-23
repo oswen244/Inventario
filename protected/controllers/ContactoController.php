@@ -79,17 +79,27 @@ class ContactoController extends Controller
 			}
 
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
-			$model->attributes=$atributos;
-			
 
-			if($model->save()){ //se guardan los datos en la bd
-				$result['mensaje'] = "El contacto se registró correctamente";
-				$result['cod'] = "1";
-			}else{
-				$result['mensaje'] = "Error: No se pudo registrar el contacto";
+			$elem = $atributos['nombre'].", ".$atributos['ciudad'].", ".$atributos['telefono'].", ".$atributos['email'];
+			$accion = "CREADO";
+			$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+			try {
+				$model->attributes=$atributos;
+				Yii::app()->db->createCommand($sql)->query();				
+				if($model->save()){
+					$result['mensaje'] = "El proveedor se registró correctamente";
+					$result['cod'] = "1";
+				}else{
+					$result['mensaje'] = "Error: No se pudo registrar el proveedor";
+					$result['cod'] = "3";
+				}
+				echo json_encode($result);
+
+			} catch (Exception $e) {
+				$result['mensaje'] = $e->getMessage();
 				$result['cod'] = "3";
 			}
-			echo json_encode($result);
+
 		}else{
 			$this->render('create');
 		}
@@ -152,10 +162,23 @@ class ContactoController extends Controller
 	public function actionDelete()
 	{
 
+		$model = new Contacto;
+
 		$sql = "DELETE FROM contactos WHERE id_contacto IN (".$_POST['data'].")";
+		$sqli = "SELECT c.nombre Nombre, c.tipo_entidad Tipo_entidad, if(isnull(c.id_proveedor), l.nombre, p.nombre) Entidad FROM contactos c  LEFT JOIN clientes l ON c.id_cliente = l.id_cliente LEFT JOIN proveedores p ON c.id_proveedor = p.id_proveedor WHERE c.id_contacto IN (".$_POST['data'].")";
 		try {
 
+			$result = Yii::app()->db->createCommand($sqli)->queryAll();
 			Yii::app()->db->createCommand($sql)->query();
+
+			foreach ($result as $key => $value) {
+				$elem = $result[$key]['Nombre'].",".$result[$key]['Tipo_entidad'].",".$result[$key]['Entidad'];
+				$accion = "BORRADO";
+				$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+
+				Yii::app()->db->createCommand($sql)->query();
+			}
+
 			echo "1;El(los) contacto(s) se ha(n) borrado correctamente";
 		} catch (Exception $e) {
 			echo "3;Error: No se pueden borrar los contactos seleccionados";			

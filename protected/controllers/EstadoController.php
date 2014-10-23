@@ -7,7 +7,6 @@ class EstadoController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/main';
-
 	/**
 	 * @return array action filters
 	 */
@@ -120,6 +119,8 @@ class EstadoController extends Controller
 	 */
 	public function actionDelete()
 	{
+		
+		$model = new Estado;
 
 		$sql = "SELECT COUNT(id_disp) AS total FROM dispositivos WHERE id_estado IN (".$_POST['data'].")";
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -129,30 +130,28 @@ class EstadoController extends Controller
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$sims = $result[0]['total'];
 
-		$sql = "SELECT estado AS nombres FROM estados WHERE id_estado IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-
-		$nomEstados = '';
-		foreach ($result as $key => $value) {
-			$nomEstados .= $result[$key]['nombres'].",";
-		}
-		$nomEstados = rtrim($nomEstados, ",");	//Elimina la ultima coma ,			
 
 
 		if($estados=="0" && $sims=="0"){
+
+			$sqli = "SELECT estado AS nombres FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
+
 			try {
-				Yii::app()->db->createCommand($sql)->query();
-				try {
-					$accion = "Estado(s) ".$nomEstados." BORRADO(S)";
-					$sql = "CALL historico('".Yii::app()->user->name."','".$accion."')";
+					$result = Yii::app()->db->createCommand($sqli)->queryAll();					
 					Yii::app()->db->createCommand($sql)->query();
-				} catch (Exception $e) {
-					echo $e->getMessage();
-				}
+
+						foreach ($result as $key => $value) {
+							$elem = $result[$key]['nombres'];
+							$accion = "BORRADO";
+							$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+
+							Yii::app()->db->createCommand($sql)->query();
+						}
+				
 				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
-				echo "3;Error: existen activos asociados con ese estado";
+				echo "3;".$e->getMessage();
 			}
 		}else{
 			echo "3;Error: existen activos asociados con ese estado.
@@ -164,14 +163,29 @@ class EstadoController extends Controller
 
 	public function actionDeleteCascade()
 	{
+			$model = new Estado;
 
+			$sqli = "SELECT estado AS nombres FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
-			try {
-				Yii::app()->db->createCommand($sql)->query();
+			
+				try {
+					
+					$result = Yii::app()->db->createCommand($sqli)->queryAll();
+					Yii::app()->db->createCommand($sql)->query();
+
+						foreach ($result as $key => $value) {
+							$elem = $result[$key]['nombres'];
+							$accion = "BORRADO";
+							$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+
+							Yii::app()->db->createCommand($sql)->query();
+						}
+				
 				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
+
 				echo "3;Error: existen activos asociados con ese estado";
-			}
+			}				
 		
 	}
 
