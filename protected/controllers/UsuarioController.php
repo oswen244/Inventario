@@ -75,15 +75,25 @@ class UsuarioController extends Controller
 
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 
-			$model->attributes=$atributos;
-			if($model->save()){
-				$result['mensaje'] = "El usuario se registró correctamente";
-				$result['cod'] = "1";
-			}else{
-				$result['mensaje'] = "Error: No se pudo registrar el usuario";
+			$elem = $atributos['usuario'].", ".$atributos['nombre'];
+			$accion = "CREADO";
+			$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+			try {
+				$model->attributes=$atributos;
+				Yii::app()->db->createCommand($sql)->query();				
+				if($model->save()){
+					$result['mensaje'] = "El usuario se registró correctamente";
+					$result['cod'] = "1";
+				}else{
+					$result['mensaje'] = "Error: No se pudo registrar el usuario";
+					$result['cod'] = "3";
+				}
+				echo json_encode($result);
+			} catch (Exception $e) {
+				$result['mensaje'] = $e->getMessage();
 				$result['cod'] = "3";
 			}
-			echo json_encode($result);
+			
 		}else{
 
 			$this->render('create',array(
@@ -123,11 +133,29 @@ class UsuarioController extends Controller
 	 */
 	public function actionDelete()
 	{
+		$model = new User;
+
 		$sql = "DELETE FROM usuarios WHERE id_usuario IN (".$_POST['data'].") AND id_usuario<>1";
-		if(Yii::app()->db->createCommand($sql)->query())
-			echo "1; El(los) usuario(s) ha(n) sido borrado(s)";
-		else
-			echo "3; Error: No se pueden borrar los usuarios seleccionados";
+		$sqli = "SELECT usuario, nombre FROM usuarios WHERE id_usuario IN (".$_POST['data'].")";
+		try {
+
+				$result = Yii::app()->db->createCommand($sqli)->queryAll();
+				Yii::app()->db->createCommand($sql)->query();
+
+				foreach ($result as $key => $value) {
+					$elem = $result[$key]['usuario'].", ".$result[$key]['nombre'];
+					$accion = "BORRADO";
+					$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+
+					Yii::app()->db->createCommand($sql)->query();
+				}
+
+
+				echo "1; El(los) usuario(s) ha(n) sido borrado(s)";
+		} catch (Exception $e) {
+			echo "3; Error: No se pueden borrar los usuarios seleccionados";			
+		}
+		
 	}
 
 	/**
