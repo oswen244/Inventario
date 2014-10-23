@@ -32,13 +32,18 @@ class DispositivoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','create','update','getTypes','getPrices','dataSource','asignar'),
+				'actions'=>array('admin','delete','create','update','getTypes','getPrices','dataSource','asignar','facturar'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
 				'users'=>array('*'),
 			),
 		);
+	}
+
+	public function actionFacturar()
+	{
+
 	}
 
 	/**

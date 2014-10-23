@@ -20,7 +20,23 @@
 			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
-		customDataTable(id, datos, atributos,nombres);
+		table = customDataTable(id, datos, atributos,nombres);
+		$('#btnFacturar').on('click', function() {
+			var msj = "";
+			$.each(valoresDeFila(table), function(index, fila) { //Recorrer los valores seleccionados
+				if(fila[14]==0){ // Si el dispositivo no se ha facturado
+					msj = "Seleccionaste algún dispositivo que no está disponible, asegurate de facturar sólo dispositivos disponibles";
+					success(msj,2);
+					return false;
+				}
+			});
+			if(msj.length != 0){
+			}else{
+				// success("Bien",1);
+				// $.post('view');
+				// window.location.href = '<?php echo Yii::app()->request->baseUrl;?>/dispositivo/create';
+			}
+		});
 		validar("#editarDispositivo");
 	});
 
@@ -61,6 +77,43 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				</tbody>
 		</table>
 	</div>
+	<div class="modal fade" id="modalFacturar" tabindex="-1" role="dialog" aria-labelledby="modalFacturarLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Facturación de artículos</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<table id="tableFact" class="display responsive nowrap table-striped" width="100%" cellspacing="0">
+								<thead>
+									<tr class="text-center">
+										<th>Referencia</th>
+										<th>Imei</th>
+										<th>Precio de venta sin IVA</th>
+										<th>Precio de venta con IVA</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</div><br>
+					<div class="row">
+						<div class="buttons-submit col-sm-3">
+							<a id="btnRegistraFactura" class="btn btn-success" type="button">Registrar factura</a>
+						</div>
+						<div class="buttons-submit col-sm-3 col-sm-offset-3">
+							<button data-dismiss="modal" class="btn btn-primary" type="button">Volver</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="modalInfoLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -80,7 +133,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 					</div><br>
 					<div class="row">
 						<div class="buttons-submit col-sm-3 col-sm-offset-3">
-							<button id="btnEditar" data-dismiss="modal" class="btn btn-warning" type="button">Editar&nbsp</button>
+							<button id="btnEditar" data-dismiss="modal" class="btn btn-warning" type="button">Editar</button>
 						</div>
 						<div class="buttons-submit col-sm-3">
 							<a id="btnAsignar" class="btn btn-success" type="button">Asignar Simcard</a>
@@ -120,23 +173,23 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 								<div class="form-group col-md-6">
 									<label class="col-md-5 control-label">Estado:</label>
 									<div class="col-md-7">
-										<select id="estado" data-width="100%" name="texto" class="selectpicker">
+										<select id="estado" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
 											<option value="">Seleccionar estado</option>
 											<?php
-													$connection = Yii::app()->db;
-													$sql = "SELECT * FROM estados";
-													$command=$connection->createCommand($sql);
-													$dataReader=$command->query();
-													foreach($dataReader as $row){?>
-														<option value="<?php echo $row['id_estado'];?>"><?php echo $row['estado'];?></option>
-													<?php }?>
+											$connection = Yii::app()->db;
+											$sql = "SELECT * FROM estados";
+											$command=$connection->createCommand($sql);
+											$dataReader=$command->query();
+											foreach($dataReader as $row){?>
+												<option value="<?php echo $row['id_estado'];?>"><?php echo $row['estado'];?></option>
+											<?php }?>
 										</select>
 									</div>
 								</div>
 								<div class="form-group col-md-6">
 									<label class="col-md-5 control-label">Proveedor:</label>
 									<div class="col-md-7">
-										<select id="proveedor" data-width="100%" name="texto" class="ignorar selectpicker">
+										<select id="proveedor" data-live-search="true" data-width="100%" name="texto" class="ignorar selectpicker">
 											<option value="">Seleccionar proveedor</option>
 											<?php
 													$connection = Yii::app()->db;

@@ -56,15 +56,16 @@ function columnList(atributos){ //Genera la lista con los nombres de las columna
   return structure.substring(0,structure.length-1);
 }
 
-function valoresDeFila(p){ //Obtiene los valores de los registros de la tabla
+function valoresDeFila(table){ //Obtiene los valores de los registros de la tabla
 
- var seleccionados = [];
- $.each(p, function(index, val) {
+var p = table.rows($('.selected')).data();
+var seleccionados = [];
+$.each(p, function(index, val) {
   var values = new Array();
   $.each(val, function(index, valor) {
     values.push(valor);
   });
-  seleccionados.push(values);    
+  seleccionados.push(values);
 });
 
  return seleccionados;
@@ -73,20 +74,18 @@ function valoresDeFila(p){ //Obtiene los valores de los registros de la tabla
 function listaIds(table){ //Obtiene la lista de los ids de los registros que estan en la tabla
   var ids='';
 
-  var p = table.rows($('.selected')).data();
-  var seleccionados = valoresDeFila(p);
+  var seleccionados = valoresDeFila(table);
 
   $.each(seleccionados, function(index, val) {
     ids += val[0]+',';
   });
 
   ids = ids.substring(0,ids.length-1);
-
-
+  alert(ids);
   return ids;
 }
 
-function borrar(table,modal,modalCascade,btnDelete,deleteCascade){ 
+function borrar(table,modal,modalCascade,btnDelete,deleteCascade){
   var ids = listaIds(table);
   if (ids!=''){
     $(modal).modal();
@@ -109,7 +108,7 @@ function borrar(table,modal,modalCascade,btnDelete,deleteCascade){
               table.row('.selected').remove().draw( false );
               success(data[1],1);
             }else{
-              success(data[1],3); 
+              success(data[1],3);
             }
           });
           });
@@ -181,7 +180,7 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
           if(valores[valores.length-2]==valores[valores.length-1]){ //Pregunta si el dispositivo ya tiene su capacidad de sims ocupadas
             $('#btnAsignar').addClass('disabled');
             $('#msjSim').html('No hay ranura disponible para sim en este dispositivo');
-          }else{  // Muestra el botón y dice cuántas ranuras tiene disponible el dispositivo
+          }else{ // Muestra el botón y dice cuántas ranuras tiene disponible el dispositivo
             $('#btnAsignar').removeClass('disabled');
             $('#msjSim').html(valores[valores.length-2]-valores[valores.length-1]+' Ranura(s) disponible(s)');
           }
