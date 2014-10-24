@@ -20,18 +20,34 @@
 			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
+		$('#helper').hide();
 		table = customDataTable(id, datos, atributos,nombres);
+		$('#btnRegistraFactura').on('click', function(event) {
+			event.preventDefault();
+			console.log($('#facturaForm').serialize());
+		});
 		$('#btnFacturar').on('click', function() {
 			var msj = "";
-			$.each(valoresDeFila(table), function(index, fila) { //Recorrer los valores seleccionados
-				if(fila[14]==0){ // Si el dispositivo no se ha facturado
+			cadDatos = "";
+			var valoresFilas = valoresDeFila(table);
+			$('#filasFact').empty();
+			$.each(valoresFilas, function(index, fila) { //Recorrer los valores seleccionados y arma una cadena seteada para mandarla al controlador
+				if(index != 0){
+					if(index != valoresFilas.length-2){
+						cadDatos += "{-}"; //Separador entre filas
+					}
+				}
+				if(fila[14]==1){ // Si el dispositivo no se ha facturado
 					msj = "Seleccionaste algún dispositivo que no está disponible, asegurate de facturar sólo dispositivos disponibles";
 					success(msj,2);
-					return false;
+					return false; //Si encuentra un dispositivo ya facturado detiene el $.each
 				}
+				cadDatos += fila[0]+"{,}"+fila[9]+"{,}"+fila[10]; //Separador entre datos de fila
+				$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td></tr>');
 			});
-			if(msj.length != 0){
-			}else{
+			if(msj.length == 0){
+				$('#helper').val(cadDatos);
+				$('#modalFacturar').modal({backdrop: 'static'});
 				// success("Bien",1);
 				// $.post('view');
 				// window.location.href = '<?php echo Yii::app()->request->baseUrl;?>/dispositivo/create';
@@ -73,12 +89,12 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 					</tr>
 				</thead>
 				<tbody>
-
+					
 				</tbody>
 		</table>
 	</div>
 	<div class="modal fade" id="modalFacturar" tabindex="-1" role="dialog" aria-labelledby="modalFacturarLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -86,51 +102,48 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="form-group col-md-6">
-							<label class="col-md-5 control-label">Cliente:</label>
-							<div class="col-md-7">
-								<select id="cliente" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
-									<option value="">Seleccionar cliente</option>
-									<?php
-									$connection = Yii::app()->db;
-									$sql = "SELECT * FROM clientes";
-									$command=$connection->createCommand($sql);
-									$dataReader=$command->query();
-									foreach($dataReader as $row){?>
-										<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['nombre'];?></option>
-									<?php }?>
-								</select>
+						<form id="facturaForm" class="form form-horizontal" action="facturar" role="form">
+							<div class="form-group col-md-6">
+								<label class="col-md-5 control-label">Cliente:</label>
+								<div class="col-md-7">
+									<select id="cliente" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
+										<option value="">Seleccionar cliente</option>
+										<?php
+										$connection = Yii::app()->db;
+										$sql = "SELECT * FROM clientes";
+										$command=$connection->createCommand($sql);
+										$dataReader=$command->query();
+										foreach($dataReader as $row){?>
+											<option value="<?php echo $row['id_cliente'];?>"><?php echo $row['nombre'];?></option>
+										<?php }?>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="form-group col-md-6">
-							<label class="col-md-5 control-label">IMEI o referencia:</label>
-							<div class="col-md-7">
-								<input type="text" name="texto" class="form-control" placeholder="IMEI o referencia">
+								<textarea id="helper" name="helper"></textarea>
+							<div class="col-xs-12">
+								<table id="tableFactura" class="table-bordered table-striped" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th class="text-center">Referencia</th>
+											<th class="text-center">Imei</th>
+											<th class="text-center">Precio de venta sin IVA</th>
+											<th class="text-center">Precio de venta con IVA</th>
+										</tr>
+									</thead>
+									<tbody id="filasFact">
+										
+									</tbody>
+								</table>
 							</div>
-						</div>
-						<div class="col-xs-12">
-							<table id="tableFact" class="display responsive nowrap table-striped" width="100%" cellspacing="0">
-								<thead>
-									<tr class="text-center">
-										<th>Referencia</th>
-										<th>Imei</th>
-										<th>Precio de venta sin IVA</th>
-										<th>Precio de venta con IVA</th>
-									</tr>
-								</thead>
-								<tbody>
-
-								</tbody>
-							</table>
-						</div>
-					</div><br>
-					<div class="row">
-						<div class="buttons-submit col-sm-3">
-							<a id="btnRegistraFactura" class="btn btn-success" type="button">Registrar factura</a>
-						</div>
-						<div class="buttons-submit col-sm-3 col-sm-offset-3">
-							<button data-dismiss="modal" class="btn btn-primary" type="button">Volver</button>
-						</div>
+							<div class="buttons-submit col-sm-12">
+								<div class="col-sm-3">
+									<button id="btnRegistraFactura" class="btn btn-success" type="button">Registrar factura</button>
+								</div>
+								<div class="col-sm-3 col-sm-offset-3">
+									<button data-dismiss="modal" class="btn btn-primary" type="button">Volver</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

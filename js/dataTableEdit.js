@@ -154,40 +154,42 @@ $(nombre+' tbody').on( 'click', 'tr', function () {
 
 $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobre una fila de la tabla
   if ( document.getElementById("modalInfo")){
-  tr = $(this);
-      $('tr').removeClass('selected'); // Se quitan las columnas seleccionadas
-      $(this).addClass('selected'); // Sombrea la fila que se le hizo doble click por medio de la calse selected
-      var p = table.row($(this)).data(); //obtiene los datos de la fila a partir del datasource del dataTable
-      valores = new Array(); //variable global
-      $.each(p, function(index, val) {
-        valores.push(val); //se guardan únicamente los valores de la fila en un array
-      });
-      idDisp = valores[0]; //En la primera posisición del Array está el id
-      $('#modalInfoLabel').html('Información del dispositivo: '+idDisp); //Título del modal de Info
-      $('#filas').empty(); //Se borra la info actual del modal de Info
-      $(nombres).each(function(index, val) { //Se coloca la información en el modal
-        if(valores[index+1]!=null){ //Donde el valor sea nulo se pone un guión (-)
-          $('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index+1]+'</td></tr>');
-        }else{
-          $('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
-        }
-      });
-      if ( document.getElementById("btnAsignar")){ //Verifica si la vista es de dispositivos para el manejo del botón Asignar simcard
-        if(valores[valores.length-3]=='no'){ //Hablita o no el botón de asignar sim dependiendo si el dispositivo usa
+    tr = $(this);
+    $('tr').removeClass('selected'); // Se quitan las columnas seleccionadas
+    $(this).addClass('selected'); // Sombrea la fila que se le hizo doble click por medio de la calse selected
+    var p = table.row($(this)).data(); //obtiene los datos de la fila a partir del datasource del dataTable
+    valores = new Array(); //variable global
+    $.each(p, function(index, val) {
+      valores.push(val); //se guardan únicamente los valores de la fila en un array
+    });
+    console.log(valores);
+    idDisp = valores[0]; //En la primera posisición del Array está el id
+    $('#modalInfoLabel').html('Información del dispositivo: '+idDisp); //Título del modal de Info
+    $('#filas').empty(); //Se borra la info actual del modal de Info
+    $(nombres).each(function(index, val) { //Se coloca la información en el modal
+      if(valores[index+1]!=null){ //Donde el valor sea nulo se pone un guión (-)
+        $('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>&nbsp'+valores[index+1]+'</td></tr>');
+      }else{
+        $('#filas').append('<tr><td width="50%" class="text-right">'+nombres[index]+'</td><td>-</td></tr>');
+      }
+    });
+    if ( document.getElementById("btnAsignar")){ //Verifica si la vista es de dispositivos para el manejo del botón Asignar simcard
+      if(valores[valores.length-3]=='no'){ //Hablita o no el botón de asignar sim dependiendo si el dispositivo usa
+        $('#btnAsignar').addClass('disabled');
+        $('#msjSim').html('Este artículo no utiliza simcards');
+      }else{
+        if(valores[valores.length-2]==valores[valores.length-1]){ //Pregunta si el dispositivo ya tiene su capacidad de sims ocupadas
           $('#btnAsignar').addClass('disabled');
-          $('#msjSim').html('Este artículo no utiliza simcards');
-        }else{
-          if(valores[valores.length-2]==valores[valores.length-1]){ //Pregunta si el dispositivo ya tiene su capacidad de sims ocupadas
-            $('#btnAsignar').addClass('disabled');
-            $('#msjSim').html('No hay ranura disponible para sim en este dispositivo');
-          }else{ // Muestra el botón y dice cuántas ranuras tiene disponible el dispositivo
-            $('#btnAsignar').removeClass('disabled');
-            $('#msjSim').html(valores[valores.length-2]-valores[valores.length-1]+' Ranura(s) disponible(s)');
-          }
+          $('#msjSim').html('No hay ranura disponible para sim en este dispositivo');
+        }else{ // Muestra el botón y dice cuántas ranuras tiene disponible el dispositivo
+          $('#btnAsignar').removeClass('disabled');
+          $('#msjSim').html(valores[valores.length-2]-valores[valores.length-1]+' Ranura(s) disponible(s)');
         }
       }
-      // table.ajax.reload();
-      $('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
+    }
+    // table.ajax.reload();
+    $('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
+    if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la vista
       $.post('view', {id: idDisp}) //Se obtienen los datos para el modal de Edit
       .done(function(data){
         var x = JSON.parse(data);
@@ -198,12 +200,13 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
         $.post('getTypes', {proveedor: value[3]}) //Busca los tipos de dispositivo del proveedor actual
         .done(function(data){
           reloadTypes(data);
-          $('form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
+          $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
             $(this).val(value[index]);
           });
           $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
         });
       });
+    }
   }
 });
 $('#btnEditar').on('click', function(event) {
