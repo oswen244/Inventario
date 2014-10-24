@@ -73,20 +73,34 @@ class SimController extends Controller
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 		
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
-			$model->attributes=$atributos;
-			if($atributos['id_plan']==0){
-				$model->tipo_plan = "Prepago";
-			}else{
-				$model->tipo_plan = "Postpago";
-			}
-			if($model->save()){ //se guardan los datos en la bd
-				$result['mensaje'] = "La sim se registró correctamente";
-				$result['cod'] = "1";
-			}else{
-				$result['mensaje'] = "No se pudo guardar la sim";
-				$result['cod'] = "3";
-			}
-			echo json_encode($result);
+			
+			$sql = "CALL nombreProv(".$atributos['id_proveedor'].")";
+			$proveedor = Yii::app()->db->createCommand($sql)->queryAll(); //Obtengo el nombre del proveedor
+
+			$sql = "CALL nombrePlan(".$atributos['id_plan'].")";
+			$plan = Yii::app()->db->createCommand($sql)->queryAll(); //Obtengo el nombre del plan
+
+			$elem = $atributos['imei_sc'].", ".$atributos['num_linea'].", ".$proveedor[0]['nombre'].", ".$plan[0]['nombre_plan'];
+			$accion = "CREADO";
+			$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+
+				$model->attributes=$atributos;
+				
+				if($atributos['id_plan']==0){
+					$model->tipo_plan = "Prepago";
+				}else{
+					$model->tipo_plan = "Postpago";
+				}
+
+				if($model->save()){
+					Yii::app()->db->createCommand($sql)->query();				
+					$result['mensaje'] = "La simcard se registró correctamente";
+					$result['cod'] = "1";
+				}else{
+					$result['mensaje'] = "Error: No se pudo registrar la simcard";
+					$result['cod'] = "3";
+				}
+				echo json_encode($result);			
 		}else{
 			$this->render('create');
 		}

@@ -14,6 +14,7 @@
  * @property string $pv_iva
  * @property integer $id_proveedor
  * @property string $usa_sim
+ * @property integer $total_sims
  *
  * The followings are the available model relations:
  * @property Dispositivos[] $dispositivoses
@@ -38,13 +39,13 @@ class TipoDisp extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('tipo_ref, pc_siva, pc_iva, id_proveedor, usa_sim', 'required'),
-			array('id_proveedor', 'numerical', 'integerOnly'=>true),
+			array('id_proveedor, total_sims', 'numerical', 'integerOnly'=>true),
 			array('tipo_ref, nombre, descripcion', 'length', 'max'=>45),
 			array('pc_siva, pc_iva, pv_siva, pv_iva', 'length', 'max'=>10),
 			array('usa_sim', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_tipo, tipo_ref, nombre, descripcion, pc_siva, pc_iva, pv_siva, pv_iva, id_proveedor, usa_sim', 'safe', 'on'=>'search'),
+			array('id_tipo, tipo_ref, nombre, descripcion, pc_siva, pc_iva, pv_siva, pv_iva, id_proveedor, usa_sim, total_sims', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -77,6 +78,7 @@ class TipoDisp extends CActiveRecord
 			'pv_iva' => 'Pv Iva',
 			'id_proveedor' => 'Id Proveedor',
 			'usa_sim' => 'Usa Sim',
+			'total_sims' => 'Total Sims',
 		);
 	}
 
@@ -126,6 +128,7 @@ class TipoDisp extends CActiveRecord
 		$criteria->compare('pv_iva',$this->pv_iva,true);
 		$criteria->compare('id_proveedor',$this->id_proveedor);
 		$criteria->compare('usa_sim',$this->usa_sim,true);
+		$criteria->compare('total_sims',$this->total_sims);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

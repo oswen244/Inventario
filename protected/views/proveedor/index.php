@@ -25,6 +25,15 @@
 	<input type="button" id="dialog" data-toggle="modal"  class="btnActions btn btn-danger btn-sm" value="Eliminar">
 	<table id="proveedorTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
+				<tr class="busqueda">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
 				<tr>
 					<th>Nombre</th>
 					<th>Tipo id</th>

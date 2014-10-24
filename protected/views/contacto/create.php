@@ -68,7 +68,7 @@
 					<div class="form-group col-md-6">
 						<label for="tipo_entidad" class="col-md-5 control-label">Tipo de entidad:</label>
 						<div class="col-md-7">
-							<select id="tipo_entidad" name="texto" data-width="100%" class="selectpicker">
+							<select id="tipo_entidad" name="texto" data-live-search="true" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar tipo entidad</option>
 								<option value="Cliente">Cliente</option>
 								<option value="Proveedor">Proveedor</option>
@@ -79,7 +79,7 @@
 					<div class="form-group col-md-6">
 						<label for="contactoDe" class="col-md-5 control-label">Contacto de:</label>
 						<div class="col-md-7">
-							<select id="contactoDe" name="texto" data-width="100%" class="selectpicker">
+							<select id="contactoDe" name="texto" data-live-search="true" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar entidad</option>
 							</select>
 						</div>

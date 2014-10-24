@@ -14,6 +14,7 @@
  * @property integer $id_proveedor
  * @property integer $id_plan
  * @property string $imei_disp
+ * @property string $f_asig
  *
  * The followings are the available model relations:
  * @property Estados $idEstado
@@ -46,9 +47,10 @@ class Sim extends CActiveRecord
 			array('tipo_plan', 'length', 'max'=>15),
 			array('comentario', 'length', 'max'=>1000),
 			array('imei_disp', 'length', 'max'=>25),
+			array('f_asig', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_sim, f_act, num_linea, imei_sc, tipo_plan, comentario, id_estado, id_proveedor, id_plan, imei_disp', 'safe', 'on'=>'search'),
+			array('id_sim, f_act, num_linea, imei_sc, tipo_plan, comentario, id_estado, id_proveedor, id_plan, imei_disp, f_asig', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +85,7 @@ class Sim extends CActiveRecord
 			'id_proveedor' => 'Id Proveedor',
 			'id_plan' => 'Id Plan',
 			'imei_disp' => 'Imei Disp',
+			'f_asig' => 'F Asig',
 		);
 	}
 	/**
@@ -131,6 +134,7 @@ class Sim extends CActiveRecord
 		$criteria->compare('id_proveedor',$this->id_proveedor);
 		$criteria->compare('id_plan',$this->id_plan);
 		$criteria->compare('imei_disp',$this->imei_disp,true);
+		$criteria->compare('f_asig',$this->f_asig,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -11,6 +11,8 @@
  * @property string $ubicacion
  * @property integer $tipo_disp
  * @property integer $id_estado
+ * @property string $sims_asig
+ * @property integer $facturado
  *
  * The followings are the available model relations:
  * @property DetalleFact[] $detalleFacts
@@ -37,13 +39,14 @@ class Dispositivo extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('f_adquirido, imei_ref, tipo_disp, id_estado', 'required'),
-			array('tipo_disp, id_estado', 'numerical', 'integerOnly'=>true),
+			array('tipo_disp, id_estado, facturado', 'numerical', 'integerOnly'=>true),
 			array('imei_ref', 'length', 'max'=>25),
 			array('comentario', 'length', 'max'=>1000),
 			array('ubicacion', 'length', 'max'=>200),
+			array('sims_asig', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_disp, f_adquirido, imei_ref, comentario, ubicacion, tipo_disp, id_estado', 'safe', 'on'=>'search'),
+			array('id_disp, f_adquirido, imei_ref, comentario, ubicacion, tipo_disp, id_estado, sims_asig, facturado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -101,6 +104,8 @@ class Dispositivo extends CActiveRecord
 			'ubicacion' => 'Ubicacion',
 			'tipo_disp' => 'Tipo Disp',
 			'id_estado' => 'Id Estado',
+			'sims_asig' => 'Sims Asig',
+			'facturado' => 'Facturado',
 		);
 	}
 
@@ -129,6 +134,8 @@ class Dispositivo extends CActiveRecord
 		$criteria->compare('ubicacion',$this->ubicacion,true);
 		$criteria->compare('tipo_disp',$this->tipo_disp);
 		$criteria->compare('id_estado',$this->id_estado);
+		$criteria->compare('sims_asig',$this->sims_asig,true);
+		$criteria->compare('facturado',$this->facturado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

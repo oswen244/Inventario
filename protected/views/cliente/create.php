@@ -24,7 +24,7 @@
 					<div class="form-group col-md-6">
 						<label for="tipo_identi" class="col-md-5 control-label">Tipo de ID:</label>
 						<div class="col-md-7">
-							<select name="texto" data-width="100%" class="selectpicker">
+							<select name="texto" data-live-search="true" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar tipo id</option>
 								<option value="CC">CC</option>
 								<option value="NIT">NIT</option>
@@ -40,7 +40,7 @@
 					<div class="form-group col-md-6">
 						<label class="col-md-5 control-label">Ciudad:</label>
 						<div class="col-md-7">
-							<select name="texto" data-width="100%" class="selectpicker">
+							<select name="texto" data-live-search="true" data-width="100%" class="selectpicker">
 								<option value="">Seleccionar ciudad</option>
 								<option value="Barranquilla">Barranquilla</option>
 								<option value="Bogota">Bogotá</option>

@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+
 		var nombres = [];
 	    var atributos = ["estado","descripcion"];
 	    var table = customDataTable('#datatable', <?php echo $estados; ?>, atributos, nombres);
@@ -38,13 +39,17 @@
 		</div>
 		<table id="datatable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
+				<tr class ="busqueda">
+					<th></th>
+					<th></th>
+				</tr>
 				<tr>
 					<th>Estado</th>
 					<th>Descripción</th>
-				</tr>
+				</tr>				
 			</thead>
+			
 			<tbody>
-
 			</tbody>
 		</table>
 		<input type="button" id="dialog" data-toggle="modal" class="btn btn-danger btn-sm" value="Eliminar">

@@ -130,6 +130,10 @@ function precioIva(pcsiva,pvsiva,iva){
 
 function customDataTable(nombre, data, atributos, nombres) {
 
+$(nombre+' thead .busqueda th').each( function () {
+          // var title = $(nombre+' tfoot th').eq( $(this).index() ).text();
+          $(this).html( '<input type="text" width=100% class="form-control" placeholder="Buscar" />' );
+});
  //-----------------------Generando la tabla----------------------------//
 
         // columnas = '[{"data": "id", "class": "center" },{ "data": "invdate", "class": "center" },{ "data": "client_id", "class": "center" },{ "data": "amount", "class": "center edit" },{ "data": "tax", "class": "center edit" },{ "data": "total", "class": "center edit" },{ "data": "note", "class": "center edit" }]';
@@ -139,6 +143,7 @@ function customDataTable(nombre, data, atributos, nombres) {
         var table = $(nombre).DataTable( {
 
           data: data,
+          deferRender: true,
           dataType: "json",
           lengthMenu: [10, 20, 50, 75, 100 ],
           bLengthChange: true,
@@ -147,6 +152,14 @@ function customDataTable(nombre, data, atributos, nombres) {
         });
 
 //---------------------Metodos que trabajan con la tabla-----------------------//
+$(nombre+' thead .busqueda th').each( function ( colIdx ) {
+          $(this).find( 'input').on( 'keyup change', function () {
+            table
+                .column( colIdx )
+                .search( this.value )
+                .draw();
+           } );
+} );
 
 $(nombre+' tbody').on( 'click', 'tr', function () {
  $(this).toggleClass('selected');
@@ -162,7 +175,7 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
     $.each(p, function(index, val) {
       valores.push(val); //se guardan únicamente los valores de la fila en un array
     });
-    console.log(valores);
+    // console.log(valores);
     idDisp = valores[0]; //En la primera posisición del Array está el id
     $('#modalInfoLabel').html('Información del dispositivo: '+idDisp); //Título del modal de Info
     $('#filas').empty(); //Se borra la info actual del modal de Info

@@ -39,6 +39,13 @@
 	</div>
 	<table id="planTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
+				<tr class="busqueda">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
 				<tr>
 					<th>Nombre Plan</th>
 					<th>Cargo por voz</th>

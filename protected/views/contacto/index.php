@@ -37,6 +37,14 @@
 		</div>
 		<table id="contactoTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
+				<tr class="busqueda">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
 				<tr>
 					<th>Nombre</th>
 					<th>Telefono</th>
