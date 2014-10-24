@@ -43,7 +43,51 @@ class DispositivoController extends Controller
 
 	public function actionFacturar()
 	{
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
+			$filas = explode('{-}', $data[1]);
+			foreach ($filas as $key => $value) {
+				$dispositivos[$key] = explode("{,}", $value);
+			}
+			$total_siva = 0;
+			$total_iva = 0;
+			foreach ($dispositivos as $key => $disp) {
+				$total_siva += floatval($disp[1]);
+				$total_iva += floatval($disp[2]);
+			}
+			$connection = Yii::app()->db;
+			// $transaction=$connection->beginTransaction();
+			// try
+			// {
+				$sql = "INSERT INTO facturas (f_venta, pv_siva, pv_iva, id_cliente) VALUES ('".date("Y-m-d H:i:s")."', ".$total_siva.", ".$total_iva.", ".$data[0].")";
+				$command=$connection->createCommand($sql);
+				$result=$command->execute();
 
+				$sql = "SELECT LAST_INSERT_ID() Id";
+				$command=$connection->createCommand($sql);
+				$result=$command->queryAll();
+				$idFactura = $result[0]['Id'];
+				foreach ($dispositivos as $key => $disp) {
+					$sql = "INSERT INTO detalle_fact (id_factura, id_disp) VALUES (".$idFactura.", ".$disp[0].")";
+					$command=$connection->createCommand($sql);
+					$result=$command->execute();
+
+					$sql = "UPDATE dispositivos SET facturado = 1 WHERE id_disp = ".$disp[0];
+					$command=$connection->createCommand($sql);
+					$result=$command->execute();
+					// $transaction->commit();
+				}
+				$r['mensaje'] = "Error! no se pudo generar la factura, intente nuevamente";
+				$r['cod'] = "3";
+			// }
+			// catch(Exception $e) // se arroja una excepción si una consulta falla
+			// {
+			// 	$transaction->rollBack();
+			// 	$r['mensaje'] = $e->getMessage();
+			// 	$r['cod'] = "1";
+			// }
+			echo CJSON::encode($r);
+		}
 	}
 
 	/**

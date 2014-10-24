@@ -9,6 +9,7 @@ Yii::setPathOfAlias('simpleExcel', dirname(__FILE__).'/../extensions/SimpleExcel
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Inventario',
+	'timeZone' => 'America/Lima',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

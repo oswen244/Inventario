@@ -20,15 +20,21 @@
 			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
-		$('#helper').hide();
+		$('#helper').hide(); //Esconde el textarea utilizado como comodín para pasar los parámetros por POST
 		table = customDataTable(id, datos, atributos,nombres);
 		$('#btnRegistraFactura').on('click', function(event) {
-			event.preventDefault();
-			console.log($('#facturaForm').serialize());
+			$('#modalFacturar').modal('toggle');
 		});
+		$('#modalFacturar').on('hidden.bs.modal', function (e) { //Cuando se oculta el modal de Edit se reestablecen los valores del Form y las validaciones anteriores
+        	$('#facturaForm')[0].reset();
+        	$(".selectpicker",$('#facturaForm')).selectpicker('refresh');
+        	$('#facturaForm').data('bootstrapValidator').resetForm();
+        });
+
 		$('#btnFacturar').on('click', function() {
 			var msj = "";
 			cadDatos = "";
+			var estadoFact = "";
 			var valoresFilas = valoresDeFila(table);
 			$('#filasFact').empty();
 			$.each(valoresFilas, function(index, fila) { //Recorrer los valores seleccionados y arma una cadena seteada para mandarla al controlador
@@ -37,23 +43,33 @@
 						cadDatos += "{-}"; //Separador entre filas
 					}
 				}
-				if(fila[14]==1){ // Si el dispositivo no se ha facturado
-					msj = "Seleccionaste algún dispositivo que no está disponible, asegurate de facturar sólo dispositivos disponibles";
+				if(fila[14]==1 || fila[9] == null || fila[10] == null){
+					if(fila[14]==1){ // Si el dispositivo ya se facturó
+						msj = "Seleccionaste algún artículo que no está disponible, asegurate de facturar sólo artículos disponibles";
+						estadoFact = "Facturado";
+					}
+					if(fila[9] == null || fila[10] == null){
+						msj = "El artículo "+fila[1]+" "+fila[6]+" no tiene precio de venta por el cual facturar, asignale un precio de venta para poder facturar";
+					}
 					success(msj,2);
 					return false; //Si encuentra un dispositivo ya facturado detiene el $.each
 				}
+				if(fila[14]==0){
+					estadoFact = "Sin facturar";
+				}
 				cadDatos += fila[0]+"{,}"+fila[9]+"{,}"+fila[10]; //Separador entre datos de fila
-				$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td></tr>');
+				$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td><td>'+estadoFact+'</td></tr>');
 			});
 			if(msj.length == 0){
 				$('#helper').val(cadDatos);
 				$('#modalFacturar').modal({backdrop: 'static'});
+				validar("#editarDispositivo");
 				// success("Bien",1);
 				// $.post('view');
 				// window.location.href = '<?php echo Yii::app()->request->baseUrl;?>/dispositivo/create';
 			}
 		});
-		validar("#editarDispositivo");
+		validar("#facturaForm");
 	});
 
 function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependiendo del proveedor escogido
@@ -88,13 +104,23 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 						<th>IMEI</th>
 					</tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<th>Referencia</th>
+						<th>Fecha adq</th>
+						<th>Estado</th>
+						<th>Proveedor</th>
+						<th>IMEI</th>
+					</tr>
+				</tfoot>
 				<tbody>
 					
 				</tbody>
+
 		</table>
 	</div>
 	<div class="modal fade" id="modalFacturar" tabindex="-1" role="dialog" aria-labelledby="modalFacturarLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -103,7 +129,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				<div class="modal-body">
 					<div class="row">
 						<form id="facturaForm" class="form form-horizontal" action="facturar" role="form">
-							<div class="form-group col-md-6">
+							<div class="form-group col-md-10">
 								<label class="col-md-5 control-label">Cliente:</label>
 								<div class="col-md-7">
 									<select id="cliente" data-live-search="true" data-width="100%" name="texto" class="selectpicker">
@@ -121,13 +147,14 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 							</div>
 								<textarea id="helper" name="helper"></textarea>
 							<div class="col-xs-12">
-								<table id="tableFactura" class="table-bordered table-striped" width="100%" cellspacing="0">
+								<table id="tableFactura" class="table table-hover table-bordered table-striped" width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th class="text-center">Referencia</th>
 											<th class="text-center">Imei</th>
 											<th class="text-center">Precio de venta sin IVA</th>
 											<th class="text-center">Precio de venta con IVA</th>
+											<th class="text-center">Estado de facturación</th>
 										</tr>
 									</thead>
 									<tbody id="filasFact">
@@ -136,10 +163,10 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 								</table>
 							</div>
 							<div class="buttons-submit col-sm-12">
-								<div class="col-sm-3">
-									<button id="btnRegistraFactura" class="btn btn-success" type="button">Registrar factura</button>
+								<div class="col-sm-4 col-sm-offset-2">
+									<button id="btnRegistraFactura" class="btn btn-success" type="submit">Registrar factura</button>
 								</div>
-								<div class="col-sm-3 col-sm-offset-3">
+								<div class="col-sm-3">
 									<button data-dismiss="modal" class="btn btn-primary" type="button">Volver</button>
 								</div>
 							</div>
@@ -159,7 +186,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12">
-							<table id="tableInfo" class="display responsive nowrap table-hover table-striped" width="100%" cellspacing="0">
+							<table id="tableInfo" class="table display responsive nowrap table-hover table-striped" width="100%" cellspacing="0">
 								<tbody id="filas">
 
 								</tbody>
@@ -167,10 +194,10 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 						</div>
 					</div><br>
 					<div class="row">
-						<div class="buttons-submit col-sm-3 col-sm-offset-3">
-							<button id="btnEditar" data-dismiss="modal" class="btn btn-warning" type="button">Editar</button>
+						<div class="col-sm-3 col-sm-offset-3">
+							<button id="btnEditar" data-dismiss="modal" class="btn btn-primary" type="button">Editar</button>
 						</div>
-						<div class="buttons-submit col-sm-3">
+						<div class="col-sm-3">
 							<a id="btnAsignar" class="btn btn-success" type="button">Asignar Simcard</a>
 							<p id="msjSim" class="text-center"></p>
 						</div>
