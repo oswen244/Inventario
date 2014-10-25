@@ -22,9 +22,9 @@
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
 		$('#helper').hide(); //Esconde el textarea utilizado como comodín para pasar los parámetros por POST
 		table = customDataTable(id, datos, atributos,nombres);
-		$('#btnRegistraFactura').on('click', function(event) {
-			$('#modalFacturar').modal('toggle');
-		});
+		// $('#btnRegistraFactura').on('click', function(event) {
+			// $('#modalFacturar').modal('toggle');
+		// });
 		$('#modalFacturar').on('hidden.bs.modal', function (e) { //Cuando se oculta el modal de Edit se reestablecen los valores del Form y las validaciones anteriores
         	$('#facturaForm')[0].reset();
         	$(".selectpicker",$('#facturaForm')).selectpicker('refresh');
@@ -32,41 +32,44 @@
         });
 
 		$('#btnFacturar').on('click', function() {
-			var msj = "";
-			cadDatos = "";
-			var estadoFact = "";
-			var valoresFilas = valoresDeFila(table);
-			$('#filasFact').empty();
-			$.each(valoresFilas, function(index, fila) { //Recorrer los valores seleccionados y arma una cadena seteada para mandarla al controlador
-				if(index != 0){
-					if(index != valoresFilas.length-2){
-						cadDatos += "{-}"; //Separador entre filas
+			if($('#dispTable .selected').length == 0){ // Se asegura de que haya seleccionado al menos un artículo para facturar
+				success("Debes seleccionar algún Artículo para poder facturar",2);
+			}else{
+				var msj = "";
+				cadDatos = "";
+				var estadoFact = "";
+				var valoresFilas = valoresDeFila(table);
+				$('#filasFact').empty();
+				$.each(valoresFilas, function(index, fila) { //Recorrer los valores seleccionados y arma una cadena seteada para mandarla al controlador
+					if(index != 0){
+						if(index != valoresFilas.length){
+							cadDatos += "{-}"; //Separador entre filas
+						}
 					}
-				}
-				if(fila[14]==1 || fila[9] == null || fila[10] == null){
-					if(fila[14]==1){ // Si el dispositivo ya se facturó
-						msj = "Seleccionaste algún artículo que no está disponible, asegurate de facturar sólo artículos disponibles";
-						estadoFact = "Facturado";
+					if(fila[14]==1 || fila[9] == null || fila[10] == null){
+						if(fila[14]==1){ // Si el dispositivo ya se facturó
+							msj = "Seleccionaste algún artículo que no está disponible, asegurate de facturar sólo artículos disponibles";
+							estadoFact = "Facturado";
+						}
+						if(fila[9] == null || fila[10] == null){
+							msj = "El artículo "+fila[1]+" "+fila[6]+" no tiene precio de venta por el cual facturar, asignale un precio de venta para poder facturar";
+						}
+						success(msj,2);
+						return false; //Si encuentra un dispositivo ya facturado detiene el $.each
 					}
-					if(fila[9] == null || fila[10] == null){
-						msj = "El artículo "+fila[1]+" "+fila[6]+" no tiene precio de venta por el cual facturar, asignale un precio de venta para poder facturar";
+					if(fila[14]==0){
+						estadoFact = "Sin facturar";
 					}
-					success(msj,2);
-					return false; //Si encuentra un dispositivo ya facturado detiene el $.each
+					cadDatos += fila[0]+"{,}"+fila[9]+"{,}"+fila[10]; //Separador entre datos de fila
+					$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td><td>'+estadoFact+'</td></tr>');
+				});
+				if(msj.length == 0){
+					$('#helper').val(cadDatos);
+					$('#modalFacturar').modal({backdrop: 'static'});
+					validar("#editarDispositivo");
+					
+					// window.location.href = '<?php echo Yii::app()->request->baseUrl;?>/dispositivo/create';
 				}
-				if(fila[14]==0){
-					estadoFact = "Sin facturar";
-				}
-				cadDatos += fila[0]+"{,}"+fila[9]+"{,}"+fila[10]; //Separador entre datos de fila
-				$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td><td>'+estadoFact+'</td></tr>');
-			});
-			if(msj.length == 0){
-				$('#helper').val(cadDatos);
-				$('#modalFacturar').modal({backdrop: 'static'});
-				validar("#editarDispositivo");
-				// success("Bien",1);
-				// $.post('view');
-				// window.location.href = '<?php echo Yii::app()->request->baseUrl;?>/dispositivo/create';
 			}
 		});
 		validar("#facturaForm");
@@ -102,17 +105,9 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 						<th>Estado</th>
 						<th>Proveedor</th>
 						<th>IMEI</th>
+						<th>Estado de facturación</th>
 					</tr>
 				</thead>
-				<tfoot>
-					<tr>
-						<th>Referencia</th>
-						<th>Fecha adq</th>
-						<th>Estado</th>
-						<th>Proveedor</th>
-						<th>IMEI</th>
-					</tr>
-				</tfoot>
 				<tbody>
 					
 				</tbody>

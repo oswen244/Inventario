@@ -93,14 +93,14 @@ class SimController extends Controller
 				}
 
 				if($model->save()){
-					Yii::app()->db->createCommand($sql)->query();				
+					Yii::app()->db->createCommand($sql)->query();
 					$result['mensaje'] = "La simcard se registró correctamente";
 					$result['cod'] = "1";
 				}else{
 					$result['mensaje'] = "Error: No se pudo registrar la simcard";
 					$result['cod'] = "3";
 				}
-				echo json_encode($result);			
+				echo json_encode($result);
 		}else{
 			$this->render('create');
 		}

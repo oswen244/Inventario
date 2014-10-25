@@ -77,8 +77,11 @@ class DispositivoController extends Controller
 					$result=$command->execute();
 					// $transaction->commit();
 				}
-				$r['mensaje'] = "Error! no se pudo generar la factura, intente nuevamente";
-				$r['cod'] = "3";
+				$r['mensaje'] = "Se ha generado la factura satisfactoriamente";
+				$r['cod'] = "1";
+				$r['accion'] = "1";
+				// $r['mensaje'] = "Error! no se pudo generar la factura, intente nuevamente";
+				// $r['cod'] = "3";
 			// }
 			// catch(Exception $e) // se arroja una excepción si una consulta falla
 			// {
