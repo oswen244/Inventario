@@ -118,8 +118,17 @@ class DispositivoController extends Controller
 			// $values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
 			$dbNames = $dispositivo->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			
+			$sql = "SELECT nombre FROM tipo_disp WHERE id_tipo = ".$atributos['tipo_disp'];
+			$out = Yii::app()->db->createCommand($sql)->queryAll();
+
+			$elem = $atributos['imei_ref'].",".$out[0]['nombre'];
+			$accion = "CREADO";
+			$sql = "CALL historico('".Yii::app()->user->name."','".$dispositivo->tableName()."','".$elem."','".$accion."')";
+
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
 			if($dispositivo->save()){ //se guardan los datos en la bd
+				Yii::app()->db->createCommand($sql)->query();
 				$result['mensaje'] = "La sim se registró correctamente";
 				$result['cod'] = "1";
 				// $this->redirect('/inventario');
@@ -127,7 +136,6 @@ class DispositivoController extends Controller
 				$result['mensaje'] = "No se pudo guardar las sim";
 				$result['cod'] = "3";
 			}
-			echo json_encode($result);
 		}else{
 			$this->render('create',array(
 				'model'=>$dispositivo,
