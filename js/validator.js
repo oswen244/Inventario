@@ -119,6 +119,7 @@ function validar(formName){
 				$(this).attr('name',index); //Cambia el valor de los names para evitar conflicto con el parsestr
             });
 			var atributos = $(":not(.ignorar)",$form).serialize();
+			// alert(atributos);
             $.post($form.attr('action'), {data: atributos}, function(result) {
             	// alert(result);
             	result = JSON.parse(result);

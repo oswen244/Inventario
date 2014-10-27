@@ -166,6 +166,7 @@ $(nombre+' tbody').on( 'click', 'tr', function () {
 } );
 
 $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobre una fila de la tabla
+
   if ( document.getElementById("modalInfo")){
     tr = $(this);
     $('tr').removeClass('selected'); // Se quitan las columnas seleccionadas
@@ -201,8 +202,9 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
       }
     }
     // table.ajax.reload();
-    $('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
-    if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la vista
+  $('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
+
+if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la vista
       $.post('view', {id: idDisp}) //Se obtienen los datos para el modal de Edit
       .done(function(data){
         var x = JSON.parse(data);
@@ -210,31 +212,42 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
         $.each(x[0], function(index, val) { //Coloca los datos para editar en un array para luego asignarlo a cada campo del formEdit
           value.push(val);
         });
-        $.post('getTypes', {proveedor: value[3]}) //Busca los tipos de dispositivo del proveedor actual
-        .done(function(data){
-          reloadTypes(data);
+        if(document.getElementById("editarDispositivo")){
+          $.post('getTypes', {proveedor: value[3]}) //Busca los tipos de dispositivo del proveedor actual
+          .done(function(data){
+            reloadTypes(data);
+            $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
+              $(this).val(value[index]);
+            });
+          });
+        }else{
           $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
             $(this).val(value[index]);
           });
-          $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
-        });
+        }
+      $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
       });
     }
+
   }
 });
-$('#btnEditar').on('click', function(event) {
-  event.preventDefault();
+
+  $('#btnEditar').on('click', function(event) {
+          event.preventDefault();
           // $('#modalInfo').modal('toggle'); //Quita el modal de Info
           $('#modalEdit').modal({backdrop: 'static'}); //Muestra el modal de Edit
-        });
-        $('#btnGuardar').on('click', function(event) { //Oculta el modal de Edit, las acciones las maneja el Bootstrap Validator en el evento success
+  });
+
+  $('#btnGuardar').on('click', function(event) { //Oculta el modal de Edit, las acciones las maneja el Bootstrap Validator en el evento success
           $('#modalEdit').modal('toggle');
-        });
-        $('#modalEdit').on('hidden.bs.modal', function (e) { //Cuando se oculta el modal de Edit se reestablecen los valores del Form y las validaciones anteriores
-          $('#editarDispositivo')[0].reset();
-          $(".selectpicker",$('#editarDispositivo')).selectpicker('refresh');
-          $('#editarDispositivo').data('bootstrapValidator').resetForm();
-        });
+  });
+
+  $('#modalEdit').on('hidden.bs.modal', function (e) { //Cuando se oculta el modal de Edit se reestablecen los valores del Form y las validaciones anteriores
+    var form = $('#modalEdit').find('form');
+    form[0].reset();
+    $(".selectpicker",form).selectpicker('refresh');
+    form.data('bootstrapValidator').resetForm();
+  });
 
 return table;
     //Quita la caja de texto guardando el valor que tenia en la celda
@@ -261,5 +274,4 @@ return table;
 
    // actualizarEdit(nombre);
 
-
- }
+}

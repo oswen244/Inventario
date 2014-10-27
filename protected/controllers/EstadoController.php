@@ -134,25 +134,15 @@ class EstadoController extends Controller
 
 		if($estados=="0" && $sims=="0"){
 
-			$sqli = "SELECT estado AS nombres FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
 
 			try {
-					$result = Yii::app()->db->createCommand($sqli)->queryAll();					
-					Yii::app()->db->createCommand($sql)->query();
-
-						foreach ($result as $key => $value) {
-							$elem = $result[$key]['nombres'];
-							$accion = "BORRADO";
-							$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
-
-							Yii::app()->db->createCommand($sql)->query();
-						}
-				
+				Yii::app()->db->createCommand($sql)->query();
 				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
 				echo "3;".$e->getMessage();
 			}
+
 		}else{
 			echo "3;Error: existen activos asociados con ese estado.
 			¿Borrar de todas formas?
@@ -165,23 +155,13 @@ class EstadoController extends Controller
 	{
 			$model = new Estado;
 
-			$sqli = "SELECT estado AS nombres FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
 			
-				try {
-					
-					$result = Yii::app()->db->createCommand($sqli)->queryAll();
-					Yii::app()->db->createCommand($sql)->query();
+			try {
 
-						foreach ($result as $key => $value) {
-							$elem = $result[$key]['nombres'];
-							$accion = "BORRADO";
-							$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1;El(los) registro(s) se ha(n) borrado";	
 
-							Yii::app()->db->createCommand($sql)->query();
-						}
-				
-				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
 
 				echo "3;Error: existen activos asociados con ese estado";
@@ -197,20 +177,10 @@ class EstadoController extends Controller
 	public function actionIndex()
 	{
 
-		// $model = Estado::model();
-		// $est = $model->findAll();
-
-		$sql = "SELECT * FROM Estados";
-		$est = Yii::app()->db->createCommand($sql)->queryAll();
+		$model = Estado::model();
+		$est = $model->findAll();
 		$estado = CJSON::encode($est); 
-
 		$this->render('index', array('estados' => $estado));
-
-
-		// $dataProvider=new CActiveDataProvider('Estado');
-		// $this->render('index',array(
-		// 	'dataProvider'=>$dataProvider,
-		// ));
 	}
 
 	/**

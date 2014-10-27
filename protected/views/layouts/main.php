@@ -121,6 +121,54 @@
 	<?php echo $content; ?>
 	</div>
 
+	<div id="myModal" class="modal fade bs-example-modal-sm" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Advertencia</h4>
+				</div>
+				<div class="modal-body">
+					<p>Se borrarán los registros seleccionados</p>
+				</div>
+				<div class="modal-footer">
+					<button id="delete" type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="modalInfoLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="modalInfoLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<table id="tableInfo" class="table table-responsive table-hover table-striped" width="100%" cellspacing="0">
+								<tbody id="filas">
+
+								</tbody>
+							</table>
+						</div>
+					</div><br>
+					<div class="row">
+						<div class="col-sm-3 col-sm-offset-3">
+							<button id="btnEditar" data-dismiss="modal" class="btn btn-primary" type="button">Editar</button>
+						</div>
+						<!-- <div class="buttons-submit col-sm-4">
+							<button id="btnCerrar" data-dismiss="modal" class="btn btn-danger" type="button">Cerrar</button>
+						</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="clear"></div>
 
 	<div id="footer">

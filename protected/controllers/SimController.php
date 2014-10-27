@@ -194,7 +194,7 @@ class SimController extends Controller
 				$command=$connection->createCommand($sql);
 				$result=$command->execute();
 
-				$transaction->commit()
+				$transaction->commit();
 				// if($transaction->commit()){
 					$r['mensaje'] = "La sim se asignó correctamente al dispositivo";
 					$r['cod'] = "1";

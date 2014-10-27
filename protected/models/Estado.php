@@ -7,6 +7,7 @@
  * @property integer $id_estado
  * @property string $estado
  * @property string $descripcion
+ * @property integer $borrado
  *
  * The followings are the available model relations:
  * @property Dispositivos[] $dispositivoses
@@ -30,11 +31,12 @@ class Estado extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('borrado', 'numerical', 'integerOnly'=>true),
 			array('estado', 'length', 'max'=>45),
 			array('descripcion', 'length', 'max'=>250),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_estado, estado, descripcion', 'safe', 'on'=>'search'),
+			array('id_estado, estado, descripcion, borrado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +62,7 @@ class Estado extends CActiveRecord
 			'id_estado' => 'Id Estado',
 			'estado' => 'Estado',
 			'descripcion' => 'Descripcion',
+			'borrado' => 'Borrado',
 		);
 	}
 	/**
@@ -94,6 +97,7 @@ class Estado extends CActiveRecord
 		$criteria->compare('id_estado',$this->id_estado);
 		$criteria->compare('estado',$this->estado,true);
 		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('borrado',$this->borrado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

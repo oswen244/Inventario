@@ -12,6 +12,7 @@
  * @property string $direccion
  * @property string $telefono
  * @property string $email
+ * @property integer $borrado
  *
  * The followings are the available model relations:
  * @property Contactos[] $contactoses
@@ -37,13 +38,14 @@ class Proveedor extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('nombre, tipo_identi, num_id', 'required'),
+			array('borrado', 'numerical', 'integerOnly'=>true),
 			array('nombre, ciudad, direccion, email', 'length', 'max'=>45),
 			array('tipo_identi', 'length', 'max'=>10),
 			array('num_id', 'length', 'max'=>30),
 			array('telefono', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_proveedor, nombre, tipo_identi, num_id, ciudad, direccion, telefono, email', 'safe', 'on'=>'search'),
+			array('id_proveedor, nombre, tipo_identi, num_id, ciudad, direccion, telefono, email, borrado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +77,7 @@ class Proveedor extends CActiveRecord
 			'direccion' => 'Direccion',
 			'telefono' => 'Telefono',
 			'email' => 'Email',
+			'borrado' => 'Borrado',
 		);
 	}
 
@@ -120,6 +123,7 @@ class Proveedor extends CActiveRecord
 		$criteria->compare('direccion',$this->direccion,true);
 		$criteria->compare('telefono',$this->telefono,true);
 		$criteria->compare('email',$this->email,true);
+		$criteria->compare('borrado',$this->borrado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -75,25 +75,16 @@ class ClienteController extends Controller
 
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 
-			$elem = $atributos['nombre'].", ".$atributos['ciudad'].", ".$atributos['telefono'].", ".$atributos['email'];
-			$accion = "CREADO";
-			$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
-			try {
-				$model->attributes=$atributos;
-				Yii::app()->db->createCommand($sql)->query();				
-				if($model->save()){
-					$result['mensaje'] = "El cliente se registró correctamente";
-					$result['cod'] = "1";
-				}else{
-					$result['mensaje'] = "Error: No se pudo registrar el cliente";
-					$result['cod'] = "3";
-				}
-				echo json_encode($result);
-			} catch (Exception $e) {
-				$result['mensaje'] = $e->getMessage();
+			$model->attributes=$atributos;
+			if($model->save()){
+				$result['mensaje'] = "El cliente se registró correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo registrar el cliente";
 				$result['cod'] = "3";
 			}
-
+			echo json_encode($result);
+			
 		}else{
 
 			$this->render('create',array(

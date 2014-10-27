@@ -10,6 +10,7 @@
  * @property string $cargo_datos
  * @property string $desc_p_voz
  * @property string $desc_p_datos
+ * @property integer $borrado
  *
  * The followings are the available model relations:
  * @property Sims[] $sims
@@ -33,12 +34,13 @@ class Plan extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('cargo_voz, cargo_datos, desc_p_voz, desc_p_datos', 'required'),
+			array('borrado', 'numerical', 'integerOnly'=>true),
 			array('nombre_plan', 'length', 'max'=>45),
 			array('cargo_voz, cargo_datos', 'length', 'max'=>10),
 			array('desc_p_voz, desc_p_datos', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_plan, nombre_plan, cargo_voz, cargo_datos, desc_p_voz, desc_p_datos', 'safe', 'on'=>'search'),
+			array('id_plan, nombre_plan, cargo_voz, cargo_datos, desc_p_voz, desc_p_datos, borrado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +68,7 @@ class Plan extends CActiveRecord
 			'cargo_datos' => 'Cargo Datos',
 			'desc_p_voz' => 'Desc P Voz',
 			'desc_p_datos' => 'Desc P Datos',
+			'borrado' => 'Borrado',
 		);
 	}
 
@@ -107,6 +110,7 @@ class Plan extends CActiveRecord
 		$criteria->compare('cargo_datos',$this->cargo_datos,true);
 		$criteria->compare('desc_p_voz',$this->desc_p_voz,true);
 		$criteria->compare('desc_p_datos',$this->desc_p_datos,true);
+		$criteria->compare('borrado',$this->borrado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

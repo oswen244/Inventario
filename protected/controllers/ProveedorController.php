@@ -49,11 +49,11 @@ class ProveedorController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$sql = "SELECT nombre,tipo_identi,num_id,ciudad,direccion,telefono,email,id_proveedor FROM proveedores WHERE id_proveedor = ".$_POST['id'];
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		echo json_encode($result);
 	}
 
 	/**
@@ -73,25 +73,15 @@ class ProveedorController extends Controller
 			$dbNames = $model->getCreatingAttributes(); //Obtiene los atributos de la tabla
 
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
-			$elem = $atributos['nombre'].", ".$atributos['ciudad'].", ".$atributos['telefono'].", ".$atributos['email'];
-			$accion = "CREADO";
-			$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
-			try {
-				$model->attributes=$atributos;
-				Yii::app()->db->createCommand($sql)->query();				
-				if($model->save()){
-					$result['mensaje'] = "El proveedor se registró correctamente";
-					$result['cod'] = "1";
-				}else{
-					$result['mensaje'] = "Error: No se pudo registrar el proveedor";
-					$result['cod'] = "3";
-				}
-				echo json_encode($result);
-
-			} catch (Exception $e) {
-				$result['mensaje'] = $e->getMessage();
+			$model->attributes=$atributos;
+			if($model->save()){
+				$result['mensaje'] = "El proveedor se registró correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo registrar el proveedor";
 				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 
 		}else{
 
@@ -106,23 +96,30 @@ class ProveedorController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'id_proveedor=:id_proveedor';
+			$criteria->params = array(':id_proveedor'=>$data[7]);
+			$proveedor = Proveedor::model()->find($criteria);
+			$dbNames = $proveedor->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
+			
+			unset($data[7]);
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$proveedor->attributes=$atributos; //se asignan los atributos al modelo
+			if($proveedor->save()){
+				$result['mensaje'] = "El proveedor se actualizó correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo actualizar el proveedor";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
 
-		if(isset($_POST['Proveedor']))
-		{
-			$model->attributes=$_POST['Proveedor'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_proveedor));
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

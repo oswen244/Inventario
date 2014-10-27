@@ -131,19 +131,8 @@ class PlanController extends Controller
 
 		if($sims=="0"){
 			$sql = "DELETE FROM planes WHERE id_plan IN (".$_POST['data'].")";
-			$sqli = "SELECT nombre_plan FROM planes WHERE id_plan IN (".$_POST['data'].")";
 			try {
-					$result = Yii::app()->db->createCommand($sqli)->queryAll();
 					Yii::app()->db->createCommand($sql)->query();
-
-					foreach ($result as $key => $value) {
-							$elem = $result[$key]['nombre_plan'];
-							$accion = "BORRADO";
-							$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
-
-							Yii::app()->db->createCommand($sql)->query();
-					}
-
 					echo "1;El(los) registro(s) se ha(n) borrado";		
 			} catch (Exception $e) {
 					echo "3;".$e->getMessage();
