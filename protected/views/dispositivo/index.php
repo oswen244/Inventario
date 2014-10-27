@@ -3,7 +3,7 @@
 		var datos = <?php echo $dispositivos; ?>;
 		var id = '#dispTable';
 		var x;
-		var atributos = ["Referencia","Fecha_Adq","Estado","Proveedor","Imei_ref"];
+		var atributos = ["Referencia","Fecha_Adq","Estado","Proveedor","Imei_ref","Facturado"];
 		var nombres = ["Referencia:&nbsp","Tipo:&nbsp","Fecha de adquisición:&nbsp","Estado:&nbsp","Proveedor:&nbsp","IMEI:&nbsp","Precio de compra sin IVA:&nbsp","Precio de compra con IVA:&nbsp","Precio de venta sin IVA:&nbsp","Precio de venta con IVA:&nbsp","Comentario de dispositivo:&nbsp","Descripción del tipo de dispositivo:&nbsp","Ubicación:&nbsp"];
 		$("#proveedor").on('change', function() { //Cuando se cambia el proveedor se crean los tipos de dispositivos en el select respectivo
 			var id_proveedor = $("#proveedor").val();
@@ -21,7 +21,7 @@
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
 		$('#helper').hide(); //Esconde el textarea utilizado como comodín para pasar los parámetros por POST
-		table = customDataTable(id, datos, atributos,nombres);
+		table = customDataTable(id, datos, atributos, nombres);
 		// $('#btnRegistraFactura').on('click', function(event) {
 			// $('#modalFacturar').modal('toggle');
 		// });
@@ -37,7 +37,6 @@
 			}else{
 				var msj = "";
 				cadDatos = "";
-				var estadoFact = "";
 				var valoresFilas = valoresDeFila(table);
 				$('#filasFact').empty();
 				$.each(valoresFilas, function(index, fila) { //Recorrer los valores seleccionados y arma una cadena seteada para mandarla al controlador
@@ -46,22 +45,18 @@
 							cadDatos += "{-}"; //Separador entre filas
 						}
 					}
-					if(fila[14]==1 || fila[9] == null || fila[10] == null){
-						if(fila[14]==1){ // Si el dispositivo ya se facturó
-							msj = "Seleccionaste algún artículo que no está disponible, asegurate de facturar sólo artículos disponibles";
-							estadoFact = "Facturado";
+					if(fila[14]=='Facturado' || fila[9] == null || fila[10] == null){
+						if(fila[14]=='Facturado'){ // Si el dispositivo ya se facturó
+							msj = "Seleccionaste algún artículo que ya ha sido facturado, asegurate de facturar sólo artículos disponibles";
 						}
 						if(fila[9] == null || fila[10] == null){
-							msj = "El artículo "+fila[1]+" "+fila[6]+" no tiene precio de venta por el cual facturar, asignale un precio de venta para poder facturar";
+							msj = "El tipo de artículo "+fila[1]+" "+fila[6]+" no tiene precio de venta por el cual facturar, asignale un precio de venta a este tipo de artículo para poder realizar la facturación";
 						}
 						success(msj,2);
 						return false; //Si encuentra un dispositivo ya facturado detiene el $.each
 					}
-					if(fila[14]==0){
-						estadoFact = "Sin facturar";
-					}
 					cadDatos += fila[0]+"{,}"+fila[9]+"{,}"+fila[10]; //Separador entre datos de fila
-					$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td><td>'+estadoFact+'</td></tr>');
+					$('#filasFact').append('<tr class="text-center"><td>'+fila[1]+'</td><td>'+fila[6]+'</td><td>'+fila[9]+'</td><td>'+fila[10]+'</td><td>'+fila[14]+'</td></tr>');
 				});
 				if(msj.length == 0){
 					$('#helper').val(cadDatos);
@@ -181,7 +176,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12">
-							<table id="tableInfo" class="table display responsive nowrap table-hover table-striped" width="100%" cellspacing="0">
+							<table id="tableInfo" class="table table-responsive table-hover table-striped" width="100%" cellspacing="0">
 								<tbody id="filas">
 
 								</tbody>

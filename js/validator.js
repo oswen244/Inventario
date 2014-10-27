@@ -113,8 +113,10 @@ function validar(formName){
             var $form = $(e.target);
             var bv = $form.data('bootstrapValidator');
 			// alert(atributos);
+			origNames = [];
             $form.find('[name]').each(function(index, el) {
-				$(this).attr('name',index); //Cambia el valor de los names a los pasados por parámetro
+				origNames.push($(this).attr('name')); //Cambia el valor de los names a los pasados por parámetro
+				$(this).attr('name',index); //Cambia el valor de los names para evitar conflicto con el parsestr
             });
 			var atributos = $(":not(.ignorar)",$form).serialize();
             $.post($form.attr('action'), {data: atributos}, function(result) {
@@ -125,8 +127,11 @@ function validar(formName){
             	// }
                 success(result['mensaje'],parseInt(result['cod']));
             	// 	window.location.href = '';
+            	$form.find('[name]').each(function(index, el) {
+					$(this).attr('name',origNames[index]); //Regresa los names a como estaban
+                	$(this).val('');
+				});
                 $form[0].reset();
-                $form.find('[value]').val('');
                 $(".selectpicker",$form).selectpicker('refresh');
                 $form.data('bootstrapValidator').resetForm();
             });

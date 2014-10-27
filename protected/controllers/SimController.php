@@ -154,7 +154,7 @@ class SimController extends Controller
 	{
 		$model = Sim::model();
 		$s = $model->findAll();
-		$sim = CJSON::encode($s); 
+		$sim = CJSON::encode($s);
 
 		$this->render('index', array('sims' => $sim));
 	}
@@ -194,6 +194,7 @@ class SimController extends Controller
 				$command=$connection->createCommand($sql);
 				$result=$command->execute();
 
+				$transaction->commit()
 				// if($transaction->commit()){
 					$r['mensaje'] = "La sim se asignó correctamente al dispositivo";
 					$r['cod'] = "1";
@@ -210,7 +211,6 @@ class SimController extends Controller
 			}
 			
 			echo json_encode($r);
-
 
 		}else{
 			$data['informado'] = "0";
