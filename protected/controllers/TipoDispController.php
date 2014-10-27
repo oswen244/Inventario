@@ -81,9 +81,9 @@ class TipoDispController extends Controller
 				$result['mensaje'] = "Error: No se pudo registrar el tipo de dispositivo";
 				$result['cod'] = "3";
 			}
-			print_r($dbNames);
-			print_r($atributos);
-			print_r($model->attributes);
+			// print_r($dbNames);
+			// print_r($atributos);
+			// print_r($model->attributes);
 			echo json_encode($result);
 		}else{
 			$this->render('create');

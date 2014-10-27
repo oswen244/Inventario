@@ -118,12 +118,13 @@ function validar(formName){
             });
 			var atributos = $(":not(.ignorar)",$form).serialize();
             $.post($form.attr('action'), {data: atributos}, function(result) {
-            	alert(result);
+            	// alert(result);
             	result = JSON.parse(result);
             	// if(result['accion']=='1'){
             	// 	window.location.href = '';
             	// }
                 success(result['mensaje'],parseInt(result['cod']));
+            	// 	window.location.href = '';
                 $form[0].reset();
                 $form.find('[value]').val('');
                 $(".selectpicker",$form).selectpicker('refresh');
