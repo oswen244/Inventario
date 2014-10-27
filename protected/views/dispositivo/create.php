@@ -8,7 +8,6 @@
 			$("#selectFile").filestyle()
 			$('#myModal').modal({backdrop: 'static'});
 		<?php } ?>
-		validar("#crearDispositivo"); //Activa el bootstrapValidator
 		$('.selectpicker').selectpicker(); //Convierte los selects
 		$("#selectFile").filestyle(); //Convierte los input tipo files
 		$('#infoDisp').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} ); //Crea el datatable sin paginación, sin filtros
@@ -38,7 +37,7 @@
 		$("#link").on('click', function() { //Despliega el modal de cargar dispositivos por archivos
 				$('#myModal').modal({backdrop: 'static'});
 		});
-		validar("#crearDispositivo");
+		validar("#crearDispositivo"); //Activa el bootstrapValidator
 	});
 	function reloadTable(data){ //Actualiza los valores de la tabla de precios
 		var x = [];

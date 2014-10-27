@@ -27,7 +27,7 @@ class TipoDispController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',// allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -39,7 +39,7 @@ class TipoDispController extends Controller
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny all users
+			array('deny',// deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -81,6 +81,9 @@ class TipoDispController extends Controller
 				$result['mensaje'] = "Error: No se pudo registrar el tipo de dispositivo";
 				$result['cod'] = "3";
 			}
+			print_r($dbNames);
+			print_r($atributos);
+			print_r($model->attributes);
 			echo json_encode($result);
 		}else{
 			$this->render('create');

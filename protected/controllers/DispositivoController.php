@@ -127,6 +127,7 @@ class DispositivoController extends Controller
 				$result['mensaje'] = "No se pudo guardar las sim";
 				$result['cod'] = "3";
 			}
+			echo json_encode($result);
 		}else{
 			$this->render('create',array(
 				'model'=>$dispositivo,
