@@ -129,13 +129,15 @@ class DispositivoController extends Controller
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
 			if($dispositivo->save()){ //se guardan los datos en la bd
 				Yii::app()->db->createCommand($sql)->query();
-				$result['mensaje'] = "La sim se registró correctamente";
+				$result['mensaje'] = "El dispositivo se registró correctamente";
 				$result['cod'] = "1";
 				// $this->redirect('/inventario');
 			}else{
-				$result['mensaje'] = "No se pudo guardar las sim";
+				$result['mensaje'] = "No se pudo guardar el dispositivo";
 				$result['cod'] = "3";
 			}
+
+			echo json_encode($result);
 		}else{
 			$this->render('create',array(
 				'model'=>$dispositivo,
