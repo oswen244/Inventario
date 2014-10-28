@@ -166,7 +166,6 @@ class ContactoController extends Controller
 		try {
 			Yii::app()->db->createCommand($sql)->query();
 			echo "1;El(los) contacto(s) se ha(n) borrado correctamente";
-		}
 
 		} catch (Exception $e) {
 			echo "3;Error: No se pueden borrar los contactos seleccionados";			
