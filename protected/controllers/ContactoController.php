@@ -51,7 +51,7 @@ class ContactoController extends Controller
 	 */
 	public function actionView()
 	{
-		$sql = "SELECT nombre,tipo_entidad,id_proveedor,id_cliente,telefono,email,cargo,id_contacto FROM contactos WHERE id_contacto =".$_POST['id'];
+		$sql = "SELECT nombre,tipo_entidad, if(tipo_entidad = 'Cliente', id_cliente, id_proveedor),telefono,email,cargo,id_contacto FROM contactos WHERE id_contacto =".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo json_encode($result);
 	}

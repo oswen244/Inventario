@@ -81,7 +81,6 @@ function listaIds(table){ //Obtiene la lista de los ids de los registros que est
   });
 
   ids = ids.substring(0,ids.length-1);
-  alert(ids);
   return ids;
 }
 
@@ -127,6 +126,30 @@ function precioIva(pcsiva,pvsiva,iva){
   precios[1] = pvsiva+(pvsiva*iva);
   return precios;
 }
+
+function reloadTypes(data,idSelect){
+      var x = [];
+      $(idSelect).empty();
+      $(idSelect).append('<option value="">Seleccionar opción</option>');
+      x = JSON.parse(data);
+      $.each(x, function(index, element) {
+        var p = new Array();
+        var cont=1;
+        $.each(element, function(i, e) {
+          p[cont]= i;
+          cont++;
+        });
+        $(idSelect).append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
+      });
+      $(idSelect).selectpicker('refresh');
+    }
+
+function recargarForm(value){
+  $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
+           $(this).val(value[index]);
+  });
+  $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
+}    
 
 function customDataTable(nombre, data, atributos, nombres) {
 
@@ -238,17 +261,34 @@ if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la
         if(document.getElementById("editarDispositivo")){
           $.post('getTypes', {proveedor: value[3]}) //Busca los tipos de dispositivo del proveedor actual
           .done(function(data){
-            reloadTypes(data);
-            $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
-              $(this).val(value[index]);
-            });
+            reloadTypes(data,'#tipoDispositivo');
+            recargarForm(value);
+            // $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
+            //   $(this).val(value[index]);
+            // });
           });
         }else{
-          $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
-            $(this).val(value[index]);
-          });
+          if(document.getElementById("form_contacto")){
+            var tipoPost = '';
+            if(valores[3]==='Cliente'){
+              tipoPost = 'getClients';
+            }else{
+              tipoPost = 'getProveedores';
+            }
+            $.post(tipoPost) //Busca los tipos de dispositivo del tipo actual
+            .done(function(data){
+              reloadTypes(data,'#contactoDe');
+              recargarForm(value);
+            });
+        }else{
+              recargarForm(value);
         }
-      $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
+      }
+        // $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
+        //    $(this).val(value[index]);
+        //    alert($(this).val() + " debe ser igual a: "+value[index]);
+        // });
+        // $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
       });
     }
 

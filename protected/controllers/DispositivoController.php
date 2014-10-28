@@ -165,7 +165,7 @@ class DispositivoController extends Controller
 	public function actionGetTypes(){
 		if(Yii::app()->request->isPostRequest && isset($_POST['proveedor'])){
 			$connection = Yii::app()->db;
-			$sql = "SELECT * FROM tipo_disp WHERE id_proveedor=".$_POST['proveedor'];
+			$sql = "SELECT id_tipo, nombre FROM tipo_disp WHERE id_proveedor=".$_POST['proveedor'];
 			$command=$connection->createCommand($sql);
 			$result=$command->queryAll();
 			echo CJSON::encode($result);

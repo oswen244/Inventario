@@ -16,46 +16,46 @@
 
         validar('#form_contacto');
 
-        $("#tipo_entidad").on('change', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
+  //       $("#tipo_entidad").on('load', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
 
-			var id_tipo_entidad = $("#tipo_entidad").val();
-			if(id_tipo_entidad=='Cliente'){				
-				$.post('getClients')
-				.done(function(data){
-					reloadTypes(data);
-				});
-			}else{
-				if(id_tipo_entidad=='Proveedor'){				
-					$.post('getProveedores')
-					.done(function(data){
-						reloadTypes(data);
-					});
+		// 	var id_tipo_entidad = $("#tipo_entidad").val();
+		// 	if(id_tipo_entidad=='Cliente'){				
+		// 		$.post('getClients')
+		// 		.done(function(data){
+		// 			reloadTypes(data);
+		// 		});
+		// 	}else{
+		// 		if(id_tipo_entidad=='Proveedor'){				
+		// 			$.post('getProveedores')
+		// 			.done(function(data){
+		// 				reloadTypes(data);
+		// 			});
 
-				}else{
-					$("#contactoDe").empty();
-					$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
-					$("#contactoDe").selectpicker('refresh');
+		// 		}else{
+		// 			$("#contactoDe").empty();
+		// 			$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
+		// 			$("#contactoDe").selectpicker('refresh');
 					
-				}
+		// 		}
 			
-			}
-		});
-		function reloadTypes(data){
-			var x = [];
-			$('#contactoDe').empty();
-			$('#contactoDe').append('<option value="">Seleccionar entidad</option>');
-			x = JSON.parse(data);
-			$.each(x, function(index, element) {
-				var p = new Array();
-				var cont=1;
-				$.each(element, function(i, e) {
-					p[cont]= i;
-					cont++;
-				});
-				$("#contactoDe").append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
-			});
-			$("#contactoDe").selectpicker('refresh');
-		}
+		// 	}
+		// });
+		// function reloadTypes(data){
+		// 	var x = [];
+		// 	$('#contactoDe').empty();
+		// 	$('#contactoDe').append('<option value="">Seleccionar entidad</option>');
+		// 	x = JSON.parse(data);
+		// 	$.each(x, function(index, element) {
+		// 		var p = new Array();
+		// 		var cont=1;
+		// 		$.each(element, function(i, e) {
+		// 			p[cont]= i;
+		// 			cont++;
+		// 		});
+		// 		$("#contactoDe").append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
+		// 	});
+		// 	$("#contactoDe").selectpicker('refresh');
+		// }
 
 	});
 
