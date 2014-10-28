@@ -49,11 +49,11 @@ class PlanController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$sql = "SELECT nombre_plan,cargo_datos,cargo_voz,desc_p_datos,desc_p_voz,id_plan,cargo_datos+cargo_voz FROM planes WHERE id_plan = ".$_POST['id'];
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		echo json_encode($result);
 	}
 
 	/**
@@ -96,23 +96,31 @@ class PlanController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+		if(Yii::app()->request->isPostRequest){
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+			parse_str($_POST['data'], $data);
 
-		if(isset($_POST['Plan']))
-		{
-			$model->attributes=$_POST['Plan'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_plan));
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'id_plan=:id_plan';
+			$criteria->params = array(':id_plan'=>$data[5]);
+			$plan = Plan::model()->find($criteria);
+			$dbNames = $plan->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
+			
+			unset($data[5]);
+			
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$plan->attributes=$atributos; //se asignan los atributos al modelo
+			if($plan->save()){
+				$result['mensaje'] = "El plan se actualizó correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo actualizar el plan";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -147,9 +155,9 @@ class PlanController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Plan::model();
-		$pl = $model->findAll();
-		$plan = CJSON::encode($pl); 
+		$sql = "SELECT id_plan,nombre_plan,cargo_voz,cargo_datos,(cargo_voz+cargo_datos) AS Total,desc_p_voz,desc_p_datos FROM planes";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		$plan = CJSON::encode($result); 
 
 		$this->render('index', array('planes' => $plan));
 	}

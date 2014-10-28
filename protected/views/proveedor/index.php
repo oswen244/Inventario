@@ -16,11 +16,6 @@
 
 	    validar('#form_proveedor');
 
-	    // $('#cancelar').click(function(event) {
-	    // 	event.preventDefault();
-	    // 	var form = $('#form_proveedor').serialize();
-	    // 	alert(form);
-	    // });
 
 	});
 
@@ -150,7 +145,7 @@
 
 								<div class="buttons-submit col-md-10">
 									<div class="col-md-2 col-md-offset-4">
-										<button id="btnGuardar" type="submit" class="btn btn-primary" data-dismiss="modal">Actualizar proveedor</button>
+										<button id="btnGuardar" type="submit" class="btn btn-primary">Actualizar proveedor</button>
 									</div>
 									<div class="col-md-3 col-md-offset-1">
 										<button id="cancelar" class="btn btn-success" data-dismiss="modal">Cancelar</button>

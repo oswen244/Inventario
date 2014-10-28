@@ -73,10 +73,10 @@
 
 					<div class="buttons-submit col-md-12">
 						<div class="col-md-2 col-md-offset-4">
-							<button href="" type="submit" class="btn btn-primary">Registrar cliente</button>
+							<button href="" type="submit" class="btn btn-primary" data-dismiss="modal">Registrar cliente</button>
 						</div>
 						<div class="col-md-2">
-							<a href="#" class="btn btn-success">Cancelar</a>
+							<button id="cancelar" class="btn btn-success" data-dismiss="modal">Cancelar</button>
 						</div>
 					</div>					
 				</form>

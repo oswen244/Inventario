@@ -1,18 +1,62 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		$('.helper').hide();
 		var nombres = [];
 	    var datos = <?php echo $contactos; ?>;
 	    var atributos = ["Nombre","Telefono","Tipo_entidad","Cargo","Email","Entidad"];	    
+	    $('#contactoTable tr:last-child th').each(function() {
+	    	nombres.push($(this).html()+": ");
+	    });
 	    var table = customDataTable('#contactoTable', datos, atributos, nombres); 
 
 	    $('#dialog').click(function() {
             borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
         });
 
-	    $('#planTable tr th').each(function() {
-	    	nombres.push($(this).html());
-	    });
+        validar('#form_contacto');
+
+        $("#tipo_entidad").on('change', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
+
+			var id_tipo_entidad = $("#tipo_entidad").val();
+			if(id_tipo_entidad=='Cliente'){				
+				$.post('getClients')
+				.done(function(data){
+					reloadTypes(data);
+				});
+			}else{
+				if(id_tipo_entidad=='Proveedor'){				
+					$.post('getProveedores')
+					.done(function(data){
+						reloadTypes(data);
+					});
+
+				}else{
+					$("#contactoDe").empty();
+					$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
+					$("#contactoDe").selectpicker('refresh');
+					
+				}
+			
+			}
+		});
+		function reloadTypes(data){
+			var x = [];
+			$('#contactoDe').empty();
+			$('#contactoDe').append('<option value="">Seleccionar entidad</option>');
+			x = JSON.parse(data);
+			$.each(x, function(index, element) {
+				var p = new Array();
+				var cont=1;
+				$.each(element, function(i, e) {
+					p[cont]= i;
+					cont++;
+				});
+				$("#contactoDe").append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
+			});
+			$("#contactoDe").selectpicker('refresh');
+		}
+
 	});
 
 </script>
@@ -59,23 +103,7 @@
 			</tbody>
 		</table>
 		<input type="button" id="dialog" data-toggle="modal"  class="btn btn-danger btn-sm" value="Eliminar">
-		<div id="myModal" class="modal fade bs-example-modal-sm" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title">Advertencia</h4>
-				</div>
-				<div class="modal-body">
-					<p>Se borrarán los registros seleccionados</p>
-				</div>
-				<div class="modal-footer">
-					<button id="delete" type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				</div>
-			</div>
-		</div>
-		</div>
+		
 
 		<div id="modalCascade" class="modal fade" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
@@ -85,12 +113,90 @@
 						<h4 class="modal-title">Advertencia</h4>
 					</div>
 					<div class="modal-body">
-						<p>El(los) estado(s) tienen uno o más dispositivos asociados.
-							¿Borrar de todas formas?</p>
+						<p></p>
 					</div>
 					<div class="modal-footer">
 						<button id="deleteCascade" type="button" class="btn btn-primary" data-dismiss="modal">Si</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="modalEditLabel">Actualización de contacto</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12">
+
+							<!-- Formulario			 -->
+								<form id="form_contacto" class="form form-horizontal" action="update" method="post" role="form"><br>
+									<div class="form-group col-md-12">
+										<label for="nombre" class="col-md-2 control-label">Nombre:</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" name="texto" placeholder="Nombre">
+										</div>
+									</div>
+									<div class="form-group col-md-6">
+										<label for="tipo_entidad" class="col-md-5 control-label">Tipo de entidad:</label>
+										<div class="col-md-7">
+											<select id="tipo_entidad" name="texto" data-live-search="true" data-width="100%" class="selectpicker">
+												<option value="">Seleccionar tipo entidad</option>
+												<option value="Cliente">Cliente</option>
+												<option value="Proveedor">Proveedor</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label for="contactoDe" class="col-md-5 control-label">Contacto de:</label>
+										<div class="col-md-7">
+											<select id="contactoDe" name="texto" data-live-search="true" data-width="100%" class="selectpicker">
+												<option value="">Seleccionar entidad</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label class="col-md-5 control-label">Teléfono:</label>
+										<div class="col-md-7">
+											<input type="texto" name="texto" class="form-control" placeholder="Teléfono">
+										</div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label class="col-md-5 control-label">E-mail:</label>
+										<div class="col-md-7">
+											<input type="text" name="email" class="form-control" placeholder="E-mail">
+										</div>
+									</div>
+
+									<div class="form-group col-md-6">
+										<label class="col-md-5 control-label">Cargo:</label>
+										<div class="col-md-7">
+											<input type="text" name="texto" class="form-control" placeholder="Cargo">
+										</div>
+									</div>
+
+									<input  type="text" name="helper" class="helper form-control" placeholder="">
+
+
+									<div class="buttons-submit col-md-12">
+										<div class="col-md-2 col-md-offset-4">
+											<button id="btnGuardar" type="submit" class="btn btn-primary">Actualizar contacto</button>
+										</div>
+										<div class="col-md-2">
+											<button id="cancelar" type="submit" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+										</div>
+									</div>					
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

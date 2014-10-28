@@ -49,11 +49,11 @@ class ContactoController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$sql = "SELECT nombre,tipo_entidad,id_proveedor,id_cliente,telefono,email,cargo,id_contacto FROM contactos WHERE id_contacto =".$_POST['id'];
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		echo json_encode($result);
 	}
 
 	/**

@@ -49,11 +49,11 @@ class ClienteController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		$sql = "SELECT nombre,tipo_identi,num_id,ciudad,direccion,telefono,email,id_cliente FROM clientes WHERE id_cliente = ".$_POST['id'];
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		echo json_encode($result);
 	}
 
 	/**
@@ -98,23 +98,30 @@ class ClienteController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+		if(Yii::app()->request->isPostRequest){
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+			parse_str($_POST['data'], $data);
 
-		if(isset($_POST['Cliente']))
-		{
-			$model->attributes=$_POST['Cliente'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_cliente));
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'id_cliente=:id_cliente';
+			$criteria->params = array(':id_cliente'=>$data[7]);
+			$cliente = Cliente::model()->find($criteria);
+			$dbNames = $cliente->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
+			
+			unset($data[7]);
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$cliente->attributes=$atributos; //se asignan los atributos al modelo
+			if($cliente->save()){
+				$result['mensaje'] = "El cliente se actualizó correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo actualizar el cliente";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -142,11 +149,11 @@ class ClienteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// $model = Cliente::model();
-		// $cl = $model->findAll();
+		$model = Cliente::model();
+		$cl = $model->findAll();
 
-		$sql = "SELECT * FROM Clientes";
-		$cl = Yii::app()->db->createCommand($sql)->queryAll();
+		// $sql = "SELECT * FROM Clientes";
+		// $cl = Yii::app()->db->createCommand($sql)->queryAll();
 		$cliente = CJSON::encode($cl); 
 
 

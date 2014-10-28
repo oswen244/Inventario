@@ -26,7 +26,7 @@
 				}
 			
 			}
-	});
+		});
 
 		function reloadTypes(data){
 			var x = [];
