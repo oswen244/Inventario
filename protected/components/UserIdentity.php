@@ -19,13 +19,15 @@ class UserIdentity extends CUserIdentity
 	public function authenticate()
 	{
 		$user=User::model()->find("LOWER(usuario)=?",array(strtolower($this->username)));
-		if($user == null)
+		if($user === null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif(sha1($this->password) != $user->contrasena)
+		elseif(sha1($this->password) !== $user->contrasena)
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else{
 			$this->_id=$user->id_usuario;
 			$this->setState("rol",$user->rol);
+			// Yii::app()->rol;
+			// Yii::app()->getState("rol");
 			$this->setState("nombre",$user->nombre);
 			$this->errorCode=self::ERROR_NONE;
 		}

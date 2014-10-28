@@ -4,7 +4,7 @@
 		var id = '#dispTable';
 		var x;
 		var atributos = ["Referencia","Fecha_Adq","Estado","Proveedor","Imei_ref","Facturado"];
-		var nombres = ["Referencia:&nbsp","Tipo:&nbsp","Fecha de adquisición:&nbsp","Estado:&nbsp","Proveedor:&nbsp","IMEI:&nbsp","Precio de compra sin IVA:&nbsp","Precio de compra con IVA:&nbsp","Precio de venta sin IVA:&nbsp","Precio de venta con IVA:&nbsp","Comentario de dispositivo:&nbsp","Descripción del tipo de dispositivo:&nbsp","Ubicación:&nbsp"];
+		var nombres = ["Referencia:","Tipo:","Fecha de adquisición:","Estado:","Proveedor:","IMEI:","Precio de compra sin IVA:","Precio de compra con IVA:","Precio de venta sin IVA:","Precio de venta con IVA:","Comentario de dispositivo:","Descripción del tipo de dispositivo:","Ubicación:"];
 		$("#proveedor").on('change', function() { //Cuando se cambia el proveedor se crean los tipos de dispositivos en el select respectivo
 			var id_proveedor = $("#proveedor").val();
 			if(id_proveedor!=0){
@@ -20,7 +20,7 @@
 			$('#btnAsignar').attr('href', '<?php echo Yii::app()->request->baseUrl;?>/sim/asignar?tipo_disp='+valores[2]+'&imei='+valores[6]);
 		});
 		// $('#tableInfo').dataTable({"paging": false, "searching": false, "ordering":false, "info": false} );
-		$('#helper').hide(); //Esconde el textarea utilizado como comodín para pasar los parámetros por POST
+		$('.helper').hide(); //Esconde el textarea utilizado como comodín para pasar los parámetros por POST
 		table = customDataTable(id, datos, atributos, nombres);
 		// $('#btnRegistraFactura').on('click', function(event) {
 			// $('#modalFacturar').modal('toggle');
@@ -61,12 +61,12 @@
 				if(msj.length == 0){
 					$('#helper').val(cadDatos);
 					$('#modalFacturar').modal({backdrop: 'static'});
-					validar("#editarDispositivo");
 					
 					// window.location.href = '<?php echo Yii::app()->request->baseUrl;?>/dispositivo/create';
 				}
 			}
 		});
+		validar("#editarDispositivo");
 		validar("#facturaForm");
 	});
 
@@ -96,7 +96,7 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 				<thead>
 					<tr>
 						<th>Referencia</th>
-						<th>Fecha adq</th>
+						<th>Fecha adquirido</th>
 						<th>Estado</th>
 						<th>Proveedor</th>
 						<th>IMEI</th>
@@ -274,9 +274,10 @@ function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependi
 										<textarea type="textArea" name="comentario" class="form-control" placeholder="Ubicación..."></textarea>
 									</div>
 								</div>
+								<input type="text" name="helper" class="helper form-control">
 								<div class="buttons-submit col-sm-12">
 									<div class="col-sm-3 col-sm-offset-2">
-										<button id="btnGuardar" type="submit" class="btn btn-primary">Actualizar dispositivo</button>
+										<button id="btnGuardar" data-dismiss="modal" type="submit" class="btn btn-primary">Actualizar dispositivo</button>
 									</div>
 									<div class="col-sm-2 col-sm-offset-2">
 										<a href="" data-dismiss="modal" class="btn btn-success">Cancelar</a>

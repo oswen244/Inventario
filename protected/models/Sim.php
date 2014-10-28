@@ -104,6 +104,20 @@ class Sim extends CActiveRecord
 		);
 	}
 
+	public function getUpdatingAttributes()
+	{
+		return array(
+			'imei_sc',
+			'f_act',
+			'f_asig',
+			'num_linea',
+			'id_plan',
+			'id_estado',
+			'id_proveedor',
+			'comentario',
+		);
+	}
+
 
 
 	/**

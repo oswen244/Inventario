@@ -36,7 +36,7 @@ class SimController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','asignar','getDispDisponibles'),
+				'actions'=>array('admin','delete','asignar','getDispDisponibles','desasignar'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -51,7 +51,7 @@ class SimController extends Controller
 	 */
 	public function actionView()
 	{
-		$sql = "SELECT f_act, f_asig, num_linea, id_plan, id_estado, id_proveedor, comentario, id_sim FROM sims WHERE id_sim = ".$_POST['id'];
+		$sql = "SELECT imei_sc, f_act, f_asig, num_linea, id_plan, id_estado, id_proveedor, comentario, id_sim, imei_disp FROM sims WHERE id_sim = ".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo CJSON::encode($result);
 	}
@@ -112,12 +112,12 @@ class SimController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
 		if(Yii::app()->request->isPostRequest){
 			parse_str($_POST['data'], $data);
-			$id = $data[7];
-			unset($data[7]);
+			$id = $data[8];
+			unset($data[8]);
 			$criteria = new CDbCriteria();
 			$criteria->condition = 'id_sim=:id_sim';
 			$criteria->params = array(':id_sim'=>$id);
@@ -168,13 +168,45 @@ class SimController extends Controller
 	{
 		if(Yii::app()->request->isPostRequest && isset($_POST['id_tipo'])){
 			$connection = Yii::app()->db;
-			$sql = "SELECT * FROM dispositivos WHERE sim_asig = 0 AND id_estado = 1";
+			$sql = "SELECT d.imei_ref imei FROM dispositivos d, tipo_disp t WHERE (t.total_sims-d.sims_asig)>0 AND d.tipo_disp = ".$_POST['id_tipo'];
 			$command=$connection->createCommand($sql);
 			$result=$command->queryAll();
 			echo CJSON::encode($result);
 		}
 	}
 
+	public function actionDesasignar()
+	{
+		if(Yii::app()->request->isPostRequest && isset($_POST['sim'])){
+			$connection = Yii::app()->db;
+			$transaction=$connection->beginTransaction();
+			try
+			{
+				$sql = "SELECT imei_sc Imei_sc, imei_disp Imei FROM sims WHERE id_sim = ".$_POST['sim'];
+				$result = $connection->createCommand($sql)->queryAll();
+				$imei_sc = $result[0]['Imei_sc'];
+				$imei_disp = $result[0]['Imei'];
+
+				$sql = "UPDATE sims SET imei_disp = NULL, f_asig = NULL WHERE id_sim = ".$_POST['sim'];
+				$result = $connection->createCommand($sql)->execute();
+
+				$sql = "UPDATE dispositivos SET sims_asig = (sims_asig - 1) WHERE imei_ref = ".$imei_disp;
+				$result = $connection->createCommand($sql)->execute();
+
+				$transaction->commit();
+
+				$r['mensaje'] = "La sim con IMEI: ".$imei_sc." del dispositivo con IMEI: ".$imei_disp;
+				$r['cod'] = "1";
+			}
+			catch(Exception $e) // se arroja una excepción si una consulta falla
+			{
+				$transaction->rollBack();
+				$r['mensaje'] = $e->getMessage();
+				$r['cod'] = "3";
+			}
+			echo CJSON::encode($r);
+		}
+	}
 	public function actionAsignar()
 	{
 		if(Yii::app()->request->isPostRequest){

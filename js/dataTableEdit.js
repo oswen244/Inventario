@@ -178,7 +178,7 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
     });
     // console.log(valores);
     idDisp = valores[0]; //En la primera posisición del Array está el id
-    $('#modalInfoLabel').html('Información del dispositivo: '+idDisp); //Título del modal de Info
+    $('#modalInfoLabel').html('Información del registro: #'+idDisp); //Título del modal de Info
     $('#filas').empty(); //Se borra la info actual del modal de Info
     $(nombres).each(function(index, val) { //Se coloca la información en el modal
       if(valores[index+1]!=null){ //Donde el valor sea nulo se pone un guión (-)
@@ -201,6 +201,22 @@ $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobr
         }
       }
     }
+    if ( document.getElementById("btnDesAsignar")){ //Verifica si la vista es de dispositivos para el manejo del botón Asignar simcard
+      if((valores[valores.length-1]) == null){ //Hablita o no el botón de asignar sim dependiendo si el dispositivo usa
+        $('#btnDesAsignar').addClass('disabled');
+        $('#msjSim').html('Esta simcard aún no ha sido asignada');
+      }else{ // Muestra el botón y dice el Imei del dispositivo asociado
+          $('#btnDesAsignar').removeClass('disabled');
+          $('#msjSim').html('Imei del dispositivo asociado: '+valores[valores.length-1]);
+        }
+        $('#btnDesAsignar').on('click', function(event) {
+          $.post('desasignar', {sim: idDisp})
+          .done(function(data){
+            result = JSON.parse(data);
+            success(result['mensaje'],parseInt(result['cod']));
+          });
+        });
+    }
     // table.ajax.reload();
   $('#modalInfo').modal({backdrop: 'static'}); //Muestra el modal con el fondo bloqueado
 
@@ -210,6 +226,13 @@ if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la
         var x = JSON.parse(data);
         var value = new Array();
         $.each(x[0], function(index, val) { //Coloca los datos para editar en un array para luego asignarlo a cada campo del formEdit
+          if(index == "imei_disp"){
+            if(val == null){
+              $('#fechaAsig').attr('readonly', 'true');
+            }else{
+              $('#fechaAsig').removeAttr('readonly');
+            }
+          }
           value.push(val);
         });
         if(document.getElementById("editarDispositivo")){
