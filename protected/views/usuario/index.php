@@ -2,9 +2,9 @@
 
 	$(document).ready(function() {
 		$('.helper').hide();
-	    var nombres = [];	
+	    var nombres = [];
 	    var datos = <?php echo $users; ?>;
-	    var atributos = ["usuario","rol","nombre"];	    
+	    var atributos = ["usuario","rol","nombre"];
 	    $('#usuariosTable tr:last-child th').each(function() {
 	    	nombres.push($(this).html()+":");
 	    });
@@ -27,7 +27,7 @@
 <div class="content">
 	
 <div class="content-side">
-	<input type="button" id="dialog" data-toggle="modal"  class="btnActions btn btn-danger btn-sm" value="Eliminar">
+	<input type="button" id="dialog" data-toggle="modal" class="btnActions btn btn-danger btn-sm" value="Eliminar">
 	<table id="usuariosTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 			<thead>
 				<tr class="busqueda">
@@ -78,7 +78,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 
-						<!-- Formulario			 -->
+						<!-- Formulario-->
 							<form id="form_usuario" class="form form-horizontal" action="update" method="post" role="form"><br>
 								
 								<div class="form-group col-md-9">
@@ -102,7 +102,7 @@
 									</div>
 								</div>
 								
-								<input  type="text" name="helper" class="helper form-control" placeholder="">
+								<input type="text" name="helper" class="helper form-control" placeholder="">
 
 								<div class="buttons-submit col-md-12">
 									<div class="col-md-2 col-md-offset-4">
@@ -111,7 +111,7 @@
 									<div class="col-md-2">
 										<button class="btn btn-success" data-dismiss="modal">Cancelar</button>
 									</div>
-								</div>					
+								</div>
 							</form>
 						</div>
 					</div>

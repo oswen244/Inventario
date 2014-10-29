@@ -2,49 +2,28 @@
 	$(document).ready(function() {
 		validar('#form_contacto');
 
-
 		$("#tipo_entidad").on('change', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
 
 			var id_tipo_entidad = $("#tipo_entidad").val();
-			if(id_tipo_entidad=='Cliente'){				
+			if(id_tipo_entidad=='Cliente'){
 				$.post('getClients')
 				.done(function(data){
-					reloadTypes(data);
+					reloadTypes(data, '#contactoDe');
 				});
 			}else{
-				if(id_tipo_entidad=='Proveedor'){				
+				if(id_tipo_entidad=='Proveedor'){
 					$.post('getProveedores')
 					.done(function(data){
-						reloadTypes(data);
+						reloadTypes(data, '#contactoDe');
 					});
 
 				}else{
 					$("#contactoDe").empty();
 					$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
 					$("#contactoDe").selectpicker('refresh');
-					
 				}
-			
 			}
 		});
-
-		function reloadTypes(data){
-			var x = [];
-			$('#contactoDe').empty();
-			$('#contactoDe').append('<option value="">Seleccionar entidad</option>');
-			x = JSON.parse(data);
-			$.each(x, function(index, element) {
-				var p = new Array();
-				var cont=1;
-				$.each(element, function(i, e) {
-					p[cont]= i;
-					cont++;
-				});
-				$("#contactoDe").append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
-			});
-			$("#contactoDe").selectpicker('refresh');
-		}
-
 	});
 </script>
 <h1 class="header-tittle">Contactos</h1>
@@ -54,8 +33,8 @@
 	<div class="col-sm-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-		   		<h3 class="panel-title">Registrar contacto</h3>
-		  	</div>
+				<h3 class="panel-title">Registrar contacto</h3>
+			</div>
 			<div class="panel-body">
 
 				<form id="form_contacto" class="form form-horizontal" action="create" method="post" role="form"><br>
@@ -105,7 +84,6 @@
 							<input type="text" name="texto" class="form-control" placeholder="Cargo">
 						</div>
 					</div>
-					
 
 					<div class="buttons-submit col-md-12">
 						<div class="col-md-2 col-md-offset-4">
@@ -114,7 +92,7 @@
 						<div class="col-md-2">
 							<button href="" type="submit" class="btn btn-success">Cancelar</button>
 						</div>
-					</div>					
+					</div>
 				</form>
 			</div>
 		</div>

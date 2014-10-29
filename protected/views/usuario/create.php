@@ -10,8 +10,8 @@
 	<div class="col-md-12">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-		   		<h3 class="panel-title">Registrar Usuario</h3>
-		  	</div>
+				<h3 class="panel-title">Registrar Usuario</h3>
+			</div>
 			<div class="panel-body">
 				<form id="form_usuario" class="form form-horizontal" action="create" method="post" role="form"><br>
 					<div class="form-group col-md-9">
@@ -27,11 +27,16 @@
 							<input type="text" class="form-control" name="texto" placeholder="Usuario">
 						</div>
 					</div>
-					
 					<div class="form-group col-md-9">
-						<label for="rol" class="col-md-5 control-label">Perfil:</label>
+						<label class="col-md-5 control-label">Perfil:</label>
 						<div class="col-md-7">
-							<input type="text" class="form-control" name="texto" placeholder="Perfil">
+							<select data-live-search="true" data-width="100%" name="texto" class="selectpicker">
+								<option value="">Seleccionar Perfil</option>
+								<?php
+									foreach($perfiles as $row){?>
+										<option value="<?php echo $row->name;?>"><?php echo $row->name;?></option>
+								<?php } ?>
+							</select>
 						</div>
 					</div>
 					<div class="form-group col-md-9">
@@ -47,8 +52,6 @@
 						</div>
 					</div>
 
-
-
 					<div class="buttons-submit col-md-12">
 						<div class="col-md-2 col-md-offset-4">
 							<button href="" type="submit" class="btn btn-primary">Registrar usuario</button>
@@ -56,7 +59,7 @@
 						<div class="col-md-2">
 							<button href="" type="submit" class="btn btn-success">Cancelar</button>
 						</div>
-					</div>					
+					</div>
 				</form>
 			</div>
 		</div>

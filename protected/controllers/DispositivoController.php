@@ -60,21 +60,18 @@ class DispositivoController extends Controller
 			// try
 			// {
 				$sql = "INSERT INTO facturas (f_venta, pv_siva, pv_iva, id_cliente) VALUES ('".date("Y-m-d H:i:s")."', ".$total_siva.", ".$total_iva.", ".$data[0].")";
-				$command=$connection->createCommand($sql);
-				$result=$command->execute();
+				$result=$connection->createCommand($sql)->execute();
 
 				$sql = "SELECT LAST_INSERT_ID() Id";
-				$command=$connection->createCommand($sql);
-				$result=$command->queryAll();
+				$result=$connection->createCommand($sql)->queryAll();
+
 				$idFactura = $result[0]['Id'];
 				foreach ($dispositivos as $key => $disp) {
 					$sql = "INSERT INTO detalle_fact (id_factura, id_disp) VALUES (".$idFactura.", ".$disp[0].")";
-					$command=$connection->createCommand($sql);
-					$result=$command->execute();
+					$result=$connection->createCommand($sql)->execute();
 
 					$sql = "UPDATE dispositivos SET facturado = 1 WHERE id_disp = ".$disp[0];
-					$command=$connection->createCommand($sql);
-					$result=$command->execute();
+					$result=$connection->createCommand($sql)->execute();
 					// $transaction->commit();
 				}
 				$r['mensaje'] = "Se ha generado la factura satisfactoriamente";
@@ -87,7 +84,7 @@ class DispositivoController extends Controller
 			// {
 			// 	$transaction->rollBack();
 			// 	$r['mensaje'] = $e->getMessage();
-			// 	$r['cod'] = "1";
+			// 	$r['cod'] = "3";
 			// }
 			echo CJSON::encode($r);
 		}

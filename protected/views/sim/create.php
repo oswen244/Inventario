@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				
-				<div  class="form-group col-md-6">
+				<div class="form-group col-md-6">
 					<label class="col-md-5 control-label">Plan:</label>
 					<div class="col-md-7">
 						<select id="plan" data-live-search="true" data-width="100%" name="texto" class="selectpicker">

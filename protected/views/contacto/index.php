@@ -4,58 +4,17 @@
 		$('.helper').hide();
 		var nombres = [];
 	    var datos = <?php echo $contactos; ?>;
-	    var atributos = ["Nombre","Telefono","Tipo_entidad","Cargo","Email","Entidad"];	    
+	    var atributos = ["Nombre","Telefono","Tipo_entidad","Cargo","Email","Entidad"];
 	    $('#contactoTable tr:last-child th').each(function() {
 	    	nombres.push($(this).html()+": ");
 	    });
-	    var table = customDataTable('#contactoTable', datos, atributos, nombres); 
+	    var table = customDataTable('#contactoTable', datos, atributos, nombres);
 
 	    $('#dialog').click(function() {
             borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
         });
 
         validar('#form_contacto');
-
-  //       $("#tipo_entidad").on('load', function() { //Cuando se cambia el tipo_entidad se crean los tipos de dispositivos en el select respectivo
-
-		// 	var id_tipo_entidad = $("#tipo_entidad").val();
-		// 	if(id_tipo_entidad=='Cliente'){				
-		// 		$.post('getClients')
-		// 		.done(function(data){
-		// 			reloadTypes(data);
-		// 		});
-		// 	}else{
-		// 		if(id_tipo_entidad=='Proveedor'){				
-		// 			$.post('getProveedores')
-		// 			.done(function(data){
-		// 				reloadTypes(data);
-		// 			});
-
-		// 		}else{
-		// 			$("#contactoDe").empty();
-		// 			$('#contactoDe').append('<option value="">Seleccione una entidad</option>');//TODO
-		// 			$("#contactoDe").selectpicker('refresh');
-					
-		// 		}
-			
-		// 	}
-		// });
-		// function reloadTypes(data){
-		// 	var x = [];
-		// 	$('#contactoDe').empty();
-		// 	$('#contactoDe').append('<option value="">Seleccionar entidad</option>');
-		// 	x = JSON.parse(data);
-		// 	$.each(x, function(index, element) {
-		// 		var p = new Array();
-		// 		var cont=1;
-		// 		$.each(element, function(i, e) {
-		// 			p[cont]= i;
-		// 			cont++;
-		// 		});
-		// 		$("#contactoDe").append('<option value='+element[p[1]]+'>'+element[p[2]]+'</option>');
-		// 	});
-		// 	$("#contactoDe").selectpicker('refresh');
-		// }
 
 	});
 
@@ -67,7 +26,7 @@
 	<?php $this->beginContent('//layouts/column1'); ?>
 
 		<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/contacto/create">Registrar contacto</a></li>
-	
+
 	<?php $this->endContent(); ?>
 
 	<div class="content-side">
@@ -102,8 +61,7 @@
 
 			</tbody>
 		</table>
-		<input type="button" id="dialog" data-toggle="modal"  class="btn btn-danger btn-sm" value="Eliminar">
-		
+		<input type="button" id="dialog" data-toggle="modal" class="btn btn-danger btn-sm" value="Eliminar">
 
 		<div id="modalCascade" class="modal fade" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
@@ -134,7 +92,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 
-							<!-- Formulario			 -->
+							<!-- Formulario-->
 								<form id="form_contacto" class="form form-horizontal" action="update" method="post" role="form"><br>
 									<div class="form-group col-md-12">
 										<label for="nombre" class="col-md-2 control-label">Nombre:</label>
@@ -183,7 +141,7 @@
 										</div>
 									</div>
 
-									<input  type="text" name="helper" class="helper form-control" placeholder="">
+									<input type="text" name="helper" class="helper form-control" placeholder="">
 
 
 									<div class="buttons-submit col-md-12">
@@ -193,7 +151,7 @@
 										<div class="col-md-2">
 											<button id="cancelar" type="submit" class="btn btn-success" data-dismiss="modal">Cancelar</button>
 										</div>
-									</div>					
+									</div>
 								</form>
 							</div>
 						</div>
@@ -202,5 +160,4 @@
 			</div>
 		</div>
 	</div>
-
 </div>

@@ -263,9 +263,6 @@ if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la
           .done(function(data){
             reloadTypes(data,'#tipoDispositivo');
             recargarForm(value);
-            // $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
-            //   $(this).val(value[index]);
-            // });
           });
         }else{
           if(document.getElementById("form_contacto")){
@@ -284,13 +281,8 @@ if (document.getElementById("modalEdit")){ //Verifica si es posible editar en la
               recargarForm(value);
         }
       }
-        // $('#modalEdit form').find('[name]').each(function(index, el) { //Asigna los valores al formulario de edición
-        //    $(this).val(value[index]);
-        //    alert($(this).val() + " debe ser igual a: "+value[index]);
-        // });
-        // $(".selectpicker").selectpicker('refresh'); //Refresca los selectpicker
-      });
-    }
+    });
+  }
 
   }
 });
