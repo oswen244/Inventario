@@ -15,7 +15,7 @@
 			var id_proveedor = $("#proveedor").val();
 			if(id_proveedor!=0){
 				$.post('getTypes', {proveedor: id_proveedor}, function(data) {
-					reloadTypes(data);
+					reloadTypes(data,"#tipoDispositivo");
 					// $("#crearDispositivo").bootstrapValidator('revalidateField', 'texto');
 				});
 			}
@@ -53,22 +53,6 @@
 				$('#prices').append('<td>'+e+'</td>');
 			});
 		});
-	}
-	function reloadTypes(data){ //Actualiza el select de tipo de dispositivo dependiendo del proveedor escogido
-		var x = [];
-		$('#tipoDispositivo').empty();
-		$('#tipoDispositivo').append('<option value="">Seleccionar Tipo de dispositivo</option>');
-		x = JSON.parse(data);
-		$.each(x, function(index, element) {
-			var p = new Array();
-			var cont=1;
-			$.each(element, function(i, e) {
-				p[cont]= i;
-				cont++;
-			});
-				$("#tipoDispositivo").append('<option value='+element[p[1]]+'>'+element[p[3]]+'</option>');
-		});
-			$("#tipoDispositivo").selectpicker('refresh');
 	}
 </script>
 <h1 class="header-tittle">Dispositivos</h1><br>

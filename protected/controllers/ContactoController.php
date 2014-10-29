@@ -27,7 +27,7 @@ class ContactoController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow', // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -39,7 +39,7 @@ class ContactoController extends Controller
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny all users
+			array('deny', // deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -54,6 +54,16 @@ class ContactoController extends Controller
 		$sql = "SELECT nombre,tipo_entidad, if(tipo_entidad = 'Cliente', id_cliente, id_proveedor),telefono,email,cargo,id_contacto FROM contactos WHERE id_contacto =".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo json_encode($result);
+	}
+
+	public function actionRole()
+	{
+		// Yii::app()->authManager->createRole("admin");
+		// Yii::app()->authManager->assign("admin",id del usuario);
+		// Yii::app()->authManager->revoke("admin",id del usuario);
+		// if(Yii::app()->user->checkAccess("admin"))
+		// if(Yii::app()->authManager->checkAccess("admin", id del usuario))
+		// 													Yii::app()->user->id
 	}
 
 	/**
@@ -168,7 +178,7 @@ class ContactoController extends Controller
 			echo "1;El(los) contacto(s) se ha(n) borrado correctamente";
 
 		} catch (Exception $e) {
-			echo "3;Error: No se pueden borrar los contactos seleccionados";			
+			echo "3;Error: No se pueden borrar los contactos seleccionados";
 		}
 		
 	}
@@ -194,7 +204,7 @@ class ContactoController extends Controller
 	public function actionAdmin()
 	{
 		$model=new Contacto('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes(); // clear any default values
 		if(isset($_GET['Contacto']))
 			$model->attributes=$_GET['Contacto'];
 
