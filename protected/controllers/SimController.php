@@ -114,6 +114,8 @@ class SimController extends Controller
 	 */
 	public function actionUpdate()
 	{
+		$model=new Sim;
+
 		if(Yii::app()->request->isPostRequest){
 			parse_str($_POST['data'], $data);
 			$id = $data[8];
@@ -124,8 +126,26 @@ class SimController extends Controller
 			$sim = Sim::model()->find($criteria);
 			$dbNames = $sim->getUpdatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+
+			// $sql = "CALL updateSim(".$id.")";
+			$sql = "CALL consulta('Imei,Numero,Proveedor,Plan,Estado,Fecha_act,Comentario','detalles_sims','Sim','".$id."')";
+			$out = Yii::app()->db->createCommand($sql)->queryAll();
+			$out = implode(",", $out[0]);
+
+			$elem = $out;
+			$accion = "EDITADO";
+
 			$sim->attributes=$atributos; //se asignan los atributos al modelo
 			if($sim->save()){
+				// $sql = "CALL updateSim(".$id.")";
+				$sql = "CALL consulta('Imei,Numero,Proveedor,Plan,Estado,Fecha_act,Comentario','detalles_sims','Sim','".$id."')";
+				$out = Yii::app()->db->createCommand($sql)->queryAll();
+				$out = implode(",", $out[0]);
+				
+				$elem = $elem." --> ".$out;
+				$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+				Yii::app()->db->createCommand($sql)->query();
+
 				$result['mensaje'] = "Simcard actualizada correctamente";
 				$result['cod'] = "1";
 				// $this->redirect('/inventario/sim/');

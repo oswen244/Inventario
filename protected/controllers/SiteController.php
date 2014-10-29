@@ -34,6 +34,13 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl.'dispositivo/index');
 	}
 
+	public function actionHistorico(){
+		$sql = "CALL consulta('*','historicos','1','1')";
+		$out = Yii::app()->db->createCommand($sql)->queryAll();
+		$his = CJSON::encode($out);
+		$this->render('historico', array('his' => $his));
+	}
+
 	public function actionDispositivos()
 	{
 		$this->render('dispositivos');

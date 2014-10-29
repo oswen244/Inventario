@@ -115,7 +115,6 @@ class DispositivoController extends Controller
 		$dispositivo=new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
 			parse_str($_POST['data'], $data);
-			// $values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
 			$dbNames = $dispositivo->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			
@@ -144,21 +143,7 @@ class DispositivoController extends Controller
 			));
 		}
 	}
-// Yii::app()->createUrl('modelo/generarDoc',array(tipo_disp => valores[2], imei => valores[6]))
-	// public function actionAsignar()
-	// {
-	// 	$data['informado'] = "0";
-	// 	if(Yii::app()->request->isPostRequest && isset($_POST['tipo_disp'])){
-	// 		$connection = Yii::app()->db;
-	// 		$sql = "SELECT id_tipo FROM tipo_disp WHERE nombre='".$_POST['tipo_disp']."'";
-	// 		$command=$connection->createCommand($sql);
-	// 		$result=$command->queryAll();
-	// 		$data['tipo'] = $result[0]['id_tipo'];
-	// 		$data['imei'] = $_POST['imei'];
-	// 		$data['informado'] = "1";
-	// 	}
-	// 		$this->render('/sim/asignar', array('data' => json_encode($data)));
-	// }
+
 
 // La función GetTypes() devuelve los tipos de dispositivos/activos en un JSON
 
@@ -195,23 +180,36 @@ class DispositivoController extends Controller
 	 */
 	public function actionUpdate()
 	{
-		// $dispositivo=$this->loadModel($id);
+		$model = new Dispositivo;
 		if(Yii::app()->request->isPostRequest){
 			parse_str($_POST['data'], $data);
 			$id = $data[7];
 			unset($data[7]);
-			// $ne = substr($_POST['data'],0,(strlen($_POST['data'])-strripos($_POST['data'], "&")));
-			// parse_str($_POST['data'], $data);
-			// $data = str_replace('+', ' ', $_POST['data'].'.');
-			// $values = preg_split("/[&]?([a-zA-Z0-9])+[=]{1}/", $data, null, PREG_SPLIT_NO_EMPTY); //Extrae los valores que vienen en el POST
 			$criteria = new CDbCriteria();
 			$criteria->condition = 'id_disp=:id_disp';
 			$criteria->params = array(':id_disp'=>$id);
 			$dispositivo = Dispositivo::model()->find($criteria);
 			$dbNames = $dispositivo->getUpdatingAttributes(); //Obtiene solo los atributos para crear de la tabla
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+
+			$sql = "CALL consulta('Referencia,Fecha_Adq,Estado,Proveedor,Tipo_disp,Comentario_disp,Ubicacion','detalles_disps','Id_dispositivo','".$id."')";
+			$out = Yii::app()->db->createCommand($sql)->queryAll();
+			$out = implode(",", $out[0]);
+
+			$elem = $out;
+			$accion = "EDITADO";
+
 			$dispositivo->attributes=$atributos; //se asignan los atributos al modelo
 			if($dispositivo->save()){
+
+				$sql = "CALL consulta('Referencia,Fecha_Adq,Estado,Proveedor,Tipo_disp,Comentario_disp,Ubicacion','detalles_disps','Id_dispositivo','".$id."')";
+				$out = Yii::app()->db->createCommand($sql)->queryAll();
+				$out = implode(",", $out[0]);
+				
+				$elem = $elem." --> ".$out;
+				$sql = "CALL historico('".Yii::app()->user->name."','".$model->tableName()."','".$elem."','".$accion."')";
+				Yii::app()->db->createCommand($sql)->query();
+
 				$result['mensaje'] = "Dispositivo actualizado correctamente";
 				$result['cod'] = "1";
 				// $this->redirect('/inventario');
@@ -251,8 +249,6 @@ class DispositivoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// $model = Dispositivo::model();
-		// $d = $model->findAll();
 		$connection = Yii::app()->db;
 		$sql = "SELECT * FROM detalles_disps";
 		$command=$connection->createCommand($sql);
@@ -262,7 +258,6 @@ class DispositivoController extends Controller
 		}else{
 			$dispositivo = CJSON::encode($d);
 			$this->render('index', array('dispositivos' => $dispositivo));
-			// $this->render('index');
 		}
 	}
 

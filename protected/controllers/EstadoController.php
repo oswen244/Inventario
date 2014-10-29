@@ -49,7 +49,8 @@ class EstadoController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView()
-	{
+	{		
+		// $sql = "CALL consulta('estado,descripcion,id_estado','estados','id_estado','".$_POST['id']."')";
 		$sql = "SELECT estado,descripcion,id_estado FROM estados WHERE id_estado=".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo json_encode($result);
