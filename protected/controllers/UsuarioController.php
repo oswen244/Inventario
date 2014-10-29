@@ -27,7 +27,7 @@ class UsuarioController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow', // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -36,10 +36,10 @@ class UsuarioController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','createRole'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny all users
+			array('deny', // deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -53,12 +53,37 @@ class UsuarioController extends Controller
 	{
 		// $model = User::model();
 		// $us = $model->findAll();
-		// $user = CJSON::encode($us); 
+		// $user = CJSON::encode($us);
 
 		// echo $user;
 		$sql = "SELECT usuario,rol,nombre,id_usuario FROM usuarios WHERE id_usuario=".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo json_encode($result);
+	}
+
+	public function actionCreateRole()
+	{
+		// Yii::app()->authManager->createRole("admin");
+		// Yii::app()->authManager->assign("admin",Yii::app()->user->id);
+		// Yii::app()->authManager->assign("admin",id del usuario);
+		// Yii::app()->authManager->revoke("admin",id del usuario);
+		// if(Yii::app()->user->checkAccess("admin"))
+		// if(Yii::app()->authManager->checkAccess("admin", id del usuario))
+		// 													Yii::app()->user->id
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
+			try{
+				Yii::app()->authManager->createRole($data[0]);
+				$result['mensaje'] = "El perfil se registró correctamente";
+				$result['cod'] = "1";
+			}catch (Exception $e) {
+				$result['mensaje'] = "No se pudo registrar el perfil, intente nuevamente";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
+		}else{
+			$this->render('createrole');
+		}
 	}
 
 	/**
@@ -82,6 +107,9 @@ class UsuarioController extends Controller
 
 			$model->attributes=$atributos;
 			if($model->save()){
+				$r=Yii::app()->db->createCommand("SELECT LAST_INSERT_ID() Id")->queryAll();
+				$id = $r[0]['Id'];
+				Yii::app()->authManager->assign($data[2],$id);
 				$result['mensaje'] = "El usuario se registró correctamente";
 				$result['cod'] = "1";
 			}else{
@@ -93,7 +121,7 @@ class UsuarioController extends Controller
 		}else{
 
 			$this->render('create',array(
-				'model'=>$model,
+				'perfiles'=>Yii::app()->authManager->getAuthItems(),
 			));
 		}
 	}
@@ -148,7 +176,7 @@ class UsuarioController extends Controller
 				echo "1; El(los) usuario(s) ha(n) sido borrado(s)";
 
 		} catch (Exception $e) {
-			echo "3; Error: No se pueden borrar los usuarios seleccionados";			
+			echo "3; Error: No se pueden borrar los usuarios seleccionados";
 		}
 		
 	}
@@ -162,7 +190,7 @@ class UsuarioController extends Controller
 		// $result = $model->findAll();
 		$sql = "SELECT id_usuario,usuario,rol,nombre FROM usuarios";
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$user = CJSON::encode($result); 
+		$user = CJSON::encode($result);
 
 		$this->render('index', array('users' => $user));
 	}
@@ -173,7 +201,7 @@ class UsuarioController extends Controller
 	public function actionAdmin()
 	{
 		$model=new User('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes(); // clear any default values
 		if(isset($_GET['User']))
 			$model->attributes=$_GET['User'];
 

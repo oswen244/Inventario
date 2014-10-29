@@ -93,6 +93,10 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/">Listado de usuarios</a></li>
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/create">Registrar usuario</a></li>
+								<?php
+								if(Yii::app()->user->checkAccess("admin")){ ?>
+									<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/perfil/">Perfiles de usuario</a></li>
+								<?php } ?>
 							</ul>
 						</li>
 						<li class="dropdown">

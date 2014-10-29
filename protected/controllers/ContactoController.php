@@ -56,16 +56,6 @@ class ContactoController extends Controller
 		echo json_encode($result);
 	}
 
-	public function actionRole()
-	{
-		// Yii::app()->authManager->createRole("admin");
-		// Yii::app()->authManager->assign("admin",id del usuario);
-		// Yii::app()->authManager->revoke("admin",id del usuario);
-		// if(Yii::app()->user->checkAccess("admin"))
-		// if(Yii::app()->authManager->checkAccess("admin", id del usuario))
-		// 													Yii::app()->user->id
-	}
-
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.

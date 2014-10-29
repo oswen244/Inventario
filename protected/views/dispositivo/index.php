@@ -94,6 +94,14 @@ function recargaTipos(data){ //Actualiza el select de tipo de dispositivo depend
 		<button id="btnFacturar" class="btnActions btn btn-success btn-sm">Facturar</button>
 		<table id="dispTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
 				<thead>
+					<tr class="busqueda">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
 					<tr>
 						<th>Referencia</th>
 						<th>Fecha adquirido</th>
