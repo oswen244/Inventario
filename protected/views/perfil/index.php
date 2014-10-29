@@ -1,20 +1,48 @@
-<?php
-/* @var $this PerfilController */
-/* @var $dataProvider CActiveDataProvider */
+<script type="text/javascript">
 
-$this->breadcrumbs=array(
-	'Perfils',
-);
+	$(document).ready(function() {
+		$('.helper').hide();
+		var nombres = ["Fecha de activación:", "Número de línea:", "Imei de la simcard:", "Estado:", "Proveedor:", "Tipo de plan:", "Plan:", "Comentario:", "Estado de asignación:", "Fecha de asignación:", "Imei del dispositivo asignado:"];
+		var datos = <?php echo $sims; ?>;
+		var atributos = ["Fecha_act","Numero","Imei","Estado","Proveedor","Plan"];
+		var table= customDataTable('#simTable', datos, atributos, nombres);
+		$('#dialog').click(function() {
+            borrar(table,'#myModal','#delete');
+        });
+        validar('#editarSimcard');
+	});
 
-$this->menu=array(
-	array('label'=>'Create Perfil', 'url'=>array('create')),
-	array('label'=>'Manage Perfil', 'url'=>array('admin')),
-);
-?>
+</script>
 
-<h1>Perfils</h1>
+<h1 class="header-tittle">Simcards</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<div class="content">
+	
+	<div class="content-side">
+		<input type="button" id="dialog" data-toggle="modal" class="btnActions btn btn-danger btn-sm" value="Eliminar">
+		<table id="simTable" class="display responsive nowrap table-bordered" width="100%" cellspacing="0">
+			<thead>
+				<tr class="busqueda">
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				<tr>
+					<th>Fecha de activación</th>
+					<th>Número de linea</th>
+					<th>Imei</th>
+					<th>Estado</th>
+					<th>Proveedor</th>
+					<th>Plan</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+</div>
