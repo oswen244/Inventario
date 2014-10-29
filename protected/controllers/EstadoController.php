@@ -50,7 +50,9 @@ class EstadoController extends Controller
 	 */
 	public function actionView()
 	{
-		
+		$sql = "SELECT estado,descripcion,id_estado FROM estados WHERE id_estado=".$_POST['id'];
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		echo json_encode($result);
 	}
 
 	/**
@@ -91,23 +93,28 @@ class EstadoController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+		parse_str($_POST['data'], $data);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Estado']))
-		{
-			$model->attributes=$_POST['Estado'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_estados));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'id_estado=:id_estado';
+			$criteria->params = array(':id_estado'=>$data[2]);
+			$estado = Estado::model()->find($criteria);
+			$dbNames = $estado->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
+			
+			unset($data[2]);
+			
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$estado->attributes=$atributos; //se asignan los atributos al modelo
+			if($estado->save()){
+				$result['mensaje'] = "El estado se editó correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo editar el estado";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
 	}
 
 	/**

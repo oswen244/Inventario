@@ -86,7 +86,7 @@
 							<div class="col-xs-12">
 
 							<!-- Formulario			 -->
-								<form id="form_estado" class="form form-horizontal" role="form">
+								<form id="form_estado" class="form form-horizontal" action="update" role="form">
 									<div class="form-group col-md-12">
 										<label for="estado" class="col-md-2 control-label">Nombre estado:</label>
 										<div class="col-md-10">
@@ -104,10 +104,10 @@
 									<input  type="text" name="helper" class="helper form-control" placeholder="">
 									<div class="buttons-submit col-md-10">
 										<div class="col-md-2 col-md-offset-4">
-											<button id="btnGuardar" type="submit" class="btn btn-primary">Registrar estado</button>
+											<button id="btnGuardar" type="submit" class="btn btn-primary">Actualizar estado</button>
 										</div>
 										<div class="col-md-3 col-md-offset-1">
-											<button id="cancelar" type="submit" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+											<button  class="btn btn-success" data-dismiss="modal">Cancelar</button>
 										</div>
 									</div>
 								</form>
