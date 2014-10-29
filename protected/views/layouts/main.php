@@ -95,7 +95,7 @@
 								<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/create">Registrar usuario</a></li>
 								<?php
 								if(Yii::app()->user->checkAccess("admin")){ ?>
-									<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/usuario/createrole">Registrar un perfil</a></li>
+									<li><a href="<?php echo Yii::app()->request->baseUrl; ?>/perfil/">Perfiles de usuario</a></li>
 								<?php } ?>
 							</ul>
 						</li>
