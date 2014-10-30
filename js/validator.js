@@ -126,7 +126,7 @@ function validar(formName){
             	// if(result['accion']=='1'){
             	// 	window.location.href = '';
             	// }
-                success(result['mensaje'],parseInt(result['cod']));
+                successi(result['mensaje'],parseInt(result['cod']),result['reload']);
             	// 	window.location.href = '';
             	$form.find('[name]').each(function(index, el) {
 					$(this).attr('name',origNames[index]); //Regresa los names a como estaban
@@ -138,4 +138,44 @@ function validar(formName){
             });
 			
         });
+}
+
+function successi(mensaje,num,reload){
+	if(reload==='1'){
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"positionClass": "toast-top-right",
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "2000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "slideDown",
+			"hideMethod": "slideUp",
+			"onHidden": function() { window.location.href = ''}
+		}
+	}else{
+		toastr.options = {
+		"closeButton": false,
+		"debug": false,
+		"positionClass": "toast-top-right",
+		"onclick": null,
+		"showDuration": "300",
+		"hideDuration": "1000",
+		"timeOut": "5000",
+		"extendedTimeOut": "1000",
+		"showEasing": "swing",
+		"hideEasing": "linear",
+		"showMethod": "slideDown",
+		"hideMethod": "slideUp"
+		}
+	}
+	switch(num){
+		case 1: toastr.success(mensaje);break;
+		case 2: toastr.warning(mensaje);break;
+		case 3: toastr.error(mensaje);break;
+	}
 }

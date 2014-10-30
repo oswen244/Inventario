@@ -49,34 +49,43 @@ class PerfilController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView()
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if(Yii::app()->request->isPostRequest){
+			$sql = "SELECT name, description, name Id FROM authitem WHERE name = '".$_POST['id']."'";
+			$result = CJSON::encode(Yii::app()->db->createCommand($sql)->queryAll());
+			echo $result;
+		}
 	}
 
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+	
 	public function actionCreate()
 	{
-		$model=new Perfil;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Perfil']))
-		{
-			$model->attributes=$_POST['Perfil'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->name));
+		// Yii::app()->authManager->createRole("admin");
+		// Yii::app()->authManager->assign("admin",Yii::app()->user->id);
+		// Yii::app()->authManager->assign("admin",id del usuario);
+		// Yii::app()->authManager->revoke("admin",id del usuario);
+		// if(Yii::app()->user->checkAccess("admin"))
+		// if(Yii::app()->authManager->checkAccess("admin", id del usuario))
+		// 												Yii::app()->user->id
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
+			try{
+				Yii::app()->authManager->createRole($data[0],$data[1]);
+				$result['mensaje'] = "El perfil se registró correctamente";
+				$result['cod'] = "1";
+			}catch (Exception $e) {
+				$result['mensaje'] = "No se pudo registrar el perfil, intente nuevamente, asegúrese que el perfil que intenta crear no exista";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
+		}else{
+			$this->render('create');
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -84,23 +93,21 @@ class PerfilController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Perfil']))
-		{
-			$model->attributes=$_POST['Perfil'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->name));
+		if(Yii::app()->request->isPostRequest){
+			parse_str($_POST['data'], $data);
+			try{
+				$sql = "UPDATE authitem SET name = '".$data[0]."', description = '".$data[1]."' WHERE name = '".$data[2]."'";
+				$result = CJSON::encode(Yii::app()->db->createCommand($sql)->execute());
+				$r['mensaje'] = "El perfil se actualizó correctamente";
+				$r['cod'] = "1";
+			}catch (Exception $e) {
+				$r['mensaje'] = "No se pudo actualizar el perfil || ".$e->getMessage();
+				$r['cod'] = "3";
+			}
+			echo json_encode($r);
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**
@@ -122,7 +129,21 @@ class PerfilController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->render('index');
+		// print_r(Yii::app()->authManager->getAuthItems(2));
+		// print_r(Yii::app()->authManager->getRoles());
+		// $datos = [];
+		// foreach (Yii::app()->authManager->getRoles() as $value) {
+		// $model = new Perfil('search');
+		// $model->unsetAttributes();
+		// print_r($model->search());
+		$connection = Yii::app()->db;
+		$sql = "SELECT name, name Nombre, description Descripcion, type FROM authitem";
+		$result = CJSON::encode($connection->createCommand($sql)->queryAll());
+		// }
+		// print_r(CJSON::encode(Yii::app()->authManager->getRoles()));
+		$this->render('index', array(
+			'perfiles' => $result,)
+		);
 	}
 
 	/**
