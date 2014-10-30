@@ -189,8 +189,7 @@ class SimController extends Controller
 		if(Yii::app()->request->isPostRequest && isset($_POST['id_tipo'])){
 			$connection = Yii::app()->db;
 			$sql = "SELECT d.imei_ref imei FROM dispositivos d, tipo_disp t WHERE (t.total_sims-d.sims_asig)>0 AND d.tipo_disp = ".$_POST['id_tipo'];
-			$command=$connection->createCommand($sql);
-			$result=$command->queryAll();
+			$result=$connection->createCommand($sql)->queryAll();
 			echo CJSON::encode($result);
 		}
 	}
@@ -243,13 +242,11 @@ class SimController extends Controller
 				$dispositivo->save();
 
 				$sql = "SELECT * FROM sims WHERE isnull(imei_disp) AND id_plan = ".$data[4]." ORDER BY id_sim ASC LIMIT 0,1";
-				$command=$connection->createCommand($sql);
-				$result=$command->queryAll();
+				$result=$connection->createCommand($sql)->queryAll();
 				$sim = $result[0]['id_sim'];
 
 				$sql = "UPDATE sims SET id_estado=".$data[0].", imei_disp='".$data[3]."', f_asig='".$data[1]."' WHERE id_sim = ".$sim;
-				$command=$connection->createCommand($sql);
-				$result=$command->execute();
+				$result=$connection->createCommand($sql)->execute();
 
 				$transaction->commit();
 				// if($transaction->commit()){
@@ -274,8 +271,7 @@ class SimController extends Controller
 			if(isset($_GET['tipo_disp'])){
 				$connection = Yii::app()->db;
 				$sql = "SELECT id_tipo FROM tipo_disp WHERE nombre='".$_GET['tipo_disp']."'";
-				$command=$connection->createCommand($sql);
-				$result=$command->queryAll();
+				$result=$connection->createCommand($sql)->queryAll();
 				$data['tipo'] = $result[0]['id_tipo'];
 				$data['imei'] = $_GET['imei'];
 				$data['informado'] = "1";

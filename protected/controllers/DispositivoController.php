@@ -60,21 +60,17 @@ class DispositivoController extends Controller
 			// try
 			// {
 				$sql = "INSERT INTO facturas (f_venta, pv_siva, pv_iva, id_cliente) VALUES ('".date("Y-m-d H:i:s")."', ".$total_siva.", ".$total_iva.", ".$data[0].")";
-				$command=$connection->createCommand($sql);
-				$result=$command->execute();
+				$result=$connection->createCommand($sql)->execute();
 
 				$sql = "SELECT LAST_INSERT_ID() Id";
-				$command=$connection->createCommand($sql);
-				$result=$command->queryAll();
+				$result=$connection->createCommand($sql)->queryAll();
 				$idFactura = $result[0]['Id'];
 				foreach ($dispositivos as $key => $disp) {
 					$sql = "INSERT INTO detalle_fact (id_factura, id_disp) VALUES (".$idFactura.", ".$disp[0].")";
-					$command=$connection->createCommand($sql);
-					$result=$command->execute();
+					$result=$connection->createCommand($sql)->execute();
 
 					$sql = "UPDATE dispositivos SET facturado = 1 WHERE id_disp = ".$disp[0];
-					$command=$connection->createCommand($sql);
-					$result=$command->execute();
+					$result=$connection->createCommand($sql)->execute();
 					// $transaction->commit();
 				}
 				$r['mensaje'] = "Se ha generado la factura satisfactoriamente";
@@ -101,8 +97,7 @@ class DispositivoController extends Controller
 	{
 		$connection = Yii::app()->db;
 		$sql = "SELECT d.f_adquirido, d.imei_ref, d.id_estado, p.id_proveedor, d.tipo_disp, d.comentario, d.ubicacion, d.id_disp FROM tipo_disp t, dispositivos d, proveedores p WHERE d.tipo_disp=t.id_tipo AND t.id_proveedor = p.id_proveedor AND d.id_disp =".$_POST['id'];
-		$command=$connection->createCommand($sql);
-		$result=$command->queryAll();
+		$result=$connection->createCommand($sql)->queryAll();
 		echo CJSON::encode($result);
 	}
 
@@ -151,8 +146,7 @@ class DispositivoController extends Controller
 		if(Yii::app()->request->isPostRequest && isset($_POST['proveedor'])){
 			$connection = Yii::app()->db;
 			$sql = "SELECT id_tipo, nombre FROM tipo_disp WHERE id_proveedor=".$_POST['proveedor'];
-			$command=$connection->createCommand($sql);
-			$result=$command->queryAll();
+			$result=$connection->createCommand($sql)->queryAll();
 			echo CJSON::encode($result);
 		}else{
 			echo "No disponible";
@@ -163,8 +157,7 @@ class DispositivoController extends Controller
 		if(Yii::app()->request->isPostRequest && isset($_POST['tipo'])){
 			$connection = Yii::app()->db;
 			$sql = "SELECT pc_siva, pc_iva, pv_siva, pv_iva, descripcion FROM tipo_disp WHERE id_tipo=".$_POST['tipo'];
-			$command=$connection->createCommand($sql);
-			$result=$command->queryAll();
+			$result=$connection->createCommand($sql)->queryAll();
 			echo CJSON::encode($result);
 		}else{
 			echo "No disponible";
@@ -239,8 +232,7 @@ class DispositivoController extends Controller
 	{
 		$connection = Yii::app()->db;
 		$sql = "SELECT * FROM detalles_disps";
-		$command=$connection->createCommand($sql);
-		$d=$command->queryAll();
+		$d=$connection->createCommand($sql)->queryAll();
 		echo CJSON::encode($d);
 	}
 
@@ -251,8 +243,7 @@ class DispositivoController extends Controller
 	{
 		$connection = Yii::app()->db;
 		$sql = "SELECT * FROM detalles_disps";
-		$command=$connection->createCommand($sql);
-		$d=$command->queryAll();
+		$d=$connection->createCommand($sql)->queryAll();
 		if(Yii::app()->request->isPostRequest){
 			echo CJSON::encode($d);
 		}else{

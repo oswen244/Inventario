@@ -36,7 +36,7 @@ class UsuarioController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','createRole'),
+				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
 			array('deny', // deny all users
@@ -56,34 +56,9 @@ class UsuarioController extends Controller
 		// $user = CJSON::encode($us);
 
 		// echo $user;
-		$sql = "SELECT usuario,rol,nombre,id_usuario FROM usuarios WHERE id_usuario=".$_POST['id'];
+		$sql = "SELECT u.nombre, u.usuario, r.itemname, u.id_usuario FROM usuarios u, authassignment r WHERE u.id_usuario = r.userid AND id_usuario=".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo json_encode($result);
-	}
-
-	public function actionCreateRole()
-	{
-		// Yii::app()->authManager->createRole("admin");
-		// Yii::app()->authManager->assign("admin",Yii::app()->user->id);
-		// Yii::app()->authManager->assign("admin",id del usuario);
-		// Yii::app()->authManager->revoke("admin",id del usuario);
-		// if(Yii::app()->user->checkAccess("admin"))
-		// if(Yii::app()->authManager->checkAccess("admin", id del usuario))
-		// 													Yii::app()->user->id
-		if(Yii::app()->request->isPostRequest){
-			parse_str($_POST['data'], $data);
-			try{
-				Yii::app()->authManager->createRole($data[0]);
-				$result['mensaje'] = "El perfil se registró correctamente";
-				$result['cod'] = "1";
-			}catch (Exception $e) {
-				$result['mensaje'] = "No se pudo registrar el perfil, intente nuevamente";
-				$result['cod'] = "3";
-			}
-			echo json_encode($result);
-		}else{
-			$this->render('createrole');
-		}
 	}
 
 	/**
@@ -121,7 +96,7 @@ class UsuarioController extends Controller
 		}else{
 
 			$this->render('create',array(
-				'perfiles'=>Yii::app()->authManager->getAuthItems(),
+				'perfiles'=>Yii::app()->authManager->getAuthItems(2),
 			));
 		}
 	}
@@ -142,16 +117,19 @@ class UsuarioController extends Controller
 			$criteria->params = array(':id_usuario'=>$data[3]);
 			$usuario = User::model()->find($criteria);
 			$dbNames = $usuario->getCreatingAttributes(); //Obtiene solo los atributos para crear de la tabla
-			
+			$role = $usuario->rol;
 			unset($data[3]);
 			unset($dbNames[3]);
-
 			
 			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
 			$usuario->attributes=$atributos; //se asignan los atributos al modelo
 			if($usuario->save()){
+				$r=Yii::app()->db->createCommand("SELECT a.itemname role FROM authassignment a, authitem i WHERE i.type = 2 AND i.name = a.itemname AND a.userid = ".$usuario->id_usuario)->queryAll();
+				Yii::app()->authManager->revoke($r[0]['role'], $usuario->id_usuario);
+				Yii::app()->authManager->assign($data[2], $usuario->id_usuario);
 				$result['mensaje'] = "El usuario se actualizó correctamente";
 				$result['cod'] = "1";
+				$result['reload'] = "1";
 			}else{
 				$result['mensaje'] = "Error: No se pudo actualizar el usuario";
 				$result['cod'] = "3";
@@ -188,11 +166,11 @@ class UsuarioController extends Controller
 	{
 		// $model = User::model();
 		// $result = $model->findAll();
-		$sql = "SELECT id_usuario,usuario,rol,nombre FROM usuarios";
+		$sql = "SELECT u.id_usuario,u.usuario,u.nombre,r.itemname perfil FROM usuarios u, authassignment r WHERE u.id_usuario = r.userid";
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$user = CJSON::encode($result);
 
-		$this->render('index', array('users' => $user));
+		$this->render('index', array('users' => $user, 'perfiles'=>Yii::app()->authManager->getAuthItems(2)));
 	}
 
 	/**

@@ -152,7 +152,7 @@
 							<button id="btnGuardar" type="submit" class="btn btn-primary">Guardar dispositivo</button>
 						</div>
 						<div class="col-sm-2 col-sm-offset-1">
-							<a href="#" class="btn btn-success">Cancelar</a>
+							<a href="" class="btn btn-success">Cancelar</a>
 						</div>
 					</div>
 				</form>
