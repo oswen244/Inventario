@@ -13,13 +13,16 @@
 		$('#datatable tbody').on('click', 'tr', function(event) {
 			event.preventDefault();
 			var tr = $(this);
-			var v = table.rows(tr).data();
-			$('#btnGuardar').click(function(event) {
-				var form = $('#form_estado').serialize();
-				 v.estado = 'nuevo';
-				 v.descripcion = 'nueva descripcion';
-				 console.log(form);
-				 table.row(tr).data(v);
+			var v = table.row(tr).data();
+			$('#form_estado').on('submit', function(event) {
+				 $.post('updateRow', {ids:$('.helper').val()}).done(function(data){
+				 	var result = JSON.parse(data);	
+					 v.estado = result[0]['estado'];
+					 v.descripcion = result[0]['descripcion'];
+					 table.row(tr).data(v);
+
+				 }); 
+
 			});
 
 		});

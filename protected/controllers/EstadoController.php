@@ -31,7 +31,7 @@ class EstadoController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','updateRow'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -49,8 +49,9 @@ class EstadoController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView()
-	{		
+	{	
 		// $sql = "CALL consulta('estado,descripcion,id_estado','estados','id_estado','".$_POST['id']."')";
+		// print_r($_POST['id']);
 		$sql = "SELECT estado,descripcion,id_estado FROM estados WHERE id_estado=".$_POST['id'];
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		echo json_encode($result);
@@ -116,7 +117,13 @@ class EstadoController extends Controller
 				$result['cod'] = "3";
 			}
 			echo json_encode($result);
-			echo $atributos;
+	}
+
+
+	public function actionUpdateRow(){
+		$sql = "CALL consulta('estado,descripcion','estados','id_estado','".$_POST['ids']."')";
+		$result = Yii::app()->db->createCommand($sql)->queryAll();
+		echo json_encode($result);
 	}
 
 	/**

@@ -190,6 +190,7 @@ $(nombre+' thead .busqueda th').each( function ( colIdx ) {
 
 $(nombre+' tbody').on( 'click', 'tr', function () {
     $(this).toggleClass('selected');
+    console.log(table.rows($(this)).data()[0]);
 } );
 
 $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobre una fila de la tabla
