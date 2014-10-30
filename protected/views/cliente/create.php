@@ -76,7 +76,7 @@
 							<button href="" type="submit" class="btn btn-primary" data-dismiss="modal">Registrar cliente</button>
 						</div>
 						<div class="col-md-2">
-							<button id="cancelar" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+							<a href="<?php echo Yii::app()->request->baseUrl; ?>/cliente/" class="btn btn-default">Volver</a>
 						</div>
 					</div>					
 				</form>

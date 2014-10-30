@@ -87,29 +87,33 @@ function listaIds(table){ //Obtiene la lista de los ids de los registros que est
 function borrar(table,modal,modalCascade,btnDelete,deleteCascade){
   var ids = listaIds(table);
   if (ids!=''){
-    $(modal).modal();
-    $(btnDelete).one('click', function(event) {
-      event.preventDefault();
-      $.post('delete', {data: ids})
-      .done(function(data){
-        data = data.split(';');
-        if(data[0]=="1"){
-          table.row('.selected').remove().draw( false );
-          success(data[1],1);
-        }else{
-          $('.cascada > p').html(data[1]);
-          $(modalCascade).modal();
-          $(deleteCascade).one('click', function(event) {
-            $.post('deleteCascade', {data: ids})
-            .done(function(data){
-             data = data.split(';');
-             if(data[0]=="1"){
-              table.row('.selected').remove().draw( false );
-              success(data[1],1);
-            }else{
-              success(data[1],3);
-            }
-          });
+      $(modal).modal();
+      $(btnDelete).one('click', function(event) {
+          event.preventDefault();
+          $.post('delete', {data: ids}).done(function(data){
+
+          data = data.split(';');
+          if(data[0]=="1"){
+            table.row('.selected').remove().draw( false );
+            success(data[1],1);
+          }
+          else{
+            $('.cascada > p').html(data[1]);
+            $(modalCascade).modal();
+
+            $(deleteCascade).one('click', function(event) {
+              event.preventDefault();
+              $.post('deleteCascade', {data: ids}).done(function(data){
+
+                  data = data.split(';');
+                  if(data[0]=="1"){
+                    table.row('.selected').remove().draw( false );
+                    success(data[1],1);
+                  }else{
+                    success(data[1],3);
+                  }
+
+              });
           });
         }
       });
@@ -185,7 +189,7 @@ $(nombre+' thead .busqueda th').each( function ( colIdx ) {
 } );
 
 $(nombre+' tbody').on( 'click', 'tr', function () {
- $(this).toggleClass('selected');
+    $(this).toggleClass('selected');
 } );
 
 $(nombre+' tbody').on( 'dblclick', 'tr', function () { //Evento doble click sobre una fila de la tabla

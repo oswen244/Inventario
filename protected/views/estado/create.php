@@ -30,7 +30,7 @@ $(document).ready(function() {
 							<button id="reg" type="submit" class="btn btn-primary">Registrar estado</button>
 						</div>
 						<div class="col-md-3 col-md-offset-1">
-							<a href="#" class="btn btn-success">Cancelar</a>
+							<a href="<?php echo Yii::app()->request->baseUrl; ?>/estado/" class="btn btn-default">Volver</a>
 						</div>
 					</div>
 				</form>

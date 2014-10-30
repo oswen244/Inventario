@@ -64,7 +64,7 @@
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 						<h4 class="modal-title">Advertencia</h4>
 					</div>
-					<div class="modal-body">
+					<div class="cascada modal-body">
 						<p></p>
 					</div>
 					<div class="modal-footer">

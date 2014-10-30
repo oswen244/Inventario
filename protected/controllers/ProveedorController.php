@@ -131,38 +131,39 @@ class ProveedorController extends Controller
 	{
 		//se verifica si existen registros asociados antes de borrar
 
-		$sql = "SELECT COUNT(id_contacto) AS total FROM contactos WHERE id_proveedor IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$contactos = $result[0]['total'];
+		// $sql = "SELECT COUNT(id_contacto) AS total FROM contactos WHERE id_proveedor IN (".$_POST['data'].")";
+		// $result = Yii::app()->db->createCommand($sql)->queryAll();
+		// $contactos = $result[0]['total'];
 
-		$sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_proveedor IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$sims = $result[0]['total'];
+		// $sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_proveedor IN (".$_POST['data'].")";
+		// $result = Yii::app()->db->createCommand($sql)->queryAll();
+		// $sims = $result[0]['total'];
 
-		$sql = "SELECT COUNT(id_tipo) AS total FROM tipo_disp WHERE id_proveedor IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$tipo = $result[0]['total'];
+		// $sql = "SELECT COUNT(id_tipo) AS total FROM tipo_disp WHERE id_proveedor IN (".$_POST['data'].")";
+		// $result = Yii::app()->db->createCommand($sql)->queryAll();
+		// $tipo = $result[0]['total'];
 
 		//Si no existe ningun registro asociado, se procede al borrado
-		if($contactos=="0" && $sims=="0" && $tipo=="0"){
+		// if($contactos=="0" && $sims=="0" && $tipo=="0"){
 			$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
 			try {
 				Yii::app()->db->createCommand($sql)->query();
 				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
-				echo "3;Error";
+				echo "3;Error: existen dispositivos, sims y/o contactos asiciados con los proveerdores seleccionados.
+					 	¿Borrar de todas formas?";
 			}
-		}else{ //sino, se envia un mensaje advirtiendo que el registro tiene otros registros asoaciados
-			echo "3;Error: existen dispositivos, sims y/o contactos asiciados con los proveerdores seleccionados.
-			Borrar de todas formas?
-			Advertencia: Se borrarán tambien los registros asociados.";
-		}
+		// }else{ //sino, se envia un mensaje advirtiendo que el registro tiene otros registros asoaciados
+		// 	echo "3;Error: existen dispositivos, sims y/o contactos asiciados con los proveerdores seleccionados.
+		// 	Borrar de todas formas?
+		// 	Advertencia: Se borrarán tambien los registros asociados.";
+		// }
 	}
 
 	public function actionDeleteCascade()
 	{
 			//se realiza el borrado en cascada de los registros seleccionados
-			$sql = "DELETE FROM proveedores WHERE id_proveedor IN (".$_POST['data'].")";
+			$sql = "UPDATE proveedores SET borrado=1 WHERE id_proveedor IN (".$_POST['data'].")";
 
 			try {
 				Yii::app()->db->createCommand($sql)->query();
@@ -179,8 +180,10 @@ class ProveedorController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Proveedor::model();
-		$pr = $model->findAll();
+		// $model = Proveedor::model();
+		// $pr = $model->findAll();
+		$sql = "CALL consulta('*','proveedores','borrado','0')";
+		$pr = Yii::app()->db->createCommand($sql)->queryAll();
 		$proveedor = CJSON::encode($pr); 
 
 		$this->render('index', array('proveedores' => $proveedor));

@@ -133,23 +133,35 @@ class ContactoController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+		if(Yii::app()->request->isPostRequest){
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+			parse_str($_POST['data'], $data);
 
-		if(isset($_POST['Contacto']))
-		{
-			$model->attributes=$_POST['Contacto'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_contacto));
+
+			$criteria = new CDbCriteria();
+			$criteria->condition = 'id_contacto=:id_contacto';
+			$criteria->params = array(':id_contacto'=>$data[6]);
+			$contacto = Contacto::model()->find($criteria);
+			if($data['1']=="Proveedor"){ //Pregunta si el contacto es de cliente o proveedor
+				$dbNames = $contacto->getCreatingAttributesProv(); //Obtiene los atributos de la tabla
+			}else{
+				$dbNames = $contacto->getCreatingAttributesClient(); //Obtiene los atributos de la tabla
+			}
+			
+			unset($data[6]);
+			$atributos = array_combine($dbNames, $data); //se forma un nuevo array con las keys de dbNames y los valores de values
+			$contacto->attributes=$atributos; //se asignan los atributos al modelo
+			if($contacto->save()){
+				$result['mensaje'] = "El contacto se actualizó correctamente";
+				$result['cod'] = "1";
+			}else{
+				$result['mensaje'] = "Error: No se pudo actualizar el contacto";
+				$result['cod'] = "3";
+			}
+			echo json_encode($result);
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

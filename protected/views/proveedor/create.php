@@ -76,7 +76,7 @@
 							<button href="" type="submit" class="btn btn-primary">Registrar proveedor</button>
 						</div>
 						<div class="col-md-3 col-md-offset-1">
-							<button href="" type="submit" class="btn btn-success">Cancelar</button>
+							<a href="<?php echo Yii::app()->request->baseUrl; ?>/proveedor/" class="btn btn-default">Volver</a>
 						</div>
 					</div>					
 				</form>

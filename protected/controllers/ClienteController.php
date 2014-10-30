@@ -36,7 +36,7 @@ class ClienteController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','deleteCascade'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -139,7 +139,23 @@ class ClienteController extends Controller
 				Yii::app()->db->createCommand($sql)->query();
 				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
-				echo "3;Error: existen contactos y/o facturas asociados con los clientes seleccionados";
+				echo "3;Error: existen contactos y/o facturas asociados con los clientes seleccionados.
+						¿Borrar de todas formas?";
+			}
+		
+	}
+
+	public function actionDeleteCascade()
+	{
+			//se realiza el borrado en cascada de los registros seleccionados
+			$sql = "UPDATE clientes SET borrado=1 WHERE id_cliente IN (".$_POST['data'].")";
+
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1;El(los) registro(s) se ha(n) borrado";			
+			} catch (Exception $e) {
+				// echo "3,Error: existen activos asociados con ese estado";
+				echo "3;".$e->getMessage();
 			}
 		
 	}
@@ -149,11 +165,11 @@ class ClienteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model = Cliente::model();
-		$cl = $model->findAll();
+		// $model = Cliente::model();
+		// $cl = $model->findAll();
 
-		// $sql = "SELECT * FROM Clientes";
-		// $cl = Yii::app()->db->createCommand($sql)->queryAll();
+		$sql = "CALL consulta('*','clientes','borrado','0')";
+		$cl = Yii::app()->db->createCommand($sql)->queryAll();
 		$cliente = CJSON::encode($cl); 
 
 

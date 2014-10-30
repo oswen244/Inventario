@@ -9,6 +9,22 @@
 	    });
 	    var table = customDataTable('#datatable', <?php echo $estados; ?>, atributos, nombres);
 
+
+		$('#datatable tbody').on('click', 'tr', function(event) {
+			event.preventDefault();
+			var tr = $(this);
+			var v = table.rows(tr).data();
+			$('#btnGuardar').click(function(event) {
+				var form = $('#form_estado').serialize();
+				 v.estado = 'nuevo';
+				 v.descripcion = 'nueva descripcion';
+				 console.log(form);
+				 table.row(tr).data(v);
+			});
+
+		});
+
+
 	    $('#dialog').click(function() {
             borrar(table,'#myModal','#modalCascade','#delete','#deleteCascade');
         });
@@ -54,21 +70,19 @@
 			</tbody>
 		</table>
 		<input type="button" id="dialog" data-toggle="modal" class="btn btn-danger btn-sm" value="Eliminar">
-		
 
 		<div id="modalCascade" class="modal fade" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title">Advertencia</h4>
+						<h4 class="modal-title">Error</h4>
 					</div>
 					<div class="cascada modal-body">
 						<p></p>
 					</div>
 					<div class="modal-footer">
-						<button id="deleteCascade" type="button" class="btn btn-primary" data-dismiss="modal">Si</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+						<button  type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 					</div>
 				</div>
 			</div>

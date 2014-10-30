@@ -76,7 +76,7 @@
 							<button id="reg" href="" type="submit" class="btn btn-primary">Registrar plan</button>
 						</div>
 						<div class="col-md-2">
-							<a href="#" class="btn btn-success">Cancelar</a>
+							<a href="<?php echo Yii::app()->request->baseUrl; ?>/plan/" class="btn btn-default">Volver</a>
 						</div>
 					</div>					
 				</form>

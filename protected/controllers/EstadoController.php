@@ -116,6 +116,7 @@ class EstadoController extends Controller
 				$result['cod'] = "3";
 			}
 			echo json_encode($result);
+			echo $atributos;
 	}
 
 	/**
@@ -128,17 +129,17 @@ class EstadoController extends Controller
 		
 		$model = new Estado;
 
-		$sql = "SELECT COUNT(id_disp) AS total FROM dispositivos WHERE id_estado IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$estados = $result[0]['total'];
+		// $sql = "SELECT COUNT(id_disp) AS total FROM dispositivos WHERE id_estado IN (".$_POST['data'].")";
+		// $result = Yii::app()->db->createCommand($sql)->queryAll();
+		// $estados = $result[0]['total'];
 
-		$sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_estado IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$sims = $result[0]['total'];
+		// $sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_estado IN (".$_POST['data'].")";
+		// $result = Yii::app()->db->createCommand($sql)->queryAll();
+		// $sims = $result[0]['total'];
 
 
 
-		if($estados=="0" && $sims=="0"){
+		// if($estados=="0" && $sims=="0"){
 
 			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
 
@@ -146,36 +147,17 @@ class EstadoController extends Controller
 				Yii::app()->db->createCommand($sql)->query();
 				echo "1;El(los) registro(s) se ha(n) borrado";			
 			} catch (Exception $e) {
-				echo "3;".$e->getMessage();
+				echo "3;Error: No se pueden borrar los estados seleccionados, existen activos asociados con esos estados.";
+					
 			}
 
-		}else{
-			echo "3;Error: existen activos asociados con ese estado.
-			¿Borrar de todas formas?
-			Advertencia: Se borrarán tambien los registros asociados.";
-		}
+		// }else{
+		// 	echo "3;Error: existen activos asociados con ese estado.
+		// 	¿Borrar de todas formas?
+		// 	Advertencia: Se borrarán tambien los registros asociados.";
+		// }
 		
 	}
-
-	public function actionDeleteCascade()
-	{
-			$model = new Estado;
-
-			$sql = "DELETE FROM estados WHERE id_estado IN (".$_POST['data'].")";
-			
-			try {
-
-				Yii::app()->db->createCommand($sql)->query();
-				echo "1;El(los) registro(s) se ha(n) borrado";	
-
-			} catch (Exception $e) {
-
-				echo "3;Error: existen activos asociados con ese estado";
-			}				
-		
-	}
-
-	
 
 	/**
 	 * Lists all models.

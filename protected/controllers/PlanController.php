@@ -36,7 +36,7 @@ class PlanController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','deleteCascade'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -132,22 +132,38 @@ class PlanController extends Controller
 	{
 		$model = new Plan;
 		
-		$sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_sim IN (".$_POST['data'].")";
-		$result = Yii::app()->db->createCommand($sql)->queryAll();
-		$sims = $result[0]['total'];
+		// $sql = "SELECT COUNT(id_sim) AS total FROM sims WHERE id_sim IN (".$_POST['data'].")";
+		// $result = Yii::app()->db->createCommand($sql)->queryAll();
+		// $sims = $result[0]['total'];
 
 
-		if($sims=="0"){
+		// if($sims=="0"){
 			$sql = "DELETE FROM planes WHERE id_plan IN (".$_POST['data'].")";
 			try {
 					Yii::app()->db->createCommand($sql)->query();
 					echo "1;El(los) registro(s) se ha(n) borrado";		
 			} catch (Exception $e) {
-					echo "3;".$e->getMessage();
+					echo "3;Error: existen Sims asociadas con ese(esos) Plan(es).
+							¿Borrar de todas formas?";
 			}
-		}else{
-					echo "3;Error: existen Sims asociadas con ese(esos) Plan(es).";
-		}
+		// }else{
+		// 			echo "3;Error: existen Sims asociadas con ese(esos) Plan(es).";
+		// }
+	}
+
+	public function actionDeleteCascade()
+	{
+			//se realiza el borrado en cascada de los registros seleccionados
+			$sql = "UPDATE planes SET borrado=1 WHERE id_plan IN (".$_POST['data'].")";
+
+			try {
+				Yii::app()->db->createCommand($sql)->query();
+				echo "1;El(los) registro(s) se ha(n) borrado";			
+			} catch (Exception $e) {
+				// echo "3,Error: existen activos asociados con ese estado";
+				echo "3;".$e->getMessage();
+			}
+		
 	}
 
 	/**
@@ -155,7 +171,7 @@ class PlanController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$sql = "SELECT id_plan,nombre_plan,cargo_voz,cargo_datos,(cargo_voz+cargo_datos) AS Total,desc_p_voz,desc_p_datos FROM planes";
+		$sql = "CALL consulta('id_plan,nombre_plan,cargo_voz,cargo_datos,(cargo_voz+cargo_datos) AS Total,desc_p_voz,desc_p_datos','planes','borrado','0')";
 		$result = Yii::app()->db->createCommand($sql)->queryAll();
 		$plan = CJSON::encode($result); 
 

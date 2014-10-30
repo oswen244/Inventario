@@ -80,7 +80,8 @@
 						<p></p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+						<button id="deleteCascade" type="button" class="btn btn-primary" data-dismiss="modal">Si</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
 					</div>
 				</div>
 			</div>
