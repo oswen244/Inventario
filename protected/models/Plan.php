@@ -63,11 +63,11 @@ class Plan extends CActiveRecord
 	{
 		return array(
 			'id_plan' => 'Id Plan',
-			'nombre_plan' => 'Nombre Plan',
-			'cargo_voz' => 'Cargo Voz',
-			'cargo_datos' => 'Cargo Datos',
-			'desc_p_voz' => 'Desc P Voz',
-			'desc_p_datos' => 'Desc P Datos',
+			'nombre_plan' => 'Nombre del Plan',
+			'cargo_voz' => 'Cargo por Voz',
+			'cargo_datos' => 'Cargo por Datos',
+			'desc_p_voz' => 'Descripción Voz',
+			'desc_p_datos' => 'Descripción Datos',
 			'borrado' => 'Borrado',
 		);
 	}

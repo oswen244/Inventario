@@ -7,7 +7,7 @@
         $('#datatable tr:last-child th').each(function() {
 	    	nombres.push($(this).html()+": ");
 	    });
-	    var table = customDataTable('#datatable', <?php echo $estados; ?>, atributos, nombres);
+	    var table = customDataTable('#datatable', <?= CHtml::encode($estados); ?>, atributos, nombres);
 
 
 		$('#datatable tbody').on('click', 'tr', function(event) {
